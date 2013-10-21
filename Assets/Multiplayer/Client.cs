@@ -7,6 +7,14 @@ public class Client : MonoBehaviour {
 	}
 	
 	protected void Connect(EventData data) {
-		Network.Connect("167.0.0.1", Server.PORT);
+		Network.Connect("127.0.0.1", Server.PORT);
+		StartCoroutine(WaitForConnection());
+	}
+	
+	protected IEnumerator WaitForConnection() {
+		while (Network.peerType != NetworkPeerType.Client) {
+			yield return 0;
+		}
+		Debug.Log("Connected!");
 	}
 }
