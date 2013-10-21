@@ -1,8 +1,16 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Client : MonoBehaviour {
+	protected static GameObject prefab = (GameObject)Resources.Load("morphid");
+	
+	public static Client Singleton;
+	
+	public GameObject localPlayer;
+	
 	public void Awake() {
+		Singleton = this;
 		ModeSelectionListener.Singleton.AddCallback(ModeSelection.Client, Connect);
 	}
 	
@@ -15,6 +23,10 @@ public class Client : MonoBehaviour {
 		while (Network.peerType != NetworkPeerType.Client) {
 			yield return 0;
 		}
+		
 		Debug.Log("Connected!");
+		
+		localPlayer = (GameObject)Network.Instantiate(prefab, Vector3.zero, Quaternion.identity, 0);
+		networkView.RPC("SubmitPlayer", RPCMode.Server, localPlayer.networkView.viewID);
 	}
 }
