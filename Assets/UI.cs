@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 
 public class UI : MonoBehaviour {
-	
-	public Morphid LocalPlayer;
-	public Morphid RemotePlayer;
+	protected Button[] Cards;
+	protected Button[] Stats;
 	
 	protected class Region {
 		public enum Side {
@@ -135,49 +134,52 @@ public class UI : MonoBehaviour {
 		Region[] CardRegions = CardLayer.Split(Region.Direction.Horizontal, 4);
 		Region[] DrawRegions = DrawLayer.Split(Region.Direction.Horizontal, 4);
 		
-		new Button(CriticalStatRegions[0]) {
+		Stats = new Button[7];
+		Cards = new Button[4];
+		
+		Stats[0] = new Button(CriticalStatRegions[0]) {
 			Text = "Health",
 			Action = () => {}
 		};
-		new Button(CriticalStatRegions[1]) {
+		Stats[1] = new Button(CriticalStatRegions[1]) {
 			Text = "Morphium",
 			Action = () => {}
 		};
 		
-		new Button(OtherStatRegions[0]) {
+		Stats[2] = new Button(OtherStatRegions[0]) {
 			Text = "Torque",
 			Action = () => {}
 		};
-		new Button(OtherStatRegions[1]) {
+		Stats[3] = new Button(OtherStatRegions[1]) {
 			Text = "Sensors",
 			Action = () => {}
 		};
-		new Button(OtherStatRegions[2]) {
+		Stats[4] = new Button(OtherStatRegions[2]) {
 			Text = "Attack",
 			Action = () => {}
 		};
-		new Button(OtherStatRegions[3]) {
+		Stats[5] = new Button(OtherStatRegions[3]) {
 			Text = "Bandwidth",
 			Action = () => {}
 		};
-		new Button(OtherStatRegions[4]) {
+		Stats[6] = new Button(OtherStatRegions[4]) {
 			Text = "Speed",
 			Action = () => {}
 		};
 		
-		new Button(CardRegions[0]) {
+		Cards[0] = new Button(CardRegions[0]) {
 			Text = "Card 1",
 			Action = () => {}
 		};
-		new Button(CardRegions[1]) {
+		Cards[1] = new Button(CardRegions[1]) {
 			Text = "Card 2",
 			Action = () => {}
 		};
-		new Button(CardRegions[2]) {
+		Cards[2] = new Button(CardRegions[2]) {
 			Text = "Card 3",
 			Action = () => {}
 		};
-		new Button(CardRegions[3]) {
+		Cards[3] = new Button(CardRegions[3]) {
 			Text = "Card 4",
 			Action = () => {}
 		};
@@ -202,6 +204,9 @@ public class UI : MonoBehaviour {
 	
 	public void OnGUI() {
 		if (TurnManager.IsLocalActive) {
+			for (int i = 0; i < Morphid.Cards.Length; i++) {
+				Cards[i].Text = Morphid.Cards[i].Name;
+			}
 			root.Draw();
 		}
 	}

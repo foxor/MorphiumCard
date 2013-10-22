@@ -7,8 +7,6 @@ public class Client : MonoBehaviour {
 	
 	public static Client Singleton;
 	
-	public GameObject localPlayer;
-	
 	public void Awake() {
 		Singleton = this;
 		ModeSelectionListener.Singleton.AddCallback(ModeSelection.Client, Connect);
@@ -26,7 +24,7 @@ public class Client : MonoBehaviour {
 		
 		Debug.Log("Connected!");
 		
-		localPlayer = (GameObject)Network.Instantiate(prefab, Vector3.zero, Quaternion.identity, 0);
-		networkView.RPC("SubmitPlayer", RPCMode.Server, localPlayer.networkView.viewID);
+		Morphid.LocalPlayer = ((GameObject)Network.Instantiate(prefab, Vector3.zero, Quaternion.identity, 0)).GetComponent<Morphid>();
+		networkView.RPC("SubmitPlayer", RPCMode.Server, Morphid.LocalPlayer.networkView.viewID);
 	}
 }
