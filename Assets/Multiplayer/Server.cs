@@ -16,7 +16,7 @@ public class Server : MonoBehaviour {
 		Players = new List<NetworkViewID>();
 	}
 	
-	protected void Serve(EventData data) {
+	protected void Serve(object data) {
 		Network.InitializeServer(CONNECTIONS, PORT, true);
 	}
 	

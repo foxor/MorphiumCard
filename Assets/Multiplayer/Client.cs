@@ -12,8 +12,8 @@ public class Client : MonoBehaviour {
 		ModeSelectionListener.Singleton.AddCallback(ModeSelection.Client, Connect);
 	}
 	
-	protected void Connect(EventData data) {
-		Network.Connect("127.0.0.1", Server.PORT);
+	protected void Connect(object ip) {
+		Network.Connect((string)ip, Server.PORT);
 		StartCoroutine(WaitForConnection());
 	}
 	

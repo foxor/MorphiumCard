@@ -6,7 +6,7 @@ public enum ModeSelection {
 	Client
 }
 
-public class ModeSelectionListener : EventListener<ModeSelection, EventData> {
+public class ModeSelectionListener : EventListener<ModeSelection> {
 	public static ModeSelectionListener Singleton = new ModeSelectionListener();
 }
 

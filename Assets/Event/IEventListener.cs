@@ -1,47 +1,44 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EventData {
-}
-
-public delegate void Callback<T>(T data) where T : EventData;
+public delegate void Callback(params object[] data);
 
 // I would add "where ENUM_TYPE : enum" here, but it's not supported by C#
-public interface IEventListener<ENUM_TYPE, CALLBACK_TYPE> where CALLBACK_TYPE : EventData {
-	void AddCallback(ENUM_TYPE trigger, Callback<CALLBACK_TYPE> callback);
-	bool RemoveCallback(ENUM_TYPE trigger, Callback<CALLBACK_TYPE> callback);
-	void Broadcast(ENUM_TYPE trigger, CALLBACK_TYPE data);
+public interface IEventListener<E> {
+	void AddCallback(E trigger, Callback callback);
+	bool RemoveCallback(E trigger, Callback callback);
+	void Broadcast(E trigger, params object[] data);
 }
 
-public class EventListener<E, C> : IEventListener<E, C> where C : EventData {
-	protected Dictionary<E, List<Callback<C>>> callbacks;
+public class EventListener<E> : IEventListener<E> {
+	protected Dictionary<E, List<Callback>> callbacks;
 	
 	public EventListener() {
-		callbacks = new Dictionary<E, List<Callback<C>>>();
+		callbacks = new Dictionary<E, List<Callback>>();
 	}
 	
-	public void AddCallback (E trigger, Callback<C> callback) {
-		List<Callback<C>> registered;
+	public void AddCallback (E trigger, Callback callback) {
+		List<Callback> registered;
 		if (callbacks.ContainsKey(trigger)) {
 			registered = callbacks[trigger];
 		}
 		else {
-			registered = new List<Callback<C>>();
+			registered = new List<Callback>();
 			callbacks[trigger] = registered;
 		}
 		registered.Add(callback);
 	}
 
-	public bool RemoveCallback (E trigger, Callback<C> callback) {
-		List<Callback<C>> registered = callbacks[trigger];
+	public bool RemoveCallback (E trigger, Callback callback) {
+		List<Callback> registered = callbacks[trigger];
 		return registered != null && registered.Remove(callback);
 	}
 
-	public void Broadcast (E trigger, C data) {
+	public void Broadcast (E trigger, params object[] data) {
 		if (callbacks.ContainsKey(trigger)) {
-			List<Callback<C>> registered = callbacks[trigger];
+			List<Callback> registered = callbacks[trigger];
 			if (registered != null) {
-				foreach (Callback<C> callback in registered.ToArray()) {
+				foreach (Callback callback in registered.ToArray()) {
 					callback(data);
 				}
 			}
