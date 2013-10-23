@@ -15,8 +15,12 @@ public class Chooser : MonoBehaviour {
 	
 	public void OnGUI() {
 		IP = GUI.TextArea(new Rect(0f, 0f, Screen.width / 2f, 20f), IP);
-		if (GUI.Button(new Rect(0f, 20f, Screen.width / 2f, Screen.height), "Client")) {
+		if (GUI.Button(new Rect(0f, 20f, Screen.width / 2f, Screen.height / 2f - 20f), "Client By IP")) {
 			ModeSelectionListener.Singleton.Broadcast(ModeSelection.Client, IP);
+			Destroy(this);
+		}
+		if (GUI.Button(new Rect(0f, Screen.height / 2f, Screen.width / 2f, Screen.height / 2f), "Client from master server")) {
+			ModeSelectionListener.Singleton.Broadcast(ModeSelection.Client, null);
 			Destroy(this);
 		}
 		if (GUI.Button(new Rect(Screen.width / 2f, 0f, Screen.width / 2f, Screen.height), "Server")) {

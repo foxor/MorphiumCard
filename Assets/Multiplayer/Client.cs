@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Linq;
 
 public class Client : MonoBehaviour {
 	protected static GameObject prefab = (GameObject)Resources.Load("morphid");
@@ -13,7 +14,22 @@ public class Client : MonoBehaviour {
 	}
 	
 	protected void Connect(object ip) {
-		Network.Connect((string)ip, Server.PORT);
+		if (ip != null) {
+			Network.Connect((string)ip, Server.PORT);
+			StartCoroutine(WaitForConnection());
+		}
+		else {
+			StartCoroutine(WaitForMasterServer());
+		}
+	}
+	
+	protected IEnumerator WaitForMasterServer() {
+		MasterServer.RequestHostList(Server.MASTER_SERVER_NAME);
+		HostData[] hosts;
+		while ((hosts = MasterServer.PollHostList()).Length == 0) {
+			yield return 0;
+		}
+		Network.Connect(hosts.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).First());
 		StartCoroutine(WaitForConnection());
 	}
 	
