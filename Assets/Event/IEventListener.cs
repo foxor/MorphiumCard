@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public delegate void Callback(params object[] data);
+public delegate void Callback(object data);
 
 // I would add "where ENUM_TYPE : enum" here, but it's not supported by C#
 public interface IEventListener<E> {
 	void AddCallback(E trigger, Callback callback);
 	bool RemoveCallback(E trigger, Callback callback);
-	void Broadcast(E trigger, params object[] data);
+	void Broadcast(E trigger, object data);
 }
 
 public class EventListener<E> : IEventListener<E> {
@@ -34,7 +34,7 @@ public class EventListener<E> : IEventListener<E> {
 		return registered != null && registered.Remove(callback);
 	}
 
-	public void Broadcast (E trigger, params object[] data) {
+	public void Broadcast (E trigger, object data) {
 		if (callbacks.ContainsKey(trigger)) {
 			List<Callback> registered = callbacks[trigger];
 			if (registered != null) {

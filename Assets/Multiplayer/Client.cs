@@ -22,8 +22,6 @@ public class Client : MonoBehaviour {
 			yield return 0;
 		}
 		
-		Debug.Log("Connected!");
-		
 		Morphid.LocalPlayer = ((GameObject)Network.Instantiate(prefab, Vector3.zero, Quaternion.identity, 0)).GetComponent<Morphid>();
 		networkView.RPC("SubmitPlayer", RPCMode.Server, Morphid.LocalPlayer.networkView.viewID);
 	}

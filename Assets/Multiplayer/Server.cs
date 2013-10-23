@@ -20,6 +20,13 @@ public class Server : MonoBehaviour {
 		Network.InitializeServer(CONNECTIONS, PORT, true);
 	}
 	
+	public void OnGUI() {
+		if (Network.peerType == NetworkPeerType.Server) {
+			GUILayout.Label("Serving at ip: " + Network.player.externalIP);
+			GUILayout.Label(Players.Count + " players connected");
+		}
+	}
+	
 	[RPC]
 	protected void SubmitPlayer(NetworkViewID view) {
 		Players.Add(view);

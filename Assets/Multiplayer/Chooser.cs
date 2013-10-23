@@ -11,9 +11,12 @@ public class ModeSelectionListener : EventListener<ModeSelection> {
 }
 
 public class Chooser : MonoBehaviour {
+	protected string IP = "127.0.0.1";
+	
 	public void OnGUI() {
-		if (GUI.Button(new Rect(0f, 0f, Screen.width / 2f, Screen.height), "Client")) {
-			ModeSelectionListener.Singleton.Broadcast(ModeSelection.Client, null);
+		IP = GUI.TextArea(new Rect(0f, 0f, Screen.width / 2f, 20f), IP);
+		if (GUI.Button(new Rect(0f, 20f, Screen.width / 2f, Screen.height), "Client")) {
+			ModeSelectionListener.Singleton.Broadcast(ModeSelection.Client, IP);
 			Destroy(this);
 		}
 		if (GUI.Button(new Rect(Screen.width / 2f, 0f, Screen.width / 2f, Screen.height), "Server")) {
