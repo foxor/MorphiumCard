@@ -10,8 +10,8 @@ public class TurnManager : MonoBehaviour {
 	}
 	
 	[RPC]
-	protected void SetActivePlayer(NetworkViewID view) {
-		if (view.isMine) {
+	protected void SetActivePlayer(string guid) {
+		if (guid == Client.GUID) {
 			isLocalActive = true;
 		}
 	}

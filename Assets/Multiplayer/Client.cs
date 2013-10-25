@@ -4,9 +4,9 @@ using System.Collections;
 using System.Linq;
 
 public class Client : MonoBehaviour {
-	protected static GameObject prefab = (GameObject)Resources.Load("morphid");
-	
 	public static Client Singleton;
+	
+	public static string GUID;
 	
 	public void Awake() {
 		Singleton = this;
@@ -38,7 +38,14 @@ public class Client : MonoBehaviour {
 			yield return 0;
 		}
 		
-		Morphid.LocalPlayer = ((GameObject)Network.Instantiate(prefab, Vector3.zero, Quaternion.identity, 0)).GetComponent<Morphid>();
-		networkView.RPC("SubmitPlayer", RPCMode.Server, Morphid.LocalPlayer.networkView.viewID);
+		GUID = Guid.NewGuid().ToString();
+		networkView.RPC("SubmitPlayer", RPCMode.Server, GUID);
+	}
+	
+	[RPC]
+	protected void AssignLocalPlayer(string id, NetworkViewID viewId) {
+		if (id == GUID) {
+			Morphid.LocalPlayer = NetworkView.Find(viewId).GetComponent<Morphid>();
+		}
 	}
 }
