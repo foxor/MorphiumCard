@@ -26,6 +26,17 @@ public class Card {
 	[SerializeField]
 	[ProtoMember(3)]
 	public CardType Type;
+	
+	public static void Process(Card c) {
+		switch (c.Type) {
+		case CardType.Attack:
+			AttackProcessor.Process(c);
+			break;
+		case CardType.Utility:
+			UtilityProcessor.Process(c);
+			break;
+		}
+	}
 }
 
 [Serializable]

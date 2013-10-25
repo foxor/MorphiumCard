@@ -6,7 +6,7 @@ public class UI : MonoBehaviour {
 	protected Button[] Cards;
 	protected Button[] Stats;
 	
-	protected class Region {
+	public class Region {
 		public enum Side {
 			Left,
 			Right,
@@ -95,7 +95,7 @@ public class UI : MonoBehaviour {
 		}
 	}
 	
-	protected class Button : Region {
+	public class Button : Region {
 		public string Text;
 		public Action Action;
 		
