@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,29 +17,22 @@ public class Morphid : MonoBehaviour {
 	}
 	
 	[SerializeField]
-	public ItemContainer ItemContainer;
+	public int Health = 10;
+	[SerializeField]
+	public int Morphium = 10;
 	
-	public static Item[] Items {
-		get {
-			return LocalPlayer.ItemContainer.Items;
-		}
-	}
-	
-	public void Awake() {
-		CardContainer = new CardContainer(){Cards = new Card[] {
-				new Card(){Name = "Card 1"},
-				new Card(){Name = "Card 1"},
-				new Card(){Name = "Card 1"},
-				new Card(){Name = "Card 1"}
-			}
-		};
-		
-		ItemContainer = new ItemContainer(){
-		};
-	}
+	[HideInInspector]
+	public string GUID;
 	
 	public void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
 		stream.SerializeProto<CardContainer>(ref CardContainer);
-		stream.SerializeProto<ItemContainer>(ref ItemContainer);
+		stream.Serialize(ref Health);
+		stream.Serialize(ref Morphium);
+	}
+	
+	public static Action PlayLocalCardFunction(int card) {
+		return () => {
+			Client.PlayCard(Morphid.Cards[card]);
+		};
 	}
 }

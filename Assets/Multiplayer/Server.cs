@@ -6,6 +6,7 @@ using System.Linq;
 
 public class Server : MonoBehaviour {
 	protected static GameObject morphidPrefab = (GameObject)Resources.Load("morphid");
+	protected static Server singleton;
 	
 	protected const int CONNECTIONS = 20;
 	protected const int REQUIRED_PLAYERS = 2;
@@ -13,12 +14,13 @@ public class Server : MonoBehaviour {
 	public const string MASTER_SERVER_NAME = "MorphiumCard";
 	public const int PORT = 4141;
 	
-	protected List<string> Players;
+	protected Dictionary<string, Morphid> Players;
 	protected string GameName;
 	
 	public void Awake() {
+		singleton = this;
 		ModeSelectionListener.Singleton.AddCallback(ModeSelection.Server, Serve);
-		Players = new List<string>();
+		Players = new Dictionary<string, Morphid>();
 	}
 	
 	protected void Serve(object data) {
@@ -36,16 +38,32 @@ public class Server : MonoBehaviour {
 	
 	[RPC]
 	protected void SubmitPlayer(string guid) {
-		Players.Add(guid);
+		GameObject newMorphid = (GameObject)Network.Instantiate(morphidPrefab, Vector3.zero, Quaternion.identity, 0);
+		Players[guid] = newMorphid.GetComponent<Morphid>();
+		Players[guid].GUID = guid;
 		
 		networkView.RPC("AssignLocalPlayer", RPCMode.Others, guid, 
-			((GameObject)Network.Instantiate(morphidPrefab, Vector3.zero, Quaternion.identity, 0)).networkView.viewID
+			newMorphid.networkView.viewID
 		);
 		
 		if (Players.Count >= REQUIRED_PLAYERS) {
 			networkView.RPC("SetActivePlayer", RPCMode.All,
-				Players.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).First()
+				Players.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).First().Key
 			);
 		}
+	}
+	
+	public static Morphid GetMorphid(string guid) {
+		return singleton.Players[guid];
+	}
+	
+	public static Morphid GetEnemy(string guid) {
+		return singleton.Players.Where(x => x.Key != guid).Single().Value;
+	}
+	
+	[RPC]
+	public void ServerPlayCard(string morphidGuid, string cardGuid) {
+		GetMorphid(morphidGuid).CardContainer.FromGuid(cardGuid).Process(morphidGuid);
+		networkView.RPC("FinishTurn", RPCMode.Others);
 	}
 }

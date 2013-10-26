@@ -1,22 +1,19 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ProtoBuf;
 using ProtoBuf.Meta;
-	
-[Serializable]
-[ProtoContract]
-public class Item {
-	// TODO
-}
 
 [Serializable]
 [ProtoContract]
-public class ItemContainer {
-	
+public class Damage : Effect {
 	[SerializeField]
 	[ProtoMember(1)]
-	public Item[] Items;
+	public int Magnitude;
+	
+	public override void Apply (string firendlyGuid) {
+		Server.GetEnemy(firendlyGuid).Health -= Magnitude;
+	}
 }

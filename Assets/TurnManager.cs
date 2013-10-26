@@ -16,6 +16,7 @@ public class TurnManager : MonoBehaviour {
 		}
 	}
 	
+	[RPC]
 	public void FinishTurn() {
 		isLocalActive ^= true;
 	}

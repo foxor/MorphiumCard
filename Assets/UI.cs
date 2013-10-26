@@ -125,12 +125,10 @@ public class UI : MonoBehaviour {
 	public void Awake() {
 		root = new Region();
 		Region CriticalStatsLayer = root.Bisect(Region.Side.Bottom, 20);
-		Region OtherStatLayer = root.Bisect(Region.Side.Bottom, 20);
 		Region CardLayer = root.Bisect(Region.Side.Bottom, 20);
 		Region DrawLayer = root.Bisect(Region.Side.Bottom, 15);
 		
 		Region[] CriticalStatRegions = CriticalStatsLayer.Split(Region.Direction.Horizontal, 2);
-		Region[] OtherStatRegions = OtherStatLayer.Split(Region.Direction.Horizontal, 5);
 		Region[] CardRegions = CardLayer.Split(Region.Direction.Horizontal, 4);
 		Region[] DrawRegions = DrawLayer.Split(Region.Direction.Horizontal, 4);
 		
@@ -146,42 +144,17 @@ public class UI : MonoBehaviour {
 			Action = () => {}
 		};
 		
-		Stats[2] = new Button(OtherStatRegions[0]) {
-			Text = "Torque",
-			Action = () => {}
-		};
-		Stats[3] = new Button(OtherStatRegions[1]) {
-			Text = "Sensors",
-			Action = () => {}
-		};
-		Stats[4] = new Button(OtherStatRegions[2]) {
-			Text = "Attack",
-			Action = () => {}
-		};
-		Stats[5] = new Button(OtherStatRegions[3]) {
-			Text = "Bandwidth",
-			Action = () => {}
-		};
-		Stats[6] = new Button(OtherStatRegions[4]) {
-			Text = "Speed",
-			Action = () => {}
-		};
-		
 		Cards[0] = new Button(CardRegions[0]) {
-			Text = "Card 1",
-			Action = () => {}
+			Action = Morphid.PlayLocalCardFunction(0)
 		};
 		Cards[1] = new Button(CardRegions[1]) {
-			Text = "Card 2",
-			Action = () => {}
+			Action = Morphid.PlayLocalCardFunction(0)
 		};
 		Cards[2] = new Button(CardRegions[2]) {
-			Text = "Card 3",
-			Action = () => {}
+			Action = Morphid.PlayLocalCardFunction(0)
 		};
 		Cards[3] = new Button(CardRegions[3]) {
-			Text = "Card 4",
-			Action = () => {}
+			Action = Morphid.PlayLocalCardFunction(0)
 		};
 		
 		new Button(DrawRegions[0]) {
