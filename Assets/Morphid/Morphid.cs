@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class Morphid : MonoBehaviour {
 	
+	public const int MAX_HEALTH = 10;
+	public const int MAX_MORPHIUM = 10;
+	
 	public static Morphid LocalPlayer;
 	
 	[SerializeField]
@@ -17,9 +20,9 @@ public class Morphid : MonoBehaviour {
 	}
 	
 	[SerializeField]
-	public int Health = 10;
+	public int Health = MAX_HEALTH;
 	[SerializeField]
-	public int Morphium = 10;
+	public int Morphium = MAX_MORPHIUM;
 	
 	[HideInInspector]
 	public string GUID;

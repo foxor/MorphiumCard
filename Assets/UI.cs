@@ -136,11 +136,9 @@ public class UI : MonoBehaviour {
 		Cards = new Button[4];
 		
 		Stats[0] = new Button(CriticalStatRegions[0]) {
-			Text = "Health",
 			Action = () => {}
 		};
 		Stats[1] = new Button(CriticalStatRegions[1]) {
-			Text = "Morphium",
 			Action = () => {}
 		};
 		
@@ -176,11 +174,16 @@ public class UI : MonoBehaviour {
 	}
 	
 	public void OnGUI() {
-		if (TurnManager.IsLocalActive) {
-			for (int i = 0; i < Morphid.Cards.Length; i++) {
-				Cards[i].Text = Morphid.Cards[i].Name;
-			}
-			root.Draw();
+		if (Morphid.LocalPlayer == null) {
+			return;
 		}
+		GUI.enabled = TurnManager.IsLocalActive;
+		for (int i = 0; i < Morphid.Cards.Length; i++) {
+			Cards[i].Text = Morphid.Cards[i].Name;
+		}
+		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
+		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium";
+		root.Draw();
+		GUI.enabled = true;
 	}
 }
