@@ -68,13 +68,19 @@ public class Server : MonoBehaviour {
 	
 	[RPC]
 	public void ServerPlayCard(string morphidGuid, string cardGuid) {
-		GetMorphid(morphidGuid).CardContainer.FromGuid(cardGuid).Process(morphidGuid);
+		GetMorphid(morphidGuid).PlayCard(cardGuid);
 		EndTurn(GetEnemy(morphidGuid));
 	}
 	
 	[RPC]
 	public void ServerBoostEngine(string morphidGuid) {
 		GetMorphid(morphidGuid).Engine += 1;
+		EndTurn(GetEnemy(morphidGuid));
+	}
+	
+	[RPC]
+	public void ServerDrawCard(string morphidGuid, int deck) {
+		GetMorphid(morphidGuid).CardContainer.DrawFromDeck(deck);
 		EndTurn(GetEnemy(morphidGuid));
 	}
 }

@@ -31,6 +31,10 @@ public class Morphid : MonoBehaviour {
 	[HideInInspector]
 	public string GUID;
 	
+	public void Awake() {
+		CardContainer.Setup();
+	}
+	
 	public void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
 		stream.SerializeProto<CardContainer>(ref CardContainer);
 		stream.Serialize(ref Health);
@@ -42,5 +46,11 @@ public class Morphid : MonoBehaviour {
 		return () => {
 			Client.PlayCard(Morphid.Cards[card]);
 		};
+	}
+	
+	public void PlayCard(string cardGuid) {
+		Card c = CardContainer.FromGuid(cardGuid);
+		c.Process(GUID);
+		CardContainer.RemoveBroken();
 	}
 }

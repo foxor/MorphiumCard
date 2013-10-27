@@ -125,7 +125,7 @@ public class UI : MonoBehaviour {
 	public void Awake() {
 		root = new Region();
 		Region CriticalStatsLayer = root.Bisect(Region.Side.Bottom, 20);
-		Region CardLayer = root.Bisect(Region.Side.Bottom, 20);
+		Region CardLayer = root.Bisect(Region.Side.Bottom, 50);
 		Region DrawLayer = root.Bisect(Region.Side.Bottom, 15);
 		
 		Region[] CriticalStatRegions = CriticalStatsLayer.Split(Region.Direction.Horizontal, 2);
@@ -146,30 +146,30 @@ public class UI : MonoBehaviour {
 			Action = Morphid.PlayLocalCardFunction(0)
 		};
 		Cards[1] = new Button(CardRegions[1]) {
-			Action = Morphid.PlayLocalCardFunction(0)
+			Action = Morphid.PlayLocalCardFunction(1)
 		};
 		Cards[2] = new Button(CardRegions[2]) {
-			Action = Morphid.PlayLocalCardFunction(0)
+			Action = Morphid.PlayLocalCardFunction(2)
 		};
 		Cards[3] = new Button(CardRegions[3]) {
-			Action = Morphid.PlayLocalCardFunction(0)
+			Action = Morphid.PlayLocalCardFunction(3)
 		};
 		
 		new Button(DrawRegions[0]) {
 			Text = "Draw",
-			Action = () => {}
+			Action = () => Client.DrawCard(0)
 		};
 		new Button(DrawRegions[1]) {
 			Text = "Draw",
-			Action = () => {}
+			Action = () => Client.DrawCard(1)
 		};
 		new Button(DrawRegions[2]) {
 			Text = "Draw",
-			Action = () => {}
+			Action = () => Client.DrawCard(2)
 		};
 		new Button(DrawRegions[3]) {
 			Text = "Draw",
-			Action = () => {}
+			Action = () => Client.DrawCard(3)
 		};
 	}
 	
@@ -178,8 +178,13 @@ public class UI : MonoBehaviour {
 			return;
 		}
 		GUI.enabled = TurnManager.IsLocalActive;
-		for (int i = 0; i < Morphid.Cards.Length; i++) {
-			Cards[i].Text = Morphid.Cards[i].Name;
+		for (int i = 0; i < Cards.Length; i++) {
+			if (Morphid.Cards != null && Morphid.Cards[i] != null) {
+				Cards[i].Text = Morphid.Cards[i].Name + " (" + Morphid.Cards[i].Cost + ")\n" + Morphid.Cards[i].Text;
+			}
+			else {
+				Cards[i].Text = "Empty";
+			}
 		}
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
 		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
