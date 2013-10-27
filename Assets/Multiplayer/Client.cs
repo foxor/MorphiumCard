@@ -59,7 +59,7 @@ public class Client : MonoBehaviour {
 		Singleton.networkView.RPC("ServerBoostEngine", RPCMode.Server, Morphid.LocalPlayer.GUID);
 	}
 	
-	public static void DrawCard(int deck) {
-		Singleton.networkView.RPC("ServerDrawCard", RPCMode.Server, Morphid.LocalPlayer.GUID, deck);
+	public static void DrawCards() {
+		Singleton.networkView.RPC("ServerDrawCards", RPCMode.Server, Morphid.LocalPlayer.GUID);
 	}
 }

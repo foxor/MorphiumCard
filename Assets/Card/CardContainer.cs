@@ -81,8 +81,10 @@ public class CardContainer {
 		}
 	}
 	
-	public void DrawFromDeck(int deck) {
-		Cards[deck] = Decks[deck].Draw();
+	public void Draw() {
+		for (int i = 0; i < Decks.Count(); i++) {
+			Cards[i] = Decks[i].Draw();
+		}
 	}
 	
 	public void Setup() {

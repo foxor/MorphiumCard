@@ -79,8 +79,8 @@ public class Server : MonoBehaviour {
 	}
 	
 	[RPC]
-	public void ServerDrawCard(string morphidGuid, int deck) {
-		GetMorphid(morphidGuid).CardContainer.DrawFromDeck(deck);
+	public void ServerDrawCards(string morphidGuid) {
+		GetMorphid(morphidGuid).CardContainer.Draw();
 		EndTurn(GetEnemy(morphidGuid));
 	}
 }

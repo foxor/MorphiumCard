@@ -130,7 +130,7 @@ public class UI : MonoBehaviour {
 		
 		Region[] CriticalStatRegions = CriticalStatsLayer.Split(Region.Direction.Horizontal, 2);
 		Region[] CardRegions = CardLayer.Split(Region.Direction.Horizontal, 4);
-		Region[] DrawRegions = DrawLayer.Split(Region.Direction.Horizontal, 4);
+		Region[] DrawRegions = DrawLayer.Split(Region.Direction.Horizontal, 3);
 		
 		Stats = new Button[7];
 		Cards = new Button[4];
@@ -155,21 +155,9 @@ public class UI : MonoBehaviour {
 			Action = Morphid.PlayLocalCardFunction(3)
 		};
 		
-		new Button(DrawRegions[0]) {
-			Text = "Draw",
-			Action = () => Client.DrawCard(0)
-		};
 		new Button(DrawRegions[1]) {
 			Text = "Draw",
-			Action = () => Client.DrawCard(1)
-		};
-		new Button(DrawRegions[2]) {
-			Text = "Draw",
-			Action = () => Client.DrawCard(2)
-		};
-		new Button(DrawRegions[3]) {
-			Text = "Draw",
-			Action = () => Client.DrawCard(3)
+			Action = Client.DrawCards
 		};
 	}
 	
