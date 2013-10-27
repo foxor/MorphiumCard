@@ -61,9 +61,20 @@ public class Server : MonoBehaviour {
 		return singleton.Players.Where(x => x.Key != guid).Single().Value;
 	}
 	
+	private void EndTurn(Morphid enemy) {
+		networkView.RPC("FinishTurn", RPCMode.Others);
+		enemy.Morphium = Mathf.Min(Morphid.MAX_MORPHIUM, enemy.Morphium + enemy.Engine);
+	}
+	
 	[RPC]
 	public void ServerPlayCard(string morphidGuid, string cardGuid) {
 		GetMorphid(morphidGuid).CardContainer.FromGuid(cardGuid).Process(morphidGuid);
-		networkView.RPC("FinishTurn", RPCMode.Others);
+		EndTurn(GetEnemy(morphidGuid));
+	}
+	
+	[RPC]
+	public void ServerBoostEngine(string morphidGuid) {
+		GetMorphid(morphidGuid).Engine += 1;
+		EndTurn(GetEnemy(morphidGuid));
 	}
 }

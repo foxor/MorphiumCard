@@ -7,6 +7,8 @@ public class Morphid : MonoBehaviour {
 	
 	public const int MAX_HEALTH = 10;
 	public const int MAX_MORPHIUM = 10;
+	public const int START_MORPHIUM = 0;
+	public const int START_ENGINE = 1;
 	
 	public static Morphid LocalPlayer;
 	
@@ -22,7 +24,9 @@ public class Morphid : MonoBehaviour {
 	[SerializeField]
 	public int Health = MAX_HEALTH;
 	[SerializeField]
-	public int Morphium = MAX_MORPHIUM;
+	public int Morphium = START_MORPHIUM;
+	[SerializeField]
+	public int Engine = START_ENGINE;
 	
 	[HideInInspector]
 	public string GUID;
@@ -31,6 +35,7 @@ public class Morphid : MonoBehaviour {
 		stream.SerializeProto<CardContainer>(ref CardContainer);
 		stream.Serialize(ref Health);
 		stream.Serialize(ref Morphium);
+		stream.Serialize(ref Engine);
 	}
 	
 	public static Action PlayLocalCardFunction(int card) {

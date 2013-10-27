@@ -139,7 +139,7 @@ public class UI : MonoBehaviour {
 			Action = () => {}
 		};
 		Stats[1] = new Button(CriticalStatRegions[1]) {
-			Action = () => {}
+			Action = Client.BoostEngine
 		};
 		
 		Cards[0] = new Button(CardRegions[0]) {
@@ -182,7 +182,7 @@ public class UI : MonoBehaviour {
 			Cards[i].Text = Morphid.Cards[i].Name;
 		}
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
-		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium";
+		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
 		root.Draw();
 		GUI.enabled = true;
 	}
