@@ -36,13 +36,25 @@ public class Deck {
 		}
 	}
 	
+	protected IEnumerable<Card> ChestCards() {
+		for (int i = 0; i < MAX_CARDS; i++) {
+			yield return new Card() {
+				Cost = 4,
+				Healing = new Healing(){Magnitude = 2},
+				Durability = 2,
+				Name = "Repair Bot",
+				Text = "Repairs 2 health"
+			};
+		}
+	}
+	
 	public void Shuffle() {
 		switch (Slot) {
 		case Slot.Head:
 			Cards = new Card[0];
 			break;
 		case Slot.Chest:
-			Cards = new Card[0];
+			Cards = ChestCards().ToArray();
 			break;
 		case Slot.Arm:
 			Cards = ArmCards().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();

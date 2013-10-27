@@ -9,32 +9,38 @@ using ProtoBuf.Meta;
 [Serializable]
 [ProtoContract]
 public class Card {
-	[SerializeField]
+	[NonSerialized] //Prevents unity from copying the guids around
 	[ProtoMember(1)]
-	public String Name;
+	public string GUID;
 	
 	[SerializeField]
 	[ProtoMember(2)]
-	public String Text;
+	public String Name;
 	
 	[SerializeField]
 	[ProtoMember(3)]
-	public int Cost;
+	public String Text;
 	
 	[SerializeField]
 	[ProtoMember(4)]
-	public int Durability;
+	public int Cost;
 	
 	[SerializeField]
 	[ProtoMember(5)]
+	public int Durability;
+	
+	[SerializeField]
+	[ProtoMember(6)]
 	public Damage Damage;
 	
-	[NonSerialized] //Prevents unity from copying the guids around
-	[ProtoMember(6)]
-	public string GUID;
+	[SerializeField]
+	[ProtoMember(7)]
+	public Healing Healing;
 	
 	public Card() {
 		GUID = Guid.NewGuid().ToString();
+		Damage = new Damage();
+		Healing = new Healing();
 	}
 	
 	public void Process(string friendlyGuid) {
@@ -42,6 +48,7 @@ public class Card {
 		if (self.Morphium >= Cost) {
 			self.Morphium -= Cost;
 			Damage.Apply(friendlyGuid);
+			Healing.Apply(friendlyGuid);
 		}
 		Durability -= 1;
 	}
