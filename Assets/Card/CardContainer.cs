@@ -41,11 +41,21 @@ public class Card {
 	[ProtoMember(8)]
 	public Reflect Reflect;
 	
+	[SerializeField]
+	[ProtoMember(9)]
+	public EngineBurn EngineBurn;
+	
+	[SerializeField]
+	[ProtoMember(10)]
+	public EngineRamp EngineRamp;
+	
 	public Card() {
 		GUID = Guid.NewGuid().ToString();
 		Damage = new Damage();
 		Healing = new Healing();
 		Reflect = new Reflect();
+		EngineBurn = new EngineBurn();
+		EngineRamp = new EngineRamp();
 	}
 	
 	public void Process(string friendlyGuid) {
@@ -55,6 +65,8 @@ public class Card {
 			Damage.Apply(friendlyGuid);
 			Healing.Apply(friendlyGuid);
 			Reflect.Apply(friendlyGuid);
+			EngineBurn.Apply(friendlyGuid);
+			EngineRamp.Apply(friendlyGuid);
 		}
 		Durability -= 1;
 	}
