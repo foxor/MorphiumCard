@@ -5,4 +5,5 @@ using System.Reflection;
 
 public abstract class Effect {
 	public abstract void Apply(string FirendlyGuid);
+	//public virtual 
 }
