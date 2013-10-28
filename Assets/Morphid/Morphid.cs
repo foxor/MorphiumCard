@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Morphid : MonoBehaviour {
 	
@@ -11,6 +12,18 @@ public class Morphid : MonoBehaviour {
 	public const int START_ENGINE = 1;
 	
 	public static Morphid LocalPlayer;
+	
+	protected static Morphid remotePlayer;
+	public static Morphid RemotePlayer {
+		get {
+			if (remotePlayer == null) {
+				remotePlayer = FindObjectsOfType(typeof(Morphid)).Cast<Morphid>().Where(
+					x => x.GUID != LocalPlayer.GUID
+				).Single();
+			}
+			return remotePlayer;
+		}
+	}
 	
 	[SerializeField]
 	public CardContainer CardContainer;

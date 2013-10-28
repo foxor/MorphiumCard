@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 
 public class UI : MonoBehaviour {
-	protected Button[] Cards;
-	protected Button[] Stats;
-	
 	public class Region {
 		public enum Side {
 			Left,
@@ -95,6 +92,29 @@ public class UI : MonoBehaviour {
 		}
 	}
 	
+	public class Label : Region {
+		public string Text;
+		
+		public Label(Region source) {
+			source.children.Add(this);
+			
+			Left = source.Left;
+			Top = source.Top;
+			Width = source.Width;
+			Height = source.Height;
+			
+			source.Width = 0;
+			source.Height = 0;
+			source.invalid = true;
+		}
+		
+		public override void Draw () {
+			base.Draw ();
+			GUI.Label(ScreenRect, Text);
+		}
+	}
+	
+	
 	public class Button : Region {
 		public string Text;
 		public Action Action;
@@ -120,6 +140,10 @@ public class UI : MonoBehaviour {
 		}
 	}
 	
+	protected Button[] Cards;
+	protected Button[] Stats;
+	protected Label EnemyStats;
+	
 	protected Region root;
 	
 	public void Awake() {
@@ -127,6 +151,7 @@ public class UI : MonoBehaviour {
 		Region CriticalStatsLayer = root.Bisect(Region.Side.Bottom, 20);
 		Region CardLayer = root.Bisect(Region.Side.Bottom, 50);
 		Region DrawLayer = root.Bisect(Region.Side.Bottom, 15);
+		Region TopLayer = root.Bisect(Region.Side.Top, 20);
 		
 		Region[] CriticalStatRegions = CriticalStatsLayer.Split(Region.Direction.Horizontal, 2);
 		Region[] CardRegions = CardLayer.Split(Region.Direction.Horizontal, 4);
@@ -159,6 +184,8 @@ public class UI : MonoBehaviour {
 			Text = "Draw",
 			Action = Client.DrawCards
 		};
+		
+		EnemyStats = new Label(TopLayer);
 	}
 	
 	public void OnGUI() {
@@ -176,6 +203,7 @@ public class UI : MonoBehaviour {
 		}
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
 		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
+		EnemyStats.Text = "Enemy morphid has " + Morphid.RemotePlayer.Health + " health remaining";
 		root.Draw();
 		GUI.enabled = true;
 	}
