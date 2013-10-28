@@ -23,15 +23,14 @@ public class Deck {
 	[ProtoMember(3)]
 	public Slot Slot;
 	
-	protected IEnumerable<Card> ArmCards() {
+	protected IEnumerable<Card> HeadCards() {
 		for (int i = 0; i < MAX_CARDS; i++) {
-			int Damage = Mathf.CeilToInt(((float)(i + 1)) / 2f);
 			yield return new Card() {
-				Cost = Damage + 1,
-				Damage = new Damage(){Magnitude = Damage},
-				Durability = 2,
-				Name = "Fireball",
-				Text = "Deals " + Damage + " damage"
+				Cost = 5,
+				Reflect = new Reflect(){Magnitude = 2},
+				Durability = 1,
+				Name = "Ambush",
+				Text = "Reflects the next 2 damage"
 			};
 		}
 	}
@@ -48,10 +47,23 @@ public class Deck {
 		}
 	}
 	
+	protected IEnumerable<Card> ArmCards() {
+		for (int i = 0; i < MAX_CARDS; i++) {
+			int Damage = Mathf.CeilToInt(((float)(i + 1)) / 2f);
+			yield return new Card() {
+				Cost = Damage + 1,
+				Damage = new Damage(){Magnitude = Damage},
+				Durability = 2,
+				Name = "Fireball",
+				Text = "Deals " + Damage + " damage"
+			};
+		}
+	}
+	
 	public void Shuffle() {
 		switch (Slot) {
 		case Slot.Head:
-			Cards = new Card[0];
+			Cards = HeadCards().ToArray();
 			break;
 		case Slot.Chest:
 			Cards = ChestCards().ToArray();

@@ -40,6 +40,8 @@ public class Morphid : MonoBehaviour {
 	public int Morphium = START_MORPHIUM;
 	[SerializeField]
 	public int Engine = START_ENGINE;
+	[SerializeField]
+	public int Reflect = 0;
 	
 	[HideInInspector]
 	public string GUID;
@@ -53,6 +55,7 @@ public class Morphid : MonoBehaviour {
 		stream.Serialize(ref Health);
 		stream.Serialize(ref Morphium);
 		stream.Serialize(ref Engine);
+		stream.Serialize(ref Reflect);
 	}
 	
 	public static Action PlayLocalCardFunction(int card) {

@@ -37,10 +37,15 @@ public class Card {
 	[ProtoMember(7)]
 	public Healing Healing;
 	
+	[SerializeField]
+	[ProtoMember(8)]
+	public Reflect Reflect;
+	
 	public Card() {
 		GUID = Guid.NewGuid().ToString();
 		Damage = new Damage();
 		Healing = new Healing();
+		Reflect = new Reflect();
 	}
 	
 	public void Process(string friendlyGuid) {
@@ -49,6 +54,7 @@ public class Card {
 			self.Morphium -= Cost;
 			Damage.Apply(friendlyGuid);
 			Healing.Apply(friendlyGuid);
+			Reflect.Apply(friendlyGuid);
 		}
 		Durability -= 1;
 	}
