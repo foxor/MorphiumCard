@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Morphid : MonoBehaviour {
 	
-	public const int MAX_HEALTH = 10;
+	public const int MAX_HEALTH = 50;
 	public const int MAX_MORPHIUM = 10;
 	public const int START_MORPHIUM = 0;
 	public const int START_ENGINE = 1;

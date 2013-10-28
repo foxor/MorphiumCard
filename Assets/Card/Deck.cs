@@ -25,11 +25,11 @@ public class Deck {
 	
 	protected IEnumerable<Card> ArmCards() {
 		for (int i = 0; i < MAX_CARDS; i++) {
-			int Damage = Mathf.CeilToInt(((float)(i + 1)) / 6f);
+			int Damage = Mathf.CeilToInt(((float)(i + 1)) / 2f);
 			yield return new Card() {
 				Cost = Damage + 1,
 				Damage = new Damage(){Magnitude = Damage},
-				Durability = 4 - Damage,
+				Durability = 2,
 				Name = "Fireball",
 				Text = "Deals " + Damage + " damage"
 			};
