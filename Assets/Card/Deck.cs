@@ -37,13 +37,25 @@ public class Deck {
 	
 	protected IEnumerable<Card> ChestCards() {
 		for (int i = 0; i < MAX_CARDS; i++) {
-			yield return new Card() {
-				Cost = 4,
-				Healing = new Healing(){Magnitude = 2},
-				Durability = 2,
-				Name = "Repair Bot",
-				Text = "Repairs 2 health"
-			};
+			if (i < 5) {
+				yield return new Card() {
+					Cost = 4,
+					Healing = new Healing(){Magnitude = 2},
+					Durability = 2,
+					Name = "Repair Bot",
+					Text = "Repairs 2 health"
+				};
+			}
+			else {
+				yield return new Card() {
+					Cost = 2,
+					Damage = new Damage(){Magnitude = 1},
+					Healing = new Healing(){Magnitude = 1},
+					Durability = 1,
+					Name = "Tactical Shutdown",
+					Text = "Repairs 1 health and deals 1 damage"
+				};
+			}
 		}
 	}
 	
@@ -63,10 +75,10 @@ public class Deck {
 	public void Shuffle() {
 		switch (Slot) {
 		case Slot.Head:
-			Cards = HeadCards().ToArray();
+			Cards = HeadCards().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
 			break;
 		case Slot.Chest:
-			Cards = ChestCards().ToArray();
+			Cards = ChestCards().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
 			break;
 		case Slot.Arm:
 			Cards = ArmCards().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
