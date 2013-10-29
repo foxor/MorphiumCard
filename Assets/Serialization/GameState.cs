@@ -4,7 +4,7 @@ using System.Collections;
 using System.Linq;
 
 public class GameState : MonoBehaviour {
-	protected const int REQUIRED_PLAYERS = 2;
+	protected const int NUM_PLAYERS = 2;
 	protected const int NUM_LANES = 3;
 	
 	protected static GameState singelton;
@@ -20,35 +20,22 @@ public class GameState : MonoBehaviour {
 		if (Network.peerType == NetworkPeerType.Client) {
 			StartCoroutine(SetupCoroutine());
 		}
-		else {
-			Morphids = new Morphid[REQUIRED_PLAYERS];
-			Lanes = new Lane[NUM_LANES].Select(x => new Lane()).ToArray();
-		}
+		Morphids = new Morphid[NUM_PLAYERS].Select(x => new Morphid()).ToArray();
+		Lanes = new Lane[NUM_LANES].Select(x => new Lane()).ToArray();
 	}
 	
 	public void AddMorphid(string guid) {
-		Morphid m = Morphids[PlayerCount++] = new Morphid() {
-			GUID = guid
-		};
-		m.CardContainer.Setup();
+		Morphids[PlayerCount].GUID = guid;
+		Morphids[PlayerCount].CardContainer.Setup();
 		
-		if (PlayerCount >= REQUIRED_PLAYERS) {
+		if (++PlayerCount >= NUM_PLAYERS) {
 			ActivePlayer = UnityEngine.Random.Range(0, 1);
 		}
 	}
 	
 	protected IEnumerator SetupCoroutine() {
-		while (PlayerCount <= REQUIRED_PLAYERS) {
+		while (PlayerCount < NUM_PLAYERS) {
 			yield return 0;
-		}
-		
-		foreach (Morphid morphid in Morphids) {
-			if (morphid.GUID == Client.GUID) {
-				Morphid.LocalPlayer = morphid;
-			}
-			else {
-				Morphid.RemotePlayer = morphid;
-			}
 		}
 	}
 	
@@ -56,20 +43,25 @@ public class GameState : MonoBehaviour {
 		stream.SerializeProto<Morphid[]>(ref Morphids);
 		stream.SerializeProto<Lane[]>(ref Lanes);
 		stream.SerializeProto<int>(ref ActivePlayer);
+		stream.SerializeProto<int>(ref PlayerCount);
 	}
 	
 	public static bool IsLocalActive {
 		get {
-			return singelton.PlayerCount >= REQUIRED_PLAYERS &&
+			return singelton.PlayerCount >= NUM_PLAYERS &&
 				singelton.Morphids[singelton.ActivePlayer].GUID == Client.GUID;
 		}
 	}
 	
+	public void SwapTurn() {
+		ActivePlayer = (ActivePlayer + 1) % NUM_PLAYERS;
+	}
+	
 	public static Morphid GetMorphid(string guid) {
-		return singelton.Morphids.Where(x => x.GUID == guid).Single();
+		return singelton == null || guid == null ? null : singelton.Morphids.Where(x => x.GUID == guid).SingleOrDefault();
 	}
 	
 	public static Morphid GetEnemy(string guid) {
-		return singelton.Morphids.Where(x => x.GUID != guid).Single();
+		return singelton == null || guid == null ? null : singelton.Morphids.Where(x => x.GUID != guid).SingleOrDefault();
 	}
 }

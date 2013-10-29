@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Server : MonoBehaviour {
-	protected static GameObject gameStatePrefab = (GameObject)Resources.Load("gameState");
+	protected static GameObject gameStatePrefab = (GameObject)Resources.Load("GameState");
 	protected static Server singleton;
 	
 	protected const int CONNECTIONS = 20;
@@ -44,7 +44,7 @@ public class Server : MonoBehaviour {
 	}
 	
 	private void EndTurn(Morphid enemy) {
-		networkView.RPC("FinishTurn", RPCMode.Others);
+		GameState.SwapTurn();
 		enemy.Morphium = Mathf.Min(Morphid.MAX_MORPHIUM, enemy.Morphium + enemy.Engine);
 	}
 	

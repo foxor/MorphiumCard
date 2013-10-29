@@ -15,12 +15,20 @@ public class Morphid {
 	public const int START_MORPHIUM = 0;
 	public const int START_ENGINE = 1;
 	
-	public static Morphid LocalPlayer;
-	public static Morphid RemotePlayer;
+	public static Morphid LocalPlayer {
+		get {
+			return GameState.GetMorphid(Client.GUID);
+		}
+	}
+	public static Morphid RemotePlayer {
+		get {
+			return GameState.GetEnemy(Client.GUID);
+		}
+	}
 	
 	[SerializeField]
 	[ProtoMember(1)]
-	public CardContainer CardContainer;
+	public CardContainer CardContainer = new CardContainer();
 	
 	public static Card[] Cards {
 		get {
@@ -30,24 +38,31 @@ public class Morphid {
 	
 	[SerializeField]
 	[ProtoMember(2)]
-	public int Health = MAX_HEALTH;
+	public int Health;
 	
 	[SerializeField]
 	[ProtoMember(3)]
-	public int Morphium = START_MORPHIUM;
+	public int Morphium;
 	
 	[SerializeField]
 	[ProtoMember(4)]
-	public int Engine = START_ENGINE;
+	public int Engine;
 	
 	[SerializeField]
 	[ProtoMember(5)]
-	public int Reflect = 0;
+	public int Reflect;
 	
 	[HideInInspector]
 	[SerializeField]
 	[ProtoMember(6)]
 	public string GUID;
+	
+	public Morphid() {
+		Health = MAX_HEALTH;
+		Morphium = START_MORPHIUM;
+		Engine = START_ENGINE;
+		Reflect = 0;
+	}
 	
 	public static Action PlayLocalCardFunction(int card) {
 		return () => {
