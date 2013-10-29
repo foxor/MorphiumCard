@@ -183,6 +183,10 @@ public class UI : MonoBehaviour {
 			else {
 				Text = "Empty";
 			}
+			if (ContainsMouse() != null && Input.GetMouseButton(0) && Enabled) {
+				Action();
+				invalid = true;
+			}
 			base.Draw();
 		}
 	}
@@ -233,12 +237,16 @@ public class UI : MonoBehaviour {
 	
 	public Action PickupCard(int card) {
 		return () => {
-			float dx = Cards[card].Width / -2f, dy = Cards[card].Height / -2f;
+			if (Selected != null) {
+				return;
+			}
+			float dx = Cards[card].Left - Input.mousePosition.x;
+			float dy = Cards[card].Top - (Screen.height - Input.mousePosition.y);
 			Selected = new CardButton(card, new Region() {
 				Height = Cards[card].Height,
 				Width = Cards[card].Width,
-				Left = (int)(Input.mousePosition.x + dx),
-				Top = (int)(Input.mousePosition.y + dy)
+				Left = Cards[card].Left,
+				Top = Cards[card].Top
 			}) {
 				Text = Cards[card].Text,
 				Action = () => {}
@@ -252,7 +260,8 @@ public class UI : MonoBehaviour {
 		while (Input.GetMouseButton(0)) {
 			yield return 0;
 			Selected.Left = (int)(Input.mousePosition.x + dx);
-			Selected.Top = (int)(Input.mousePosition.y + dy);
+			Selected.Top = (int)(Screen.height - Input.mousePosition.y + dy);
+			Selected.invalid = true;
 		}
 		Selected = null;
 		Cards[card].Enabled = true;
