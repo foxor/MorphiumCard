@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UI : MonoBehaviour {
+	public static UI Singleton;
+	
 	public class Region {
 		public enum Side {
 			Left,
@@ -163,15 +165,39 @@ public class UI : MonoBehaviour {
 		}
 	}
 	
+	public class CardButton : Button {
+		public TargetingRequirements TargetingRequirements;
+		public int CardIndex;
+		
+		public CardButton(int CardIndex, Region source) : base(source) {
+			this.CardIndex = CardIndex;
+			Action = Singleton.PickupCard(CardIndex);
+		}
+		
+		public override void Draw () {
+			if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
+				Text = Morphid.Cards[CardIndex].Name +
+					" (" + Morphid.Cards[CardIndex].Cost + ")\n" +
+					Morphid.Cards[CardIndex].Text;
+			}
+			else {
+				Text = "Empty";
+			}
+			base.Draw();
+		}
+	}
+	
 	protected Button[] Cards;
 	protected Button[] Stats;
 	
-	protected Button Selected;
+	protected CardButton Selected;
 	protected Target Target;
 	
 	protected Region root;
 	
 	public void Awake() {
+		Singleton = this;
+		
 		root = new Region();
 		Region CriticalStatsLayer = root.Bisect(Region.Side.Bottom, 20);
 		Region CardLayer = root.Bisect(Region.Side.Bottom, 50);
@@ -191,18 +217,10 @@ public class UI : MonoBehaviour {
 			Action = Client.BoostEngine
 		};
 		
-		Cards[0] = new Button(CardRegions[0]) {
-			Action = Morphid.PlayLocalCardFunction(0)
-		};
-		Cards[1] = new Button(CardRegions[1]) {
-			Action = Morphid.PlayLocalCardFunction(1)
-		};
-		Cards[2] = new Button(CardRegions[2]) {
-			Action = Morphid.PlayLocalCardFunction(2)
-		};
-		Cards[3] = new Button(CardRegions[3]) {
-			Action = Morphid.PlayLocalCardFunction(3)
-		};
+		Cards[0] = new CardButton(0, CardRegions[0]);
+		Cards[1] = new CardButton(1, CardRegions[1]);
+		Cards[2] = new CardButton(2, CardRegions[2]);
+		Cards[3] = new CardButton(3, CardRegions[3]);
 		
 		new Button(DrawRegions[1]) {
 			Text = "Draw",
@@ -213,10 +231,10 @@ public class UI : MonoBehaviour {
 		Target.Draw(root);
 	}
 	
-	protected Action PickupCard(int card) {
+	public Action PickupCard(int card) {
 		return () => {
 			float dx = Cards[card].Width / -2f, dy = Cards[card].Height / -2f;
-			Selected = new Button(new Region() {
+			Selected = new CardButton(card, new Region() {
 				Height = Cards[card].Height,
 				Width = Cards[card].Width,
 				Left = (int)(Input.mousePosition.x + dx),
@@ -245,14 +263,6 @@ public class UI : MonoBehaviour {
 			return;
 		}
 		GUI.enabled = GameState.IsLocalActive;
-		for (int i = 0; i < Cards.Length; i++) {
-			if (Morphid.Cards != null && Morphid.Cards[i] != null) {
-				Cards[i].Text = Morphid.Cards[i].Name + " (" + Morphid.Cards[i].Cost + ")\n" + Morphid.Cards[i].Text;
-			}
-			else {
-				Cards[i].Text = "Empty";
-			}
-		}
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
 		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
 		Target.Update(null);
