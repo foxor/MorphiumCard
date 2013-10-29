@@ -192,7 +192,7 @@ public class UI : MonoBehaviour {
 		if (Morphid.LocalPlayer == null) {
 			return;
 		}
-		GUI.enabled = TurnManager.IsLocalActive;
+		GUI.enabled = GameState.IsLocalActive;
 		for (int i = 0; i < Cards.Length; i++) {
 			if (Morphid.Cards != null && Morphid.Cards[i] != null) {
 				Cards[i].Text = Morphid.Cards[i].Name + " (" + Morphid.Cards[i].Cost + ")\n" + Morphid.Cards[i].Text;

@@ -14,6 +14,6 @@ public class Healing : Effect {
 	public int Magnitude;
 	
 	public override void Apply (string firendlyGuid) {
-		Server.GetMorphid(firendlyGuid).Health += Magnitude;
+		GameState.GetMorphid(firendlyGuid).Health += Magnitude;
 	}
 }

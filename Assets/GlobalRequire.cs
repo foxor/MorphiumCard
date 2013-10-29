@@ -7,7 +7,6 @@ using System.Linq;
 public class GlobalRequire: MonoBehaviour {
 	public void Awake() {
 		gameObject.AddComponent<UI>();
-		gameObject.AddComponent<TurnManager>();
 		gameObject.AddComponent<Server>();
 		gameObject.AddComponent<Client>();
 		gameObject.AddComponent<Chooser>();

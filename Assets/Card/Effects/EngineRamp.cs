@@ -14,6 +14,6 @@ public class EngineRamp : Effect {
 	public int Magnitude;
 	
 	public override void Apply (string friendlyGuid) {
-		Server.GetMorphid(friendlyGuid).Engine += Magnitude;
+		GameState.GetMorphid(friendlyGuid).Engine += Magnitude;
 	}
 }

@@ -5,27 +5,28 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Server : MonoBehaviour {
-	protected static GameObject morphidPrefab = (GameObject)Resources.Load("morphid");
+	protected static GameObject gameStatePrefab = (GameObject)Resources.Load("gameState");
 	protected static Server singleton;
 	
 	protected const int CONNECTIONS = 20;
-	protected const int REQUIRED_PLAYERS = 2;
 	
 	public const string MASTER_SERVER_NAME = "MorphiumCard";
 	public const int PORT = 4141;
 	
-	protected Dictionary<string, Morphid> Players;
+	protected List<string> Players;
+	protected GameState GameState;
 	protected string GameName;
 	
 	public void Awake() {
 		singleton = this;
 		ModeSelectionListener.Singleton.AddCallback(ModeSelection.Server, Serve);
-		Players = new Dictionary<string, Morphid>();
+		Players = new List<string>();
 	}
 	
 	protected void Serve(object data) {
 		Network.InitializeServer(CONNECTIONS, PORT, true);
 		MasterServer.RegisterHost(MASTER_SERVER_NAME, GameName = Guid.NewGuid().ToString());
+		GameState = ((GameObject)Network.Instantiate(gameStatePrefab, Vector3.zero, Quaternion.identity, 0)).GetComponent<GameState>();
 	}
 	
 	public void OnGUI() {
@@ -38,27 +39,8 @@ public class Server : MonoBehaviour {
 	
 	[RPC]
 	protected void SubmitPlayer(string guid) {
-		GameObject newMorphid = (GameObject)Network.Instantiate(morphidPrefab, Vector3.zero, Quaternion.identity, 0);
-		Players[guid] = newMorphid.GetComponent<Morphid>();
-		Players[guid].GUID = guid;
-		
-		networkView.RPC("AssignLocalPlayer", RPCMode.Others, guid, 
-			newMorphid.networkView.viewID
-		);
-		
-		if (Players.Count >= REQUIRED_PLAYERS) {
-			networkView.RPC("SetActivePlayer", RPCMode.All,
-				Players.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).First().Key
-			);
-		}
-	}
-	
-	public static Morphid GetMorphid(string guid) {
-		return singleton.Players[guid];
-	}
-	
-	public static Morphid GetEnemy(string guid) {
-		return singleton.Players.Where(x => x.Key != guid).Single().Value;
+		Players.Add(guid);
+		GameState.AddMorphid(guid);
 	}
 	
 	private void EndTurn(Morphid enemy) {
@@ -68,19 +50,19 @@ public class Server : MonoBehaviour {
 	
 	[RPC]
 	public void ServerPlayCard(string morphidGuid, string cardGuid) {
-		GetMorphid(morphidGuid).PlayCard(cardGuid);
-		EndTurn(GetEnemy(morphidGuid));
+		GameState.GetMorphid(morphidGuid).PlayCard(cardGuid);
+		EndTurn(GameState.GetEnemy(morphidGuid));
 	}
 	
 	[RPC]
 	public void ServerBoostEngine(string morphidGuid) {
-		GetMorphid(morphidGuid).Engine += 1;
-		EndTurn(GetEnemy(morphidGuid));
+		GameState.GetMorphid(morphidGuid).Engine += 1;
+		EndTurn(GameState.GetEnemy(morphidGuid));
 	}
 	
 	[RPC]
 	public void ServerDrawCards(string morphidGuid) {
-		GetMorphid(morphidGuid).CardContainer.Draw();
-		EndTurn(GetEnemy(morphidGuid));
+		GameState.GetMorphid(morphidGuid).CardContainer.Draw();
+		EndTurn(GameState.GetEnemy(morphidGuid));
 	}
 }

@@ -42,15 +42,6 @@ public class Client : MonoBehaviour {
 		networkView.RPC("SubmitPlayer", RPCMode.Server, GUID);
 	}
 	
-	[RPC]
-	protected void AssignLocalPlayer(string id, NetworkViewID viewId) {
-		Morphid morphid = NetworkView.Find(viewId).GetComponent<Morphid>();
-		morphid.GUID = id;
-		if (id == GUID) {
-			Morphid.LocalPlayer = morphid;
-		}
-	}
-	
 	public static void PlayCard(Card c) {
 		Singleton.networkView.RPC("ServerPlayCard", RPCMode.Server, Morphid.LocalPlayer.GUID, c.GUID);
 	}

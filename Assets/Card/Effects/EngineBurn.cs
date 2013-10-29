@@ -14,7 +14,7 @@ public class EngineBurn : Effect {
 	public int Magnitude;
 	
 	public override void Apply (string friendlyGuid) {
-		Morphid enemy = Server.GetEnemy(friendlyGuid);
+		Morphid enemy = GameState.GetEnemy(friendlyGuid);
 		enemy.Engine -= Magnitude;
 	}
 }

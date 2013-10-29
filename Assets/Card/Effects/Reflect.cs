@@ -14,6 +14,6 @@ public class Reflect : Effect {
 	public int Magnitude;
 	
 	public override void Apply (string firendlyGuid) {
-		Server.GetMorphid(firendlyGuid).Reflect += Magnitude;
+		GameState.GetMorphid(firendlyGuid).Reflect += Magnitude;
 	}
 }
