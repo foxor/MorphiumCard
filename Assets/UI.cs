@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class UI : MonoBehaviour {
@@ -20,6 +21,7 @@ public class UI : MonoBehaviour {
 		public int Top;
 		public int Width;
 		public int Height;
+		public bool Enabled;
 		
 		public bool invalid = true;
 		protected Rect screenRect;
@@ -46,12 +48,16 @@ public class UI : MonoBehaviour {
 			Width = Screen.width;
 			Height = Screen.height;
 			children = new List<Region>();
+			Enabled = true;
 		}
 		
 		public virtual void Draw() {
+			bool orig = GUI.enabled;
+			GUI.enabled &= Enabled;
 			foreach (Region child in children) {
 				child.Draw();
 			}
+			GUI.enabled = orig;
 		}
 		
 		public Region Bisect(Side side, int size) {
@@ -89,6 +95,23 @@ public class UI : MonoBehaviour {
 			Width = 0;
 			Height = 0;
 			return regions;
+		}
+		
+		public Region ContainsMouse() {
+			Vector2 MousePos = Input.mousePosition;
+			MousePos.y = Screen.height - MousePos.y;
+			if (Left < MousePos.x && Left + Width > MousePos.x &&
+				Top < MousePos.y && Top + Height > MousePos.y)
+			{
+				return this;
+			}
+			foreach (Region child in children) {
+				Region found = child.ContainsMouse();
+				if (found != null) {
+					return found;
+				}
+			}
+			return null;
 		}
 	}
 	
@@ -142,7 +165,9 @@ public class UI : MonoBehaviour {
 	
 	protected Button[] Cards;
 	protected Button[] Stats;
-	protected Label EnemyStats;
+	
+	protected Button Selected;
+	protected Target Target;
 	
 	protected Region root;
 	
@@ -151,7 +176,6 @@ public class UI : MonoBehaviour {
 		Region CriticalStatsLayer = root.Bisect(Region.Side.Bottom, 20);
 		Region CardLayer = root.Bisect(Region.Side.Bottom, 50);
 		Region DrawLayer = root.Bisect(Region.Side.Bottom, 15);
-		Region TopLayer = root.Bisect(Region.Side.Top, 20);
 		
 		Region[] CriticalStatRegions = CriticalStatsLayer.Split(Region.Direction.Horizontal, 2);
 		Region[] CardRegions = CardLayer.Split(Region.Direction.Horizontal, 4);
@@ -185,7 +209,35 @@ public class UI : MonoBehaviour {
 			Action = Client.DrawCards
 		};
 		
-		EnemyStats = new Label(TopLayer);
+		Target = new Target();
+		Target.Draw(root);
+	}
+	
+	protected Action PickupCard(int card) {
+		return () => {
+			float dx = Cards[card].Width / -2f, dy = Cards[card].Height / -2f;
+			Selected = new Button(new Region() {
+				Height = Cards[card].Height,
+				Width = Cards[card].Width,
+				Left = (int)(Input.mousePosition.x + dx),
+				Top = (int)(Input.mousePosition.y + dy)
+			}) {
+				Text = Cards[card].Text,
+				Action = () => {}
+			};
+			Cards[card].Enabled = false;
+			StartCoroutine(Select(dx, dy, card));
+		};
+	}
+	
+	protected IEnumerator Select(float dx, float dy, int card) {
+		while (Input.GetMouseButton(0)) {
+			yield return 0;
+			Selected.Left = (int)(Input.mousePosition.x + dx);
+			Selected.Top = (int)(Input.mousePosition.y + dy);
+		}
+		Selected = null;
+		Cards[card].Enabled = true;
 	}
 	
 	public void OnGUI() {
@@ -203,8 +255,11 @@ public class UI : MonoBehaviour {
 		}
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
 		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
-		EnemyStats.Text = "Enemy morphid has " + Morphid.RemotePlayer.Health + " health remaining";
+		Target.Update(null);
 		root.Draw();
+		if (Selected != null) {
+			Selected.Draw();
+		}
 		GUI.enabled = true;
 	}
 }

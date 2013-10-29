@@ -7,7 +7,7 @@ public class GameState : MonoBehaviour {
 	protected const int NUM_PLAYERS = 2;
 	protected const int NUM_LANES = 3;
 	
-	protected static GameState singelton;
+	public static GameState Singelton;
 	
 	public int PlayerCount;
 	public Morphid[] Morphids;
@@ -16,7 +16,7 @@ public class GameState : MonoBehaviour {
 	protected int ActivePlayer;
 	
 	public void Awake() {
-		singelton = this;
+		Singelton = this;
 		if (Network.peerType == NetworkPeerType.Client) {
 			StartCoroutine(SetupCoroutine());
 		}
@@ -48,8 +48,8 @@ public class GameState : MonoBehaviour {
 	
 	public static bool IsLocalActive {
 		get {
-			return singelton.PlayerCount >= NUM_PLAYERS &&
-				singelton.Morphids[singelton.ActivePlayer].GUID == Client.GUID;
+			return Singelton.PlayerCount >= NUM_PLAYERS &&
+				Singelton.Morphids[Singelton.ActivePlayer].GUID == Client.GUID;
 		}
 	}
 	
@@ -58,10 +58,14 @@ public class GameState : MonoBehaviour {
 	}
 	
 	public static Morphid GetMorphid(string guid) {
-		return singelton == null || guid == null ? null : singelton.Morphids.Where(x => x.GUID == guid).SingleOrDefault();
+		return Singelton == null || guid == null ? null : Singelton.Morphids.Where(x => x.GUID == guid).SingleOrDefault();
 	}
 	
 	public static Morphid GetEnemy(string guid) {
-		return singelton == null || guid == null ? null : singelton.Morphids.Where(x => x.GUID != guid).SingleOrDefault();
+		return Singelton == null || guid == null ? null : Singelton.Morphids.Where(x => x.GUID != guid).SingleOrDefault();
+	}
+	
+	public static Lane GetLane(int lane) {
+		return Singelton == null ? null : Singelton.Lanes[lane];
 	}
 }
