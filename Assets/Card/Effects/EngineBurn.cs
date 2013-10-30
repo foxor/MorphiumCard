@@ -13,8 +13,8 @@ public class EngineBurn : Effect {
 	[ProtoMember(1)]
 	public int Magnitude;
 	
-	public override void Apply (string friendlyGuid) {
-		Morphid enemy = GameState.GetEnemy(friendlyGuid);
+	public override void Apply (string target) {
+		Morphid enemy = GameState.GetMorphid(target);
 		enemy.Engine -= Magnitude;
 	}
 }

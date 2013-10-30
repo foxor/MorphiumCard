@@ -18,6 +18,10 @@ public class Lane {
 	[ProtoMember(2)]
 	public string[] OwnerGuids;
 	
+	[SerializeField]
+	[ProtoMember(3)]
+	public string GUID;
+	
 	public Minion FriendlyMinion(string morphidGuid) {
 		for (int i = 0; i < OwnerGuids.Length; i++) {
 			if (OwnerGuids[i] == morphidGuid) {
@@ -34,5 +38,13 @@ public class Lane {
 			}
 		}
 		return null;
+	}
+	
+	public void SpawnFriendly(Minion minion) {
+		for (int i = 0; i < OwnerGuids.Length; i++) {
+			if (OwnerGuids[i] == GameState.ActiveMorphid.GUID) {
+				Minions[i] = minion.SerializeProtoBytes().DeserializeProtoBytes<Minion>();
+			}
+		}
 	}
 }

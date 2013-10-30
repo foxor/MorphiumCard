@@ -64,15 +64,13 @@ public class Morphid {
 		Reflect = 0;
 	}
 	
-	public static Action PlayLocalCardFunction(int card) {
-		return () => {
-			Client.PlayCard(Morphid.Cards[card]);
-		};
+	public static void PlayLocalCard(int card, string targetGuid) {
+		Client.PlayCard(Morphid.Cards[card], targetGuid);
 	}
 	
-	public void PlayCard(string cardGuid) {
+	public void PlayCard(string cardGuid, string targetGuid) {
 		Card c = CardContainer.FromGuid(cardGuid);
-		c.Process(GUID);
+		c.Process(targetGuid);
 		CardContainer.RemoveBroken();
 	}
 }

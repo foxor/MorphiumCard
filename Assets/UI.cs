@@ -263,6 +263,8 @@ public class UI : MonoBehaviour {
 			Selected.Top = (int)(Screen.height - Input.mousePosition.y + dy);
 			Selected.invalid = true;
 		}
+		Target.SetTarget(root.ContainsMouse());
+		Morphid.PlayLocalCard(card, Target.GUID);
 		Selected = null;
 		Cards[card].Enabled = true;
 	}

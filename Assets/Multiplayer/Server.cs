@@ -49,8 +49,8 @@ public class Server : MonoBehaviour {
 	}
 	
 	[RPC]
-	public void ServerPlayCard(string morphidGuid, string cardGuid) {
-		GameState.GetMorphid(morphidGuid).PlayCard(cardGuid);
+	public void ServerPlayCard(string morphidGuid, string cardGuid, string targetGuid) {
+		GameState.GetMorphid(morphidGuid).PlayCard(cardGuid, targetGuid);
 		EndTurn(GameState.GetEnemy(morphidGuid));
 	}
 	

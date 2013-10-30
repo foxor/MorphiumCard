@@ -7,7 +7,8 @@ public enum TargetTypeFlag {
 	Morphid = 1 << 1,
 	Minion = 1 << 2,
 	Enemy = 1 << 3,
-	Friendly = 1 << 4
+	Friendly = 1 << 4,
+	Empty = 1 << 5
 }
 
 public class TargetingRequirements {
@@ -51,12 +52,21 @@ public class Target {
 	}
 	
 	public void SetTarget(UI.Region Selected) {
-		if (!typeof(SelectionArea).IsAssignableFrom(Selected.GetType())) {
+		if (Selected == null || !typeof(SelectionArea).IsAssignableFrom(Selected.GetType())) {
 			return;
 		}
 		Morphid = ((SelectionArea)Selected).Morphid;
 		Lane = ((SelectionArea)Selected).Lane;
 		Minion = ((SelectionArea)Selected).Minion;
+	}
+	
+	public string GUID {
+		get {
+			return Morphid != null ? Morphid.GUID : (
+				Lane != null ? Lane.GUID : (
+				Minion != null ? Minion.GUID : null
+			));
+		}
 	}
 	
 	public void Draw(UI.Region root) {
@@ -99,6 +109,7 @@ public class Target {
 	}
 	
 	public void Update(TargetingRequirements req) {
+		EnemyMorphid.Morphid = GameState.GetEnemy(Client.GUID);
 		EnemyMorphid.Text = "Enemy morphid, " + Morphid.RemotePlayer.Health + " health";
 	}
 }

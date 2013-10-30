@@ -17,4 +17,8 @@ public class Minion {
 	[SerializeField]
 	[ProtoMember(2)]
 	public int Defense;
+	
+	[SerializeField]
+	[ProtoMember(3)]
+	public string GUID;
 }

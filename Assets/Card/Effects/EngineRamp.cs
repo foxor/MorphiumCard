@@ -13,7 +13,7 @@ public class EngineRamp : Effect {
 	[ProtoMember(1)]
 	public int Magnitude;
 	
-	public override void Apply (string friendlyGuid) {
-		GameState.GetMorphid(friendlyGuid).Engine += Magnitude;
+	public override void Apply (string target) {
+		GameState.GetMorphid(target).Engine += Magnitude;
 	}
 }

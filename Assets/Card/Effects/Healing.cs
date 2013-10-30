@@ -13,7 +13,7 @@ public class Healing : Effect {
 	[ProtoMember(1)]
 	public int Magnitude;
 	
-	public override void Apply (string firendlyGuid) {
-		GameState.GetMorphid(firendlyGuid).Health += Magnitude;
+	public override void Apply (string target) {
+		GameState.HealGuid(target, Magnitude);
 	}
 }

@@ -4,6 +4,5 @@ using System.Collections;
 using System.Reflection;
 
 public abstract class Effect {
-	public abstract void Apply(string FirendlyGuid);
-	//public virtual 
+	public abstract void Apply(string TargetGuid);
 }

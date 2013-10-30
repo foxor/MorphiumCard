@@ -13,7 +13,7 @@ public class Reflect : Effect {
 	[ProtoMember(1)]
 	public int Magnitude;
 	
-	public override void Apply (string firendlyGuid) {
-		GameState.GetMorphid(firendlyGuid).Reflect += Magnitude;
+	public override void Apply (string target) {
+		GameState.GetMorphid(target).Reflect += Magnitude;
 	}
 }

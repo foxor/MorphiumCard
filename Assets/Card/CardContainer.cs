@@ -58,15 +58,15 @@ public class Card {
 		EngineRamp = new EngineRamp();
 	}
 	
-	public void Process(string friendlyGuid) {
-		Morphid self = GameState.GetMorphid(friendlyGuid);
+	public void Process(string targetGuid) {
+		Morphid self = GameState.GetMorphid(targetGuid);
 		if (self.Morphium >= Cost) {
 			self.Morphium -= Cost;
-			Damage.Apply(friendlyGuid);
-			Healing.Apply(friendlyGuid);
-			Reflect.Apply(friendlyGuid);
-			EngineBurn.Apply(friendlyGuid);
-			EngineRamp.Apply(friendlyGuid);
+			Damage.Apply(targetGuid);
+			Healing.Apply(targetGuid);
+			Reflect.Apply(targetGuid);
+			EngineBurn.Apply(targetGuid);
+			EngineRamp.Apply(targetGuid);
 		}
 		Durability -= 1;
 	}

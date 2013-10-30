@@ -13,6 +13,7 @@ public class Spawn : Effect {
 	[ProtoMember(1)]
 	public Minion Minion;
 	
-	public override void Apply (string friendlyGuid) {
+	public override void Apply (string target) {
+		GameState.GetLane(target).SpawnFriendly(Minion);
 	}
 }

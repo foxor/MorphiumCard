@@ -13,15 +13,7 @@ public class Damage : Effect {
 	[ProtoMember(1)]
 	public int Magnitude;
 	
-	public override void Apply (string friendlyGuid) {
-		Morphid enemy = GameState.GetEnemy(friendlyGuid);
-		int damage = Magnitude;
-		if (enemy.Reflect > 0) {
-			int reflected = Mathf.Min(enemy.Reflect, damage);
-			enemy.Reflect -= reflected;
-			GameState.GetMorphid(friendlyGuid).Health -= reflected;
-			damage -= reflected;
-		}
-		enemy.Health -= damage;
+	public override void Apply (string targetGuid) {
+		GameState.DamageGuid(targetGuid, Magnitude);
 	}
 }

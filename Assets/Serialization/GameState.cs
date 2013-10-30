@@ -7,7 +7,7 @@ public class GameState : MonoBehaviour {
 	protected const int NUM_PLAYERS = 2;
 	protected const int NUM_LANES = 3;
 	
-	public static GameState Singelton;
+	public static GameState Singleton;
 	
 	public int PlayerCount;
 	public Morphid[] Morphids;
@@ -16,7 +16,7 @@ public class GameState : MonoBehaviour {
 	protected int ActivePlayer;
 	
 	public void Awake() {
-		Singelton = this;
+		Singleton = this;
 		if (Network.peerType == NetworkPeerType.Client) {
 			StartCoroutine(SetupCoroutine());
 		}
@@ -48,8 +48,8 @@ public class GameState : MonoBehaviour {
 	
 	public static bool IsLocalActive {
 		get {
-			return Singelton.PlayerCount >= NUM_PLAYERS &&
-				Singelton.Morphids[Singelton.ActivePlayer].GUID == Client.GUID;
+			return Singleton.PlayerCount >= NUM_PLAYERS &&
+				ActiveMorphid.GUID == Client.GUID;
 		}
 	}
 	
@@ -58,14 +58,56 @@ public class GameState : MonoBehaviour {
 	}
 	
 	public static Morphid GetMorphid(string guid) {
-		return Singelton == null || guid == null ? null : Singelton.Morphids.Where(x => x.GUID == guid).SingleOrDefault();
+		return Singleton == null || guid == null ? null : Singleton.Morphids.Where(x => x.GUID == guid).SingleOrDefault();
 	}
 	
 	public static Morphid GetEnemy(string guid) {
-		return Singelton == null || guid == null ? null : Singelton.Morphids.Where(x => x.GUID != guid).SingleOrDefault();
+		return Singleton == null || guid == null ? null : Singleton.Morphids.Where(x => x.GUID != guid).SingleOrDefault();
+	}
+	
+	public static Lane GetLane(string guid) {
+		return Singleton == null || guid == null ? null : Singleton.Lanes.Where(x => x.GUID == guid).SingleOrDefault();
 	}
 	
 	public static Lane GetLane(int lane) {
-		return Singelton == null ? null : Singelton.Lanes[lane];
+		return Singleton == null ? null : Singleton.Lanes[lane];
+	}
+	
+	public static Minion GetMinion(string guid) {
+		return Singleton == null || guid == null ? null : Singleton.Lanes.SelectMany(x => x.Minions).Where(x => x.GUID == guid).SingleOrDefault();
+	}
+	
+	public static Morphid ActiveMorphid {
+		get {
+			return Singleton.Morphids[Singleton.ActivePlayer];
+		}
+	}
+	
+	public static void DamageGuid(string guid, int damage) {
+		Morphid morphid = GetMorphid(guid);
+		Minion minion = GetMinion(guid);
+		if (morphid != null) {
+			if (morphid.Reflect > 0) {
+				int reflected = Mathf.Min(morphid.Reflect, damage);
+				morphid.Reflect -= reflected;
+				GetEnemy(guid).Health -= reflected;
+				damage -= reflected;
+			}
+			morphid.Health -= damage;
+		}
+		else {
+			minion.Defense -= damage;
+		}
+	}
+	
+	public static void HealGuid(string guid, int healing) {
+		Morphid morphid = GetMorphid(guid);
+		Minion minion = GetMinion(guid);
+		if (morphid != null) {
+			morphid.Health += healing;
+		}
+		else {
+			minion.Defense += healing;
+		}
 	}
 }
