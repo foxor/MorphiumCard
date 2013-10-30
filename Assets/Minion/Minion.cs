@@ -12,13 +12,17 @@ public class Minion {
 	
 	[SerializeField]
 	[ProtoMember(1)]
-	public int Attack;
+	public string GUID;
 	
 	[SerializeField]
 	[ProtoMember(2)]
-	public int Defense;
+	public int Attack;
 	
 	[SerializeField]
 	[ProtoMember(3)]
-	public string GUID;
+	public int Defense;
+	
+	public Minion() {
+		GUID = Guid.NewGuid().ToString();
+	}
 }

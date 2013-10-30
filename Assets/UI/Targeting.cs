@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Linq;
 
@@ -14,15 +15,47 @@ public enum TargetTypeFlag {
 public class TargetingRequirements {
 	public int TargetFlags;
 	
-	public TargetingRequirements(params TargetTypeFlag[] Flags) {
+	public TargetingRequirements(int Flags) {
 		TargetFlags = 0;
-		foreach (TargetTypeFlag flag in Flags) {
-			TargetFlags |= (int)flag;
+		foreach (TargetTypeFlag flag in Enum.GetValues(typeof(TargetTypeFlag)).Cast<TargetTypeFlag>()) {
+			if ((Flags | (int)flag) > 0 ) {
+				TargetFlags |= (int)flag;
+			}
 		}
 	}
 	
 	public bool HasFlag(TargetTypeFlag flag) {
 		return (TargetFlags | (int)flag) > 0;
+	}
+	
+	protected bool LaneAllowed(Lane l) {
+		return false;
+	}
+	
+	protected bool MorphidAllowed(Morphid m) {
+		return HasFlag(TargetTypeFlag.Morphid) &&
+			((HasFlag(TargetTypeFlag.Friendly) && m.GUID == GameState.ActiveMorphid.GUID) ||
+				(HasFlag(TargetTypeFlag.Enemy) && m.GUID != GameState.ActiveMorphid.GUID));
+	}
+	
+	protected bool MinionAllowed(Minion m) {
+		return false;
+	}
+	
+	public bool TargetAllowed(string guid) {
+		Lane lane = GameState.GetLane(guid);
+		Morphid morphid = GameState.GetMorphid(guid);
+		Minion minion = GameState.GetMinion(guid);
+		if (lane != null) {
+			return LaneAllowed(lane);
+		}
+		if (morphid != null) {
+			return MorphidAllowed(morphid);
+		}
+		if (minion != null) {
+			return MinionAllowed(minion);
+		}
+		return false;
 	}
 }
 
@@ -52,7 +85,7 @@ public class Target {
 	}
 	
 	public void SetTarget(UI.Region Selected) {
-		if (Selected == null || !typeof(SelectionArea).IsAssignableFrom(Selected.GetType())) {
+		if (Selected == null || !Selected.Enabled || !typeof(SelectionArea).IsAssignableFrom(Selected.GetType())) {
 			return;
 		}
 		Morphid = ((SelectionArea)Selected).Morphid;
@@ -72,8 +105,8 @@ public class Target {
 	public void Draw(UI.Region root) {
 		UI.Region Top = root.Bisect(UI.Region.Side.Top, 40);
 		UI.Region Bottom = root.Bisect(UI.Region.Side.Bottom, 40);
-		UI.Region[] Lanes = root.Split(UI.Region.Direction.Horizontal, 3);
-		UI.Region[][] LaneSegments = Lanes.Select(x => x.Split(UI.Region.Direction.Vertical, 3)).ToArray();
+		UI.Region[] VerticalLanes = root.Split(UI.Region.Direction.Horizontal, 3);
+		UI.Region[][] LaneSegments = VerticalLanes.Select(x => x.Split(UI.Region.Direction.Vertical, 3)).ToArray();
 		
 		UI.Region[] TopSegments = Top.Split(UI.Region.Direction.Horizontal, 5);
 		UI.Region[] BottomSegments = Bottom.Split(UI.Region.Direction.Horizontal, 5);
@@ -104,13 +137,29 @@ public class Target {
 			EnemyMinions[i] = new SelectionArea(LaneSegments[i][0]) {
 			};
 		}
-		
-		Morphid = GameState.GetEnemy(Client.GUID);
 	}
 	
 	public void Update(TargetingRequirements req) {
 		EnemyMorphid.Morphid = GameState.GetEnemy(Client.GUID);
-		EnemyMorphid.Text = "Enemy morphid, " + Morphid.RemotePlayer.Health + " health";
 		FriendlyMorphid.Morphid = GameState.GetMorphid(Client.GUID);
+		for (int i = 0; i < 3; i++) {
+			Lanes[i].Lane = GameState.GetLane(i);
+			FriendlyMinions[i].Minion = Lanes[i].Lane.FriendlyMinion(Client.GUID);
+			EnemyMinions[i].Minion = Lanes[i].Lane.EnemyMinion(Client.GUID);
+		}
+		
+		EnemyMorphid.Text = "Enemy morphid, " + Morphid.RemotePlayer.Health + " health";
+		
+		FriendlyMorphid.Enabled = req != null && req.TargetAllowed(FriendlyMorphid.Morphid.GUID);
+		EnemyMorphid.Enabled = req != null && req.TargetAllowed(EnemyMorphid.Morphid.GUID);
+		foreach (SelectionArea lane in Lanes) {
+			lane.Enabled = req != null && req.TargetAllowed(lane.Lane.GUID);
+		}
+		foreach (SelectionArea enemy in EnemyMinions) {
+			enemy.Enabled = req != null && enemy.Minion != null && req.TargetAllowed(enemy.Minion.GUID);
+		}
+		foreach (SelectionArea friendly in FriendlyMinions) {
+			friendly.Enabled = req != null && friendly.Minion != null && req.TargetAllowed(friendly.Minion.GUID);
+		}
 	}
 }

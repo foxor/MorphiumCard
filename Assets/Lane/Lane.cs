@@ -12,13 +12,14 @@ public class Lane {
 	
 	[SerializeField]
 	[ProtoMember(1)]
-	public Minion[] Minions;
+	public string GUID;
 	
 	[SerializeField]
 	[ProtoMember(2)]
-	public string GUID;
+	public Minion[] Minions;
 	
 	public Lane() {
+		GUID = Guid.NewGuid().ToString();
 		Minions = new Minion[2];
 	}
 	

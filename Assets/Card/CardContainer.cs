@@ -31,22 +31,26 @@ public class Card {
 	
 	[SerializeField]
 	[ProtoMember(6)]
-	public Damage Damage;
+	public int Targeting;
 	
 	[SerializeField]
 	[ProtoMember(7)]
-	public Healing Healing;
+	public Damage Damage;
 	
 	[SerializeField]
 	[ProtoMember(8)]
-	public Reflect Reflect;
+	public Healing Healing;
 	
 	[SerializeField]
 	[ProtoMember(9)]
-	public EngineBurn EngineBurn;
+	public Reflect Reflect;
 	
 	[SerializeField]
 	[ProtoMember(10)]
+	public EngineBurn EngineBurn;
+	
+	[SerializeField]
+	[ProtoMember(11)]
 	public EngineRamp EngineRamp;
 	
 	public Card() {

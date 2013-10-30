@@ -196,6 +196,7 @@ public class UI : MonoBehaviour {
 	
 	protected CardButton Selected;
 	protected Target Target;
+	protected TargetingRequirements CardRequirements;
 	
 	protected Region root;
 	
@@ -230,7 +231,9 @@ public class UI : MonoBehaviour {
 			Text = "Draw",
 			Action = Client.DrawCards
 		};
-		
+	}
+	
+	public void Start() {
 		Target = new Target();
 		Target.Draw(root);
 	}
@@ -252,6 +255,7 @@ public class UI : MonoBehaviour {
 				Action = () => {}
 			};
 			Cards[card].Enabled = false;
+			CardRequirements = new TargetingRequirements(Morphid.Cards[card].Targeting);
 			StartCoroutine(Select(dx, dy, card));
 		};
 	}
@@ -265,6 +269,7 @@ public class UI : MonoBehaviour {
 		}
 		Target.SetTarget(root.ContainsMouse());
 		Morphid.PlayLocalCard(card, Target.GUID);
+		CardRequirements = null;
 		Selected = null;
 		Cards[card].Enabled = true;
 	}
@@ -276,7 +281,7 @@ public class UI : MonoBehaviour {
 		GUI.enabled = GameState.IsLocalActive;
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
 		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
-		Target.Update(null);
+		Target.Update(CardRequirements);
 		root.Draw();
 		if (Selected != null) {
 			Selected.Draw();

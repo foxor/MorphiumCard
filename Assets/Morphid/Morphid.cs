@@ -70,7 +70,13 @@ public class Morphid {
 	
 	public void PlayCard(string cardGuid, string targetGuid) {
 		Card c = CardContainer.FromGuid(cardGuid);
-		c.Process(targetGuid);
+		TargetingRequirements req = new TargetingRequirements(c.Targeting);
+		if (req.TargetAllowed(targetGuid)) {
+			c.Process(targetGuid);
+		}
+		else {
+			Debug.Log("Client picked impossible target!");
+		}
 		CardContainer.RemoveBroken();
 	}
 }
