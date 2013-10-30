@@ -25,19 +25,16 @@ public class Deck {
 	
 	protected IEnumerable<Card> HeadCards() {
 		for (int i = 0; i < MAX_CARDS; i++) {
-			yield return new Card() {
-				Cost = 5,
-				Reflect = new Reflect(){Magnitude = 2},
-				Durability = 1,
-				Name = "Ambush",
-				Text = "Reflects the next 2 damage"
-			};
-		}
-	}
-	
-	protected IEnumerable<Card> ChestCards() {
-		for (int i = 0; i < MAX_CARDS; i++) {
-			if (i < 5) {
+			if (i < 6) {
+				yield return new Card() {
+					Cost = 5,
+					Reflect = new Reflect(){Magnitude = 2},
+					Durability = 1,
+					Name = "Ambush",
+					Text = "Reflects the next 2 damage"
+				};
+			}
+			else {
 				yield return new Card() {
 					Cost = 4,
 					Healing = new Healing(){Magnitude = 2},
@@ -46,16 +43,24 @@ public class Deck {
 					Text = "Repairs 2 health"
 				};
 			}
-			else {
-				yield return new Card() {
-					Cost = 2,
-					Damage = new Damage(){Magnitude = 1},
-					Healing = new Healing(){Magnitude = 1},
-					Durability = 1,
-					Name = "Tactical Shutdown",
-					Text = "Repairs 1 health and deals 1 damage"
-				};
-			}
+		}
+	}
+	
+	protected IEnumerable<Card> ChestCards() {
+		for (int i = 0; i < MAX_CARDS; i++) {
+			yield return new Card() {
+				Cost = 2,
+				Spawn = new Spawn() {
+					Minion = new Minion() {
+						Attack = 2,
+						Defense = 2
+					}
+				},
+				Targeting = (int)TargetTypeFlag.Empty | (int)TargetTypeFlag.Lane,
+				Durability = 1,
+				Name = "Grizzly Bear",
+				Text = "2/2 Bear"
+			};
 		}
 	}
 	

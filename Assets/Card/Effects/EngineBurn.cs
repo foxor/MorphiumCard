@@ -15,6 +15,8 @@ public class EngineBurn : Effect {
 	
 	public override void Apply (string target) {
 		Morphid enemy = GameState.GetMorphid(target);
-		enemy.Engine -= Magnitude;
+		if (enemy != null) {
+			enemy.Engine -= Magnitude;
+		}
 	}
 }

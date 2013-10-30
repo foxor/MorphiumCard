@@ -53,6 +53,10 @@ public class Card {
 	[ProtoMember(11)]
 	public EngineRamp EngineRamp;
 	
+	[SerializeField]
+	[ProtoMember(12)]
+	public Spawn Spawn;
+	
 	public Card() {
 		GUID = Guid.NewGuid().ToString();
 		Damage = new Damage();
@@ -60,6 +64,7 @@ public class Card {
 		Reflect = new Reflect();
 		EngineBurn = new EngineBurn();
 		EngineRamp = new EngineRamp();
+		Spawn = new Spawn();
 	}
 	
 	public void Process(string targetGuid) {
@@ -71,6 +76,7 @@ public class Card {
 			Reflect.Apply(targetGuid);
 			EngineBurn.Apply(targetGuid);
 			EngineRamp.Apply(targetGuid);
+			Spawn.Apply(targetGuid);
 		}
 		Durability -= 1;
 	}

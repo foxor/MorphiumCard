@@ -14,6 +14,9 @@ public class Reflect : Effect {
 	public int Magnitude;
 	
 	public override void Apply (string target) {
-		GameState.GetMorphid(target).Reflect += Magnitude;
+		Morphid morphid = GameState.GetMorphid(target);
+		if (morphid != null) {
+			morphid.Reflect += Magnitude;
+		}
 	}
 }

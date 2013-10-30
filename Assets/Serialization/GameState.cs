@@ -95,7 +95,7 @@ public class GameState : MonoBehaviour {
 			}
 			morphid.Health -= damage;
 		}
-		else {
+		if (minion != null) {
 			minion.Defense -= damage;
 		}
 	}
@@ -106,7 +106,7 @@ public class GameState : MonoBehaviour {
 		if (morphid != null) {
 			morphid.Health += healing;
 		}
-		else {
+		if (minion != null) {
 			minion.Defense += healing;
 		}
 	}

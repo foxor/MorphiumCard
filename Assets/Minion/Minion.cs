@@ -22,6 +22,22 @@ public class Minion {
 	[ProtoMember(3)]
 	public int Defense;
 	
+	[SerializeField]
+	[ProtoMember(4)]
+	public string MorphidGUID;
+	
+	public bool IsFriendly(string morphidGuid) {
+		return morphidGuid == MorphidGUID;
+	}
+	
+	public bool IsEnemy(string morphidGuid) {
+		return morphidGuid != MorphidGUID;
+	}
+	
+	public static bool IsDead(Minion minion) {
+		return minion == null || minion.Defense == 0;
+	}
+	
 	public Minion() {
 		GUID = Guid.NewGuid().ToString();
 	}

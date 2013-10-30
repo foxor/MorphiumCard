@@ -14,6 +14,9 @@ public class EngineRamp : Effect {
 	public int Magnitude;
 	
 	public override void Apply (string target) {
-		GameState.GetMorphid(target).Engine += Magnitude;
+		Morphid morphid = GameState.GetMorphid(target);
+		if (morphid != null) {
+			morphid.Engine += Magnitude;
+		}
 	}
 }

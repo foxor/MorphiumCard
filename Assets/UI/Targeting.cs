@@ -29,7 +29,9 @@ public class TargetingRequirements {
 	}
 	
 	protected bool LaneAllowed(Lane l) {
-		return false;
+		return HasFlag(TargetTypeFlag.Lane) && (
+			(!HasFlag(TargetTypeFlag.Empty) || Minion.IsDead(l.FriendlyMinion(GameState.ActiveMorphid.GUID)))
+		);
 	}
 	
 	protected bool MorphidAllowed(Morphid m) {
@@ -39,7 +41,9 @@ public class TargetingRequirements {
 	}
 	
 	protected bool MinionAllowed(Minion m) {
-		return false;
+		return HasFlag(TargetTypeFlag.Minion) &&
+			((HasFlag(TargetTypeFlag.Friendly) && m.IsFriendly(GameState.ActiveMorphid.GUID)) ||
+				(HasFlag(TargetTypeFlag.Enemy) && m.IsEnemy(GameState.ActiveMorphid.GUID)));
 	}
 	
 	public bool TargetAllowed(string guid) {
@@ -125,6 +129,9 @@ public class Target {
 				Lane = GameState.GetLane(i)
 			};
 		}
+		Lanes[0].Text = "Left";
+		Lanes[1].Text = "Middle";
+		Lanes[2].Text = "Right";
 		
 		FriendlyMinions = new SelectionArea[3];
 		for (int i = 0; i < 3; i++) {
@@ -146,6 +153,23 @@ public class Target {
 			Lanes[i].Lane = GameState.GetLane(i);
 			FriendlyMinions[i].Minion = Lanes[i].Lane.FriendlyMinion(Client.GUID);
 			EnemyMinions[i].Minion = Lanes[i].Lane.EnemyMinion(Client.GUID);
+			
+			if (FriendlyMinions[i].Minion != null) {
+				if (Minion.IsDead(FriendlyMinions[i].Minion)) {
+					FriendlyMinions[i].Text = "";
+				}
+				else {
+					FriendlyMinions[i].Text = FriendlyMinions[i].Minion.Attack + "/" + FriendlyMinions[i].Minion.Defense;
+				}
+			}
+			if (EnemyMinions[i].Minion != null) {
+				if (Minion.IsDead(EnemyMinions[i].Minion)) {
+					EnemyMinions[i].Text = "";
+				}
+				else {
+					EnemyMinions[i].Text = EnemyMinions[i].Minion.Attack + "/" + EnemyMinions[i].Minion.Defense;
+				}
+			}
 		}
 		
 		EnemyMorphid.Text = "Enemy morphid, " + Morphid.RemotePlayer.Health + " health";
