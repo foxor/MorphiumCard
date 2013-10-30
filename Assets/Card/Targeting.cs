@@ -111,5 +111,6 @@ public class Target {
 	public void Update(TargetingRequirements req) {
 		EnemyMorphid.Morphid = GameState.GetEnemy(Client.GUID);
 		EnemyMorphid.Text = "Enemy morphid, " + Morphid.RemotePlayer.Health + " health";
+		FriendlyMorphid.Morphid = GameState.GetMorphid(Client.GUID);
 	}
 }
