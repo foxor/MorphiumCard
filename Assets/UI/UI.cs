@@ -53,12 +53,16 @@ public class UI : MonoBehaviour {
 			Enabled = true;
 		}
 		
-		public virtual void Draw() {
+		protected virtual void DrawInner() {
+		}
+		
+		public void Draw() {
 			bool orig = GUI.enabled;
 			GUI.enabled &= Enabled;
 			foreach (Region child in children) {
 				child.Draw();
 			}
+			DrawInner();
 			GUI.enabled = orig;
 		}
 		
@@ -133,8 +137,7 @@ public class UI : MonoBehaviour {
 			source.invalid = true;
 		}
 		
-		public override void Draw () {
-			base.Draw ();
+		protected override void DrawInner() {
 			GUI.Label(ScreenRect, Text);
 		}
 	}
@@ -157,8 +160,7 @@ public class UI : MonoBehaviour {
 			source.invalid = true;
 		}
 		
-		public override void Draw () {
-			base.Draw ();
+		protected override void DrawInner() {
 			if(GUI.Button(ScreenRect, Text)) {
 				Action();
 			}
@@ -174,7 +176,7 @@ public class UI : MonoBehaviour {
 			Action = Singleton.PickupCard(CardIndex);
 		}
 		
-		public override void Draw () {
+		protected override void DrawInner() {
 			if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
 				Text = Morphid.Cards[CardIndex].Name +
 					" (" + Morphid.Cards[CardIndex].Cost + ")\n" +
@@ -187,7 +189,7 @@ public class UI : MonoBehaviour {
 				Action();
 				invalid = true;
 			}
-			base.Draw();
+			base.DrawInner();
 		}
 	}
 	
