@@ -59,7 +59,7 @@ public class Card {
 	}
 	
 	public void Process(string targetGuid) {
-		Morphid self = GameState.GetMorphid(targetGuid);
+		Morphid self = GameState.ActiveMorphid;
 		if (self.Morphium >= Cost) {
 			self.Morphium -= Cost;
 			Damage.Apply(targetGuid);

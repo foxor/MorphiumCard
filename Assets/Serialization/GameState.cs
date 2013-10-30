@@ -74,7 +74,7 @@ public class GameState : MonoBehaviour {
 	}
 	
 	public static Minion GetMinion(string guid) {
-		return Singleton == null || guid == null ? null : Singleton.Lanes.SelectMany(x => x.Minions).Where(x => x.GUID == guid).SingleOrDefault();
+		return Singleton == null || guid == null ? null : Singleton.Lanes.SelectMany(x => x.Minions).Where(x => x != null && x.GUID == guid).SingleOrDefault();
 	}
 	
 	public static Morphid ActiveMorphid {

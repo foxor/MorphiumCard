@@ -16,15 +16,15 @@ public class Lane {
 	
 	[SerializeField]
 	[ProtoMember(2)]
-	public string[] OwnerGuids;
-	
-	[SerializeField]
-	[ProtoMember(3)]
 	public string GUID;
 	
+	public Lane() {
+		Minions = new Minion[2];
+	}
+	
 	public Minion FriendlyMinion(string morphidGuid) {
-		for (int i = 0; i < OwnerGuids.Length; i++) {
-			if (OwnerGuids[i] == morphidGuid) {
+		for (int i = 0; i < GameState.Singleton.Morphids.Length; i++) {
+			if (GameState.Singleton.Morphids[i].GUID == morphidGuid) {
 				return Minions[i];
 			}
 		}
@@ -32,8 +32,8 @@ public class Lane {
 	}
 	
 	public Minion EnemyMinion(string morphidGuid) {
-		for (int i = 0; i < OwnerGuids.Length; i++) {
-			if (OwnerGuids[i] != morphidGuid) {
+		for (int i = 0; i < GameState.Singleton.Morphids.Length; i++) {
+			if (GameState.Singleton.Morphids[i].GUID != morphidGuid) {
 				return Minions[i];
 			}
 		}
@@ -41,8 +41,8 @@ public class Lane {
 	}
 	
 	public void SpawnFriendly(Minion minion) {
-		for (int i = 0; i < OwnerGuids.Length; i++) {
-			if (OwnerGuids[i] == GameState.ActiveMorphid.GUID) {
+		for (int i = 0; i < GameState.Singleton.Morphids.Length; i++) {
+			if (GameState.Singleton.Morphids[i].GUID == GameState.ActiveMorphid.GUID) {
 				Minions[i] = minion.SerializeProtoBytes().DeserializeProtoBytes<Minion>();
 			}
 		}
