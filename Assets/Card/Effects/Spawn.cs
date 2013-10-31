@@ -14,6 +14,9 @@ public class Spawn : Effect {
 	public Minion Minion;
 	
 	public override void Apply (string target) {
-		GameState.GetLane(target).SpawnFriendly(Minion);
+		Lane lane = GameState.GetLane(target);
+		if (lane != null) {
+			lane.SpawnFriendly(Minion);
+		}
 	}
 }

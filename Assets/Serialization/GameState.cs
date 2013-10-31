@@ -83,6 +83,13 @@ public class GameState : MonoBehaviour {
 		}
 	}
 	
+	public static void RemoveMinion(string guid) {
+		Lane owner = Singleton.Lanes.Where(x => x.Minions.Any(y => y.GUID == guid)).SingleOrDefault();
+		if (owner != null) {
+			owner.Minions = owner.Minions.Where(x => x.GUID != guid).ToArray();
+		}
+	}
+	
 	public static void DamageGuid(string guid, int damage) {
 		Morphid morphid = GetMorphid(guid);
 		Minion minion = GetMinion(guid);
@@ -97,6 +104,9 @@ public class GameState : MonoBehaviour {
 		}
 		if (minion != null) {
 			minion.Defense -= damage;
+			if (minion.Defense <= 0) {
+				RemoveMinion(guid);
+			}
 		}
 	}
 	

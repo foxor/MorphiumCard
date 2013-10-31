@@ -154,21 +154,17 @@ public class Target {
 			FriendlyMinions[i].Minion = Lanes[i].Lane.FriendlyMinion(Client.GUID);
 			EnemyMinions[i].Minion = Lanes[i].Lane.EnemyMinion(Client.GUID);
 			
-			if (FriendlyMinions[i].Minion != null) {
-				if (Minion.IsDead(FriendlyMinions[i].Minion)) {
-					FriendlyMinions[i].Text = "";
-				}
-				else {
-					FriendlyMinions[i].Text = FriendlyMinions[i].Minion.Attack + "/" + FriendlyMinions[i].Minion.Defense;
-				}
+			if (Minion.IsDead(FriendlyMinions[i].Minion)) {
+				FriendlyMinions[i].Text = "";
 			}
-			if (EnemyMinions[i].Minion != null) {
-				if (Minion.IsDead(EnemyMinions[i].Minion)) {
-					EnemyMinions[i].Text = "";
-				}
-				else {
-					EnemyMinions[i].Text = EnemyMinions[i].Minion.Attack + "/" + EnemyMinions[i].Minion.Defense;
-				}
+			else {
+				FriendlyMinions[i].Text = FriendlyMinions[i].Minion.Attack + "/" + FriendlyMinions[i].Minion.Defense;
+			}
+			if (Minion.IsDead(EnemyMinions[i].Minion)) {
+				EnemyMinions[i].Text = "";
+			}
+			else {
+				EnemyMinions[i].Text = EnemyMinions[i].Minion.Attack + "/" + EnemyMinions[i].Minion.Defense;
 			}
 		}
 		
