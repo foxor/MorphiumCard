@@ -48,18 +48,22 @@ public class Deck {
 	
 	protected IEnumerable<Card> ChestCards() {
 		for (int i = 0; i < MAX_CARDS; i++) {
+			int cost = Mathf.CeilToInt((((float)i) + 1f) / 2f);
+			int totalPower = cost * 2;
+			int attack = UnityEngine.Random.Range(0, totalPower - 1);
+			int defense = totalPower - attack;
 			yield return new Card() {
-				Cost = 2,
+				Cost = cost,
 				Spawn = new Spawn() {
 					Minion = new Minion() {
-						Attack = 2,
-						Defense = 2
+						Attack = attack,
+						Defense = defense
 					}
 				},
 				Targeting = (int)TargetTypeFlag.Empty | (int)TargetTypeFlag.Lane,
 				Durability = 1,
 				Name = "Grizzly Bear",
-				Text = "2/2 Bear"
+				Text = attack + "/" + defense + " Bear"
 			};
 		}
 	}
