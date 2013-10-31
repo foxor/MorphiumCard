@@ -8,7 +8,7 @@ using ProtoBuf.Meta;
 
 [Serializable]
 [ProtoContract]
-public class EngineRamp : Effect {
+public class Engine : Effect {
 	[SerializeField]
 	[ProtoMember(1)]
 	public int Magnitude;

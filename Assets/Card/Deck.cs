@@ -11,6 +11,8 @@ using ProtoBuf.Meta;
 public class Deck {
 	public const int MAX_CARDS = 15;
 	
+	protected static Importer Importer = new Importer();
+	
 	[SerializeField]
 	[ProtoMember(1)]
 	public Card[] Cards;
@@ -82,24 +84,11 @@ public class Deck {
 	}
 	
 	public void Shuffle() {
-		switch (Slot) {
-		case Slot.Head:
-			Cards = HeadCards().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
-			break;
-		case Slot.Chest:
-			Cards = ChestCards().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
-			break;
-		case Slot.Arm:
-			Cards = ArmCards().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
-			break;
-		case Slot.Legs:
-			Cards = new Card[0];
-			break;
-		}
+		Cards = Importer.CardsBySlot(Slot).OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
 	}
 	
 	public Card Draw() {
-		if (Index <= Cards.Count() - 1) {
+		if (Cards != null && Index <= Cards.Count() - 1) {
 			return Cards[Index++];
 		}
 		return null;

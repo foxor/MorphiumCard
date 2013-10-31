@@ -9,6 +9,12 @@ using ProtoBuf.Meta;
 [Serializable]
 [ProtoContract]
 public class Card {
+	[SerializeField]
+	public Slot Slot;
+	
+	[SerializeField]
+	public int Appearances;
+	
 	[NonSerialized] //Prevents unity from copying the guids around
 	[ProtoMember(1)]
 	public string GUID;
@@ -47,14 +53,10 @@ public class Card {
 	
 	[SerializeField]
 	[ProtoMember(10)]
-	public EngineBurn EngineBurn;
+	public Engine Engine;
 	
 	[SerializeField]
 	[ProtoMember(11)]
-	public EngineRamp EngineRamp;
-	
-	[SerializeField]
-	[ProtoMember(12)]
 	public Spawn Spawn;
 	
 	public Card() {
@@ -62,8 +64,7 @@ public class Card {
 		Damage = new Damage();
 		Healing = new Healing();
 		Reflect = new Reflect();
-		EngineBurn = new EngineBurn();
-		EngineRamp = new EngineRamp();
+		Engine = new Engine();
 		Spawn = new Spawn();
 	}
 	
@@ -74,8 +75,7 @@ public class Card {
 			Damage.Apply(targetGuid);
 			Healing.Apply(targetGuid);
 			Reflect.Apply(targetGuid);
-			EngineBurn.Apply(targetGuid);
-			EngineRamp.Apply(targetGuid);
+			Engine.Apply(targetGuid);
 			Spawn.Apply(targetGuid);
 		}
 		Durability -= 1;

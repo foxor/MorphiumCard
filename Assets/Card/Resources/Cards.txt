@@ -1,0 +1,7 @@
+Name,Text,Durability,Cost,Targeting,Head,Chest,Arm,Leg,Damage,Healing,Reflect,Engine,Attack,Defense
+Fireball,Deals 1 damage,3,2,8,0,0,6,0,1,0,0,0,0,0
+Fireball,Deals 2 damage,2,4,8,0,0,7,0,2,0,0,0,0,0
+Fireball,Deals 3 damage,1,5,8,0,0,3,0,3,0,0,0,0,0
+Repair Bot,Heals 2 health,2,4,8,0,5,0,0,0,2,0,0,0,0
+Ambush,Reflects next 2 damage,1,5,2,0,3,0,0,0,0,2,0,0,0
+Grizzly Bear,Summon a 2/2 Bear,1,4,33,3,0,0,0,0,0,0,0,2,2
