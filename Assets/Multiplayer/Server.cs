@@ -44,6 +44,18 @@ public class Server : MonoBehaviour {
 	}
 	
 	private void EndTurn(Morphid enemy) {
+		foreach (Lane l in GameState.Lanes) {
+			Minion attacker = l.EnemyMinion(GameState.ActiveMorphid.GUID);
+			Minion defender = l.FriendlyMinion(GameState.ActiveMorphid.GUID);
+			if (attacker != null) {
+				if (defender != null) {
+					GameState.DamageGuid(defender.GUID, attacker.Attack);
+				}
+				else {
+					GameState.DamageGuid(GameState.ActiveMorphid.GUID, attacker.Attack);
+				}
+			}
+		}
 		GameState.SwapTurn();
 		enemy.Morphium = Mathf.Min(Morphid.MAX_MORPHIUM, enemy.Morphium + enemy.Engine);
 	}

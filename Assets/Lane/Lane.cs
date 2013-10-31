@@ -29,7 +29,7 @@ public class Lane {
 	
 	public Minion FriendlyMinion(string morphidGuid) {
 		for (int i = 0; i < Minions.Length; i++) {
-			if (Minions[i].IsFriendly(morphidGuid)) {
+			if (!Minion.IsDead(Minions[i]) && Minions[i].IsFriendly(morphidGuid)) {
 				return Minions[i];
 			}
 		}
@@ -38,7 +38,7 @@ public class Lane {
 	
 	public Minion EnemyMinion(string morphidGuid) {
 		for (int i = 0; i < Minions.Length; i++) {
-			if (Minions[i].IsEnemy(morphidGuid)) {
+			if (!Minion.IsDead(Minions[i]) && Minions[i].IsEnemy(morphidGuid)) {
 				return Minions[i];
 			}
 		}
