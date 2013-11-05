@@ -257,7 +257,7 @@ public class UI : MonoBehaviour {
 				Action = () => {}
 			};
 			Cards[card].Enabled = false;
-			CardRequirements = new TargetingRequirements(Morphid.Cards[card].Targeting);
+			CardRequirements = new TargetingRequirements(Morphid.Cards[card].Targeting, Morphid.Cards[card].TargetingType);
 			StartCoroutine(Select(dx, dy, card));
 		};
 	}

@@ -41,22 +41,26 @@ public class Card {
 	
 	[SerializeField]
 	[ProtoMember(7)]
-	public Damage Damage;
+	public TargetingType TargetingType;
 	
 	[SerializeField]
 	[ProtoMember(8)]
-	public Healing Healing;
+	public Damage Damage;
 	
 	[SerializeField]
 	[ProtoMember(9)]
-	public Reflect Reflect;
+	public Healing Healing;
 	
 	[SerializeField]
 	[ProtoMember(10)]
-	public Engine Engine;
+	public Reflect Reflect;
 	
 	[SerializeField]
 	[ProtoMember(11)]
+	public Engine Engine;
+	
+	[SerializeField]
+	[ProtoMember(12)]
 	public Spawn Spawn;
 	
 	public Card() {
@@ -68,15 +72,17 @@ public class Card {
 		Spawn = new Spawn();
 	}
 	
-	public void Process(string targetGuid) {
+	public void Process(string[] targetGuids) {
 		Morphid self = GameState.ActiveMorphid;
 		if (self.Morphium >= Cost) {
 			self.Morphium -= Cost;
-			Damage.Apply(targetGuid);
-			Healing.Apply(targetGuid);
-			Reflect.Apply(targetGuid);
-			Engine.Apply(targetGuid);
-			Spawn.Apply(targetGuid);
+			foreach (string targetGuid in targetGuids) {
+				Damage.Apply(targetGuid);
+				Healing.Apply(targetGuid);
+				Reflect.Apply(targetGuid);
+				Engine.Apply(targetGuid);
+				Spawn.Apply(targetGuid);
+			}
 		}
 		Durability -= 1;
 	}

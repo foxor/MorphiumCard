@@ -10,6 +10,8 @@ public class CardData {
 	public string Text;
 	public int Durability;
 	public int Cost;
+	public bool TargetOne;
+	public bool TargetAll;
 	public int Targeting;
 	public int Head;
 	public int Chest;
@@ -58,6 +60,8 @@ public class Importer {
 			data.Text = reader.GetField<string>("Text");
 			data.Durability = reader.GetField<int>("Durability");
 			data.Cost = reader.GetField<int>("Cost");
+			data.TargetOne = reader.GetField<bool>("TargetOne");
+			data.TargetAll = reader.GetField<bool>("TargetAll");
 			data.Targeting = reader.GetField<int>("Targeting");
 			data.Head = reader.GetField<int>("Head");
 			data.Chest = reader.GetField<int>("Chest");
@@ -93,6 +97,7 @@ public class Importer {
 			c.Reflect = new Reflect(){Magnitude = data.Reflect};
 			c.Slot = slot;
 			c.Spawn = new Spawn(){Minion = new Minion(){Attack = data.Attack, Defense = data.Defense}};
+			c.TargetingType = data.TargetAll ? TargetingType.All : TargetingType.Single;
 			c.Targeting = data.Targeting;
 			c.Text = data.Text;
 			yield return c;

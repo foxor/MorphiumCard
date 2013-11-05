@@ -12,38 +12,63 @@ public enum TargetTypeFlag {
 	Empty = 1 << 5
 }
 
+public enum TargetingType {
+	Single,
+	All
+}
+
 public class TargetingRequirements {
 	public int TargetFlags;
+	public TargetingType TargetingType;
 	
-	public TargetingRequirements(int Flags) {
+	public TargetingRequirements(int Flags, TargetingType TargetingType) {
 		TargetFlags = 0;
 		foreach (TargetTypeFlag flag in Enum.GetValues(typeof(TargetTypeFlag)).Cast<TargetTypeFlag>()) {
 			if ((Flags | (int)flag) > 0 ) {
 				TargetFlags |= (int)flag;
 			}
 		}
+		this.TargetingType = TargetingType;
 	}
 	
 	public bool HasFlag(TargetTypeFlag flag) {
 		return (TargetFlags | (int)flag) > 0;
 	}
 	
-	protected bool LaneAllowed(Lane l) {
-		return HasFlag(TargetTypeFlag.Lane) && (
-			(!HasFlag(TargetTypeFlag.Empty) || Minion.IsDead(l.FriendlyMinion(GameState.ActiveMorphid.GUID)))
-		);
+	public bool LaneAllowed(Lane l) {
+		return HasFlag(TargetTypeFlag.Lane) &&
+			(!HasFlag(TargetTypeFlag.Empty) || Minion.IsDead(l.FriendlyMinion(GameState.ActiveMorphid.GUID)));
 	}
 	
-	protected bool MorphidAllowed(Morphid m) {
+	public bool MorphidAllowed(Morphid m) {
 		return HasFlag(TargetTypeFlag.Morphid) &&
 			((HasFlag(TargetTypeFlag.Friendly) && m.GUID == GameState.ActiveMorphid.GUID) ||
 				(HasFlag(TargetTypeFlag.Enemy) && m.GUID != GameState.ActiveMorphid.GUID));
 	}
 	
-	protected bool MinionAllowed(Minion m) {
+	public bool MinionAllowed(Minion m) {
 		return HasFlag(TargetTypeFlag.Minion) &&
+			m != null &&
 			((HasFlag(TargetTypeFlag.Friendly) && m.IsFriendly(GameState.ActiveMorphid.GUID)) ||
 				(HasFlag(TargetTypeFlag.Enemy) && m.IsEnemy(GameState.ActiveMorphid.GUID)));
+	}
+	
+	public IEnumerable<string> AllTargets(string guid) {
+		foreach (Lane lane in GameState.Singleton.Lanes) {
+			if (LaneAllowed(lane)) {
+				yield return lane;
+			}
+			foreach (Minion minion in lane.Minions) {
+				if (MinionAllowed(minion)) {
+					yield return minion;
+				}
+			}
+		}
+		foreach (Morphid morphid in GameState.Singleton.Morphids) {
+			if (MorphidAllowed(morphid)) {
+				yield return morphid;
+			}
+		}
 	}
 	
 	public bool TargetAllowed(string guid) {
@@ -58,6 +83,9 @@ public class TargetingRequirements {
 		}
 		if (minion != null) {
 			return MinionAllowed(minion);
+		}
+		if (TargetingType == TargetingType.All) {
+			return true;
 		}
 		return false;
 	}
@@ -170,16 +198,16 @@ public class Target {
 		
 		EnemyMorphid.Text = "Enemy morphid, " + Morphid.RemotePlayer.Health + " health";
 		
-		FriendlyMorphid.Enabled = req != null && req.TargetAllowed(FriendlyMorphid.Morphid.GUID);
-		EnemyMorphid.Enabled = req != null && req.TargetAllowed(EnemyMorphid.Morphid.GUID);
+		FriendlyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(FriendlyMorphid.Morphid.GUID));
+		EnemyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(EnemyMorphid.Morphid.GUID));
 		foreach (SelectionArea lane in Lanes) {
-			lane.Enabled = req != null && req.TargetAllowed(lane.Lane.GUID);
+			lane.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(lane.Lane.GUID));
 		}
 		foreach (SelectionArea enemy in EnemyMinions) {
-			enemy.Enabled = req != null && enemy.Minion != null && req.TargetAllowed(enemy.Minion.GUID);
+			enemy.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed(enemy.Minion));
 		}
 		foreach (SelectionArea friendly in FriendlyMinions) {
-			friendly.Enabled = req != null && friendly.Minion != null && req.TargetAllowed(friendly.Minion.GUID);
+			friendly.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed(friendly.Minion));
 		}
 	}
 }

@@ -43,6 +43,7 @@ public class Client : MonoBehaviour {
 	}
 	
 	public static void PlayCard(Card c, string targetGuid) {
+		targetGuid = targetGuid == null ? "" : targetGuid;
 		Singleton.networkView.RPC("ServerPlayCard", RPCMode.Server, Morphid.LocalPlayer.GUID, c.GUID, targetGuid);
 	}
 	
