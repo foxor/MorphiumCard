@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public enum TargetTypeFlag {
@@ -22,17 +23,12 @@ public class TargetingRequirements {
 	public TargetingType TargetingType;
 	
 	public TargetingRequirements(int Flags, TargetingType TargetingType) {
-		TargetFlags = 0;
-		foreach (TargetTypeFlag flag in Enum.GetValues(typeof(TargetTypeFlag)).Cast<TargetTypeFlag>()) {
-			if ((Flags | (int)flag) > 0 ) {
-				TargetFlags |= (int)flag;
-			}
-		}
+		this.TargetFlags = Flags;
 		this.TargetingType = TargetingType;
 	}
 	
 	public bool HasFlag(TargetTypeFlag flag) {
-		return (TargetFlags | (int)flag) > 0;
+		return (TargetFlags & (int)flag) > 0;
 	}
 	
 	public bool LaneAllowed(Lane l) {
@@ -56,17 +52,17 @@ public class TargetingRequirements {
 	public IEnumerable<string> AllTargets(string guid) {
 		foreach (Lane lane in GameState.Singleton.Lanes) {
 			if (LaneAllowed(lane)) {
-				yield return lane;
+				yield return lane.GUID;
 			}
 			foreach (Minion minion in lane.Minions) {
 				if (MinionAllowed(minion)) {
-					yield return minion;
+					yield return minion.GUID;
 				}
 			}
 		}
 		foreach (Morphid morphid in GameState.Singleton.Morphids) {
 			if (MorphidAllowed(morphid)) {
-				yield return morphid;
+				yield return morphid.GUID;
 			}
 		}
 	}

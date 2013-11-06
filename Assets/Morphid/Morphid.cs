@@ -81,7 +81,7 @@ public class Morphid {
 			}
 			break;
 		case TargetingType.All:
-			c.Process(req.AllTargets(targetGuid));
+			c.Process(req.AllTargets(targetGuid).ToArray());
 			break;
 		}
 		CardContainer.RemoveBroken();
