@@ -38,15 +38,18 @@ public class TargetingRequirements {
 	
 	public bool MorphidAllowed(Morphid m) {
 		return HasFlag(TargetTypeFlag.Morphid) &&
+			m != null &&
 			((HasFlag(TargetTypeFlag.Friendly) && m.GUID == GameState.ActiveMorphid.GUID) ||
-				(HasFlag(TargetTypeFlag.Enemy) && m.GUID != GameState.ActiveMorphid.GUID));
+			(HasFlag(TargetTypeFlag.Enemy) && m.GUID != GameState.ActiveMorphid.GUID) ||
+			(!HasFlag(TargetTypeFlag.Enemy) && !HasFlag(TargetTypeFlag.Friendly)));
 	}
 	
 	public bool MinionAllowed(Minion m) {
 		return HasFlag(TargetTypeFlag.Minion) &&
 			m != null &&
 			((HasFlag(TargetTypeFlag.Friendly) && m.IsFriendly(GameState.ActiveMorphid.GUID)) ||
-				(HasFlag(TargetTypeFlag.Enemy) && m.IsEnemy(GameState.ActiveMorphid.GUID)));
+			(HasFlag(TargetTypeFlag.Enemy) && m.IsEnemy(GameState.ActiveMorphid.GUID)) ||
+			(!HasFlag(TargetTypeFlag.Enemy) && !HasFlag(TargetTypeFlag.Friendly)));
 	}
 	
 	public IEnumerable<string> AllTargets(string guid) {
