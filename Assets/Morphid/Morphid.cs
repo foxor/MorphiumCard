@@ -84,6 +84,6 @@ public class Morphid {
 			c.Process(req.AllTargets(targetGuid).ToArray());
 			break;
 		}
-		CardContainer.RemoveBroken();
+		CardContainer.RemoveCard(c);
 	}
 }

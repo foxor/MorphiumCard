@@ -8,88 +8,6 @@ using ProtoBuf.Meta;
 
 [Serializable]
 [ProtoContract]
-public class Card {
-	[SerializeField]
-	public Slot Slot;
-	
-	[SerializeField]
-	public int Appearances;
-	
-	[NonSerialized] //Prevents unity from copying the guids around
-	[ProtoMember(1)]
-	public string GUID;
-	
-	[SerializeField]
-	[ProtoMember(2)]
-	public String Name;
-	
-	[SerializeField]
-	[ProtoMember(3)]
-	public String Text;
-	
-	[SerializeField]
-	[ProtoMember(4)]
-	public int Cost;
-	
-	[SerializeField]
-	[ProtoMember(5)]
-	public int Durability;
-	
-	[SerializeField]
-	[ProtoMember(6)]
-	public int Targeting;
-	
-	[SerializeField]
-	[ProtoMember(7)]
-	public TargetingType TargetingType;
-	
-	[SerializeField]
-	[ProtoMember(8)]
-	public Damage Damage;
-	
-	[SerializeField]
-	[ProtoMember(9)]
-	public Healing Healing;
-	
-	[SerializeField]
-	[ProtoMember(10)]
-	public Reflect Reflect;
-	
-	[SerializeField]
-	[ProtoMember(11)]
-	public Engine Engine;
-	
-	[SerializeField]
-	[ProtoMember(12)]
-	public Spawn Spawn;
-	
-	public Card() {
-		GUID = Guid.NewGuid().ToString();
-		Damage = new Damage();
-		Healing = new Healing();
-		Reflect = new Reflect();
-		Engine = new Engine();
-		Spawn = new Spawn();
-	}
-	
-	public void Process(string[] targetGuids) {
-		Morphid self = GameState.ActiveMorphid;
-		if (self.Morphium >= Cost) {
-			self.Morphium -= Cost;
-			foreach (string targetGuid in targetGuids) {
-				Damage.Apply(targetGuid);
-				Healing.Apply(targetGuid);
-				Reflect.Apply(targetGuid);
-				Engine.Apply(targetGuid);
-				Spawn.Apply(targetGuid);
-			}
-		}
-		Durability -= 1;
-	}
-}
-
-[Serializable]
-[ProtoContract]
 public class CardContainer {
 	[SerializeField]
 	[ProtoMember(1)]
@@ -107,9 +25,9 @@ public class CardContainer {
 		return Cards.Where(x => x != null && x.GUID == guid).Single();
 	}
 	
-	public void RemoveBroken() {
+	public void RemoveCard(Card c) {
 		for (int i = 0; i < Cards.Length; i++) {
-			if (Cards[i] != null && Cards[i].Durability <= 0) {
+			if (Cards[i] == c) {
 				Cards[i] = null;
 			}
 		}
