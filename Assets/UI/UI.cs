@@ -96,7 +96,7 @@ public class UI : MonoBehaviour {
 				TargetingMode = TargetingMode.ClickTargeting;
 				break;
 			}
-			if (testRegion.ContainsMouse() != null || startTime <= 0) {
+			if (testRegion.ContainsMouse() == null || startTime <= 0) {
 				TargetingMode = TargetingMode.DragTargeting;
 				break;
 			}
