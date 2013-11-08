@@ -118,7 +118,11 @@ public class UI : MonoBehaviour {
 			Selected.invalid = true;
 		}
 		Target.SetTarget(root.ContainsMouse());
-		if (CardRequirements.AllTargets(Target.GUID).Count() > 0 && !cancel) {
+		if (
+			CardRequirements.AllTargets(Target.GUID).Count() > 0 && 
+			!cancel &&
+			Morphid.Cards[card].Cost <= Morphid.LocalPlayer.Morphium
+		) {
 			Morphid.PlayLocalCard(card, Target.GUID);
 		}
 		TargetingMode = TargetingMode.Inactive;
