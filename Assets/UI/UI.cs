@@ -2,16 +2,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UI : MonoBehaviour {
+	protected const int DRAG_SIZE = 5;
+	protected const float DRAG_TIMER = 0.3f;
+	
 	public static UI Singleton;
 	
-	protected Button[] Cards;
+	protected CardButton[] Cards;
 	protected Button[] Stats;
 	
 	protected CardButton Selected;
 	protected Target Target;
 	protected TargetingRequirements CardRequirements;
+	protected TargetingMode TargetingMode;
 	
 	protected Region root;
 	
@@ -28,7 +33,7 @@ public class UI : MonoBehaviour {
 		Region[] DrawRegions = DrawLayer.Split(Region.Direction.Horizontal, 3);
 		
 		Stats = new Button[7];
-		Cards = new Button[4];
+		Cards = new CardButton[4];
 		
 		Stats[0] = new Button(CriticalStatRegions[0]) {
 			Action = () => {}
@@ -55,9 +60,10 @@ public class UI : MonoBehaviour {
 	
 	public Action PickupCard(int card) {
 		return () => {
-			if (Selected != null) {
+			if (Selected != null || TargetingMode != TargetingMode.Inactive) {
 				return;
 			}
+			TargetingMode = TargetingMode.Transitional;
 			float dx = Cards[card].Left - Input.mousePosition.x;
 			float dy = Cards[card].Top - (Screen.height - Input.mousePosition.y);
 			Selected = new CardButton(card, new Region() {
@@ -76,14 +82,46 @@ public class UI : MonoBehaviour {
 	}
 	
 	protected IEnumerator Select(float dx, float dy, int card) {
-		while (Input.GetMouseButton(0)) {
+		Region testRegion = new Region() {
+			Left = (int)Input.mousePosition.x - DRAG_SIZE,
+			Top = Screen.height - (int)Input.mousePosition.y - DRAG_SIZE,
+			Width = DRAG_SIZE * 2,
+			Height = DRAG_SIZE * 2
+		};
+		float startTime = DRAG_TIMER;
+		
+		while (true) {
+			startTime -= Time.deltaTime;
+			if (!Input.GetMouseButton(0)) {
+				TargetingMode = TargetingMode.ClickTargeting;
+				break;
+			}
+			if (testRegion.ContainsMouse() != null || startTime <= 0) {
+				TargetingMode = TargetingMode.DragTargeting;
+				break;
+			}
+			yield return 0;
+		}
+		
+		bool cancel = false;
+		while (
+			(Input.GetMouseButton(0) && TargetingMode == TargetingMode.DragTargeting) ||
+			(!Input.GetMouseButton(0) && TargetingMode == TargetingMode.ClickTargeting)
+		) {
+			if (Input.GetMouseButton(1)) {
+				cancel = true;
+				break;
+			}
 			yield return 0;
 			Selected.Left = (int)(Input.mousePosition.x + dx);
 			Selected.Top = (int)(Screen.height - Input.mousePosition.y + dy);
 			Selected.invalid = true;
 		}
 		Target.SetTarget(root.ContainsMouse());
-		Morphid.PlayLocalCard(card, Target.GUID);
+		if (CardRequirements.AllTargets(Target.GUID).Count() > 0 && !cancel) {
+			Morphid.PlayLocalCard(card, Target.GUID);
+		}
+		TargetingMode = TargetingMode.Inactive;
 		CardRequirements = null;
 		Selected = null;
 		Cards[card].Enabled = true;
