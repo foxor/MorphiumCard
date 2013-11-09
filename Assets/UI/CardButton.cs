@@ -10,6 +10,12 @@ public class CardButton : Button {
 		Action = UI.Singleton.PickupCard(CardIndex);
 	}
 	
+	public bool isEnabled() {
+		return Morphid.Cards != null && 
+			Morphid.Cards[CardIndex] != null &&
+			Morphid.Cards[CardIndex].Cost <= Morphid.LocalPlayer.Morphium;
+	}
+	
 	protected override void DrawInner() {
 		if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
 			Text = Morphid.Cards[CardIndex].Name +

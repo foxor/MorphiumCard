@@ -138,6 +138,9 @@ public class UI : MonoBehaviour {
 		GUI.enabled = GameState.IsLocalActive;
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
 		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
+		foreach (CardButton cardButton in Cards) {
+			cardButton.Enabled = cardButton.isEnabled();
+		}
 		Target.Update(CardRequirements);
 		root.Draw();
 		if (Selected != null) {
