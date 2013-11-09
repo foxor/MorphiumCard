@@ -36,17 +36,23 @@ public class TargetingRequirements {
 	
 	public IEnumerable<string> AllTargets(string guid) {
 		foreach (Lane lane in GameState.Singleton.Lanes) {
-			if (LaneAllowed(lane)) {
+			if (LaneAllowed(lane) &&
+				(TargetingType == TargetingType.All || lane.GUID == guid)
+			) {
 				yield return lane.GUID;
 			}
 			foreach (Minion minion in lane.Minions) {
-				if (MinionAllowed(minion)) {
+				if (MinionAllowed(minion) &&
+				(TargetingType == TargetingType.All || minion.GUID == guid)
+			) {
 					yield return minion.GUID;
 				}
 			}
 		}
 		foreach (Morphid morphid in GameState.Singleton.Morphids) {
-			if (MorphidAllowed(morphid)) {
+			if (MorphidAllowed(morphid) &&
+				(TargetingType == TargetingType.All || morphid.GUID == guid)
+			) {
 				yield return morphid.GUID;
 			}
 		}
