@@ -8,7 +8,6 @@ using System.Linq;
 public class CardData {
 	public string Name;
 	public string Text;
-	public int Durability;
 	public int Cost;
 	public bool TargetOne;
 	public bool TargetAll;
@@ -58,7 +57,6 @@ public class Importer {
 			CardData data = new CardData();
 			data.Name = reader.GetField<string>("Name");
 			data.Text = reader.GetField<string>("Text");
-			data.Durability = reader.GetField<int>("Durability");
 			data.Cost = reader.GetField<int>("Cost");
 			data.TargetOne = reader.GetField<bool>("TargetOne");
 			data.TargetAll = reader.GetField<bool>("TargetAll");
@@ -90,7 +88,6 @@ public class Importer {
 			));
 			c.Cost = data.Cost;
 			c.Damage = new Damage(){Magnitude = data.Damage};
-			c.Durability = data.Durability;
 			c.Engine = new Engine(){Magnitude = data.Engine};
 			c.Healing = new Healing(){Magnitude = data.Healing};
 			c.Name = data.Name;
