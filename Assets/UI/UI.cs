@@ -118,7 +118,11 @@ public class UI : MonoBehaviour {
 			Selected.invalid = true;
 		}
 		Target.SetTarget(root.ContainsMouse());
-		if (CardRequirements.AllTargets(Target.GUID).Count() > 0 && !cancel) {
+		if (
+			CardRequirements.AllTargets(Target.GUID).Count() > 0 && 
+			!cancel &&
+			Morphid.Cards[card].Cost <= Morphid.LocalPlayer.Morphium
+		) {
 			Morphid.PlayLocalCard(card, Target.GUID);
 		}
 		TargetingMode = TargetingMode.Inactive;
@@ -134,6 +138,9 @@ public class UI : MonoBehaviour {
 		GUI.enabled = GameState.IsLocalActive;
 		Stats[0].Text = Morphid.LocalPlayer.Health + "/" + Morphid.MAX_HEALTH + " Health";
 		Stats[1].Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " Morphium.  Boost Engine (" + Morphid.LocalPlayer.Engine + ")";
+		foreach (CardButton cardButton in Cards) {
+			cardButton.Enabled = cardButton.isEnabled();
+		}
 		Target.Update(CardRequirements);
 		root.Draw();
 		if (Selected != null) {
