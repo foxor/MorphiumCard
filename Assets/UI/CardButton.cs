@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class CardButton : Button {
-	public TargetingRequirements TargetingRequirements;
 	public int CardIndex;
 	
 	public CardButton(int CardIndex, Region source) : base(source) {
