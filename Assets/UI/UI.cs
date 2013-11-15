@@ -41,11 +41,14 @@ public class UI : MonoBehaviour {
 		Stats[1] = new Button(CriticalStatRegions[1]) {
 			Action = Client.BoostEngine
 		};
-		
-		Cards[0] = new CardButton(0, CardRegions[0]);
-		Cards[1] = new CardButton(1, CardRegions[1]);
-		Cards[2] = new CardButton(2, CardRegions[2]);
-		Cards[3] = new CardButton(3, CardRegions[3]);
+
+		CardMarker[] CardComponents = FindObjectsOfType<CardMarker>().OrderBy(
+			x => x.transform.position.x * 4000 + x.transform.position.y
+		).ToArray();
+		Cards[0] = new CardButton(0, CardRegions[0], CardComponents[0]);
+		Cards[1] = new CardButton(1, CardRegions[1], CardComponents[1]);
+		Cards[2] = new CardButton(2, CardRegions[2], CardComponents[2]);
+		Cards[3] = new CardButton(3, CardRegions[3], CardComponents[3]);
 		
 		new Button(DrawRegions[1]) {
 			Text = "Draw",
@@ -66,16 +69,8 @@ public class UI : MonoBehaviour {
 			TargetingMode = TargetingMode.Transitional;
 			float dx = Cards[card].Left - Input.mousePosition.x;
 			float dy = Cards[card].Top - (Screen.height - Input.mousePosition.y);
-			Selected = new CardButton(card, new Region() {
-				Height = Cards[card].Height,
-				Width = Cards[card].Width,
-				Left = Cards[card].Left,
-				Top = Cards[card].Top
-			}) {
-				Text = Cards[card].Text,
-				Action = () => {}
-			};
-			Cards[card].Enabled = false;
+			Selected = Cards[card];
+			Selected.OnPickup();
 			CardRequirements = new TargetingRequirements(Morphid.Cards[card].Targeting, Morphid.Cards[card].TargetingType);
 			StartCoroutine(Select(dx, dy, card));
 		};
@@ -127,6 +122,7 @@ public class UI : MonoBehaviour {
 		}
 		TargetingMode = TargetingMode.Inactive;
 		CardRequirements = null;
+		Selected.OnDrop();
 		Selected = null;
 		Cards[card].Enabled = true;
 	}

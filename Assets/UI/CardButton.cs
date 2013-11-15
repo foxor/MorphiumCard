@@ -3,12 +3,38 @@ using System.Collections;
 
 public class CardButton : Button {
 	public int CardIndex;
+
+	protected CardMarker Card;
+	protected CostFieldMarker CardCost;
+	protected NameFieldMarker CardName;
+	protected TextFieldMarker CardText;
+
+	protected int oldLeft;
+	protected int oldTop;
+	protected float zPos;
 	
-	public CardButton(int CardIndex, Region source) : base(source) {
+	public CardButton(int CardIndex, Region source, CardMarker card) : base(source) {
 		this.CardIndex = CardIndex;
 		Action = UI.Singleton.PickupCard(CardIndex);
+		Card = card;
+		CardCost = card.GetComponentInChildren<CostFieldMarker>();
+		CardName = card.GetComponentInChildren<NameFieldMarker>();
+		CardText = card.GetComponentInChildren<TextFieldMarker>();
+		Left = (int)Card.transform.position.x;
+		Top = (int)Card.transform.position.y;
+		zPos = Card.transform.position.z;
 	}
-	
+
+	public void OnPickup() {
+		oldLeft = Left;
+		oldTop = Top;
+	}
+
+	public void OnDrop() {
+		Left = oldLeft;
+		Top = oldTop;
+	}
+
 	public bool isEnabled() {
 		return Morphid.Cards != null && 
 			Morphid.Cards[CardIndex] != null &&
@@ -16,10 +42,14 @@ public class CardButton : Button {
 	}
 	
 	protected override void DrawInner() {
+		Card.transform.position = new Vector3(Left, Top, zPos);
 		if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
 			Text = Morphid.Cards[CardIndex].Name +
 				" (" + Morphid.Cards[CardIndex].Cost + ")\n" +
 				Morphid.Cards[CardIndex].Text;
+			CardCost.Text = Morphid.Cards[CardIndex].Cost.ToString();
+			CardName.Text = Morphid.Cards[CardIndex].Name;
+			CardText.Text = Morphid.Cards[CardIndex].Text;
 		}
 		else {
 			Text = "Empty";
