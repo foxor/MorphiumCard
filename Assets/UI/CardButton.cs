@@ -20,8 +20,9 @@ public class CardButton : Button {
         CardCost = card.GetComponentInChildren<CostFieldMarker> ();
         CardName = card.GetComponentInChildren<NameFieldMarker> ();
         CardText = card.GetComponentInChildren<TextFieldMarker> ();
-        Left = (int)Card.transform.position.x;
-        Top = (int)Card.transform.position.y;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(Card.transform.position);
+        Left = (int)screenPos.x;
+        Top = (int)screenPos.y;
         Width = ART_WIDTH;
         Height = ART_HEIGHT;
         zPos = Card.transform.position.z;
