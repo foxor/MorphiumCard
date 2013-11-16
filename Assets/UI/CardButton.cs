@@ -12,6 +12,23 @@ public class CardButton : Button {
     protected int oldLeft;
     protected int oldTop;
     protected float zPos;
+
+    protected Vector3 CardTransform {
+        get {
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint (new Vector3 (
+                Left + ART_WIDTH / 2,
+                (Top + ART_HEIGHT / 2) + Screen.height
+            ));
+            worldPos.z = zPos;
+            return worldPos;
+        }
+        set {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint (value);
+            Left = (int)screenPos.x - ART_WIDTH / 2;
+            Top = ((int)screenPos.y - ART_HEIGHT / 2) - Screen.height ;
+            zPos = value.z;
+        }
+    }
     
     public CardButton (int CardIndex, Region source, CardMarker card) : base(source) {
         this.CardIndex = CardIndex;
@@ -20,12 +37,15 @@ public class CardButton : Button {
         CardCost = card.GetComponentInChildren<CostFieldMarker> ();
         CardName = card.GetComponentInChildren<NameFieldMarker> ();
         CardText = card.GetComponentInChildren<TextFieldMarker> ();
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(Card.transform.position);
-        Left = (int)screenPos.x;
-        Top = (int)screenPos.y;
-        Width = ART_WIDTH;
-        Height = ART_HEIGHT;
-        zPos = Card.transform.position.z;
+
+        Vector3 OriginalPosition = Card.transform.position;
+        CardTransform = Card.transform.position + new Vector3(ART_WIDTH, ART_HEIGHT);
+        Width = Left;
+        Height = Top;
+        CardTransform = OriginalPosition;
+        Width = Mathf.Abs(Width - Left);
+        Height = Mathf.Abs(Height - Top);
+        Debug.Log("Started at: " + OriginalPosition + ", computed: " + CardTransform);
     }
 
     public void OnPickup () {
@@ -45,7 +65,7 @@ public class CardButton : Button {
     }
     
     protected override void DrawInner () {
-        Card.transform.position = new Vector3 (Left, Top, zPos);
+        Card.transform.position = CardTransform;
         if (Morphid.Cards != null && Morphid.Cards [CardIndex] != null) {
             Text = Morphid.Cards [CardIndex].Name +
                 " (" + Morphid.Cards [CardIndex].Cost + ")\n" +
