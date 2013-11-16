@@ -45,7 +45,6 @@ public class CardButton : Button {
         CardTransform = OriginalPosition;
         Width = Mathf.Abs(Width - Left);
         Height = Mathf.Abs(Height - Top);
-        Debug.Log("Started at: " + OriginalPosition + ", computed: " + CardTransform);
     }
 
     public void OnPickup () {
