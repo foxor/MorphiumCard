@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardButton : Button {
+public class CardButton : Button
+{
     protected const int ART_WIDTH = 500;
     protected const int ART_HEIGHT = 770;
     public int CardIndex;
@@ -10,10 +11,11 @@ public class CardButton : Button {
     protected NameFieldMarker CardName;
     protected TextFieldMarker CardText;
     protected Vector3 oldPos;
-	protected Vector3 delta;
-	protected bool selected;
+    protected Vector3 delta;
+    protected bool selected;
     
-    public CardButton (int CardIndex, Region source, CardMarker card) : base(source) {
+    public CardButton (int CardIndex, Region source, CardMarker card) : base(source)
+    {
         this.CardIndex = CardIndex;
         Action = UI.Singleton.PickupCard (CardIndex);
         Card = card;
@@ -22,39 +24,43 @@ public class CardButton : Button {
         CardText = card.GetComponentInChildren<TextFieldMarker> ();
     }
 
-    public void OnPickup () {
+    public void OnPickup ()
+    {
         oldPos = Card.transform.position;
-		delta = oldPos - Camera.main.ScreenPointToRay(Input.mousePosition).origin;
-		selected = true;
+        delta = oldPos - Camera.main.ScreenPointToRay (Input.mousePosition).origin;
+        selected = true;
     }
 
-    public void OnDrop () {
+    public void OnDrop ()
+    {
         Card.transform.position = oldPos;
-		selected = false;
+        selected = false;
     }
 
-    public bool isEnabled () {
+    public bool isEnabled ()
+    {
         return Morphid.Cards != null && 
             Morphid.Cards [CardIndex] != null &&
             Morphid.Cards [CardIndex].Cost <= Morphid.LocalPlayer.Morphium;
     }
     
-    protected override void DrawInner () {
-		if (selected) {
-			Card.transform.position = Camera.main.ScreenPointToRay(Input.mousePosition).origin + delta;
-		}
+    protected override void DrawInner ()
+    {
+        if (selected) {
+            Card.transform.position = Camera.main.ScreenPointToRay (Input.mousePosition).origin + delta;
+        }
         if (Morphid.Cards != null && Morphid.Cards [CardIndex] != null) {
             CardCost.Text = Morphid.Cards [CardIndex].Cost.ToString ();
             CardName.Text = Morphid.Cards [CardIndex].Name;
             CardText.Text = Morphid.Cards [CardIndex].Text;
             Card.renderer.enabled = true;
-		} else {
-			CardCost.Text = "";
-			CardName.Text = "";
-			CardText.Text = "";
-			Card.renderer.enabled = false;
+        } else {
+            CardCost.Text = "";
+            CardName.Text = "";
+            CardText.Text = "";
+            Card.renderer.enabled = false;
         }
-        if (ClickRaycast.ClickedThis(Card.gameObject) && Enabled) {
+        if (ClickRaycast.ClickedThis (Card.gameObject) && Enabled) {
             Action ();
         }
     }
