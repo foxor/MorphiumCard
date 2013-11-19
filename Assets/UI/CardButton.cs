@@ -10,6 +10,8 @@ public class CardButton : Button {
     protected NameFieldMarker CardName;
     protected TextFieldMarker CardText;
     protected Vector3 oldPos;
+	protected Vector3 delta;
+	protected bool selected;
     
     public CardButton (int CardIndex, Region source, CardMarker card) : base(source) {
         this.CardIndex = CardIndex;
@@ -22,10 +24,13 @@ public class CardButton : Button {
 
     public void OnPickup () {
         oldPos = Card.transform.position;
+		delta = Camera.main.ScreenPointToRay(Input.mousePosition).origin - oldPos;
+		selected = true;
     }
 
     public void OnDrop () {
         Card.transform.position = oldPos;
+		selected = false;
     }
 
     public bool isEnabled () {
@@ -35,6 +40,9 @@ public class CardButton : Button {
     }
     
     protected override void DrawInner () {
+		if (selected) {
+			Card.transform.position = Camera.main.ScreenPointToRay(Input.mousePosition).origin + delta;
+		}
         if (Morphid.Cards != null && Morphid.Cards [CardIndex] != null) {
             CardCost.Text = Morphid.Cards [CardIndex].Cost.ToString ();
             CardName.Text = Morphid.Cards [CardIndex].Name;
