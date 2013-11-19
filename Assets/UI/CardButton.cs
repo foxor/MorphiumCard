@@ -48,8 +48,11 @@ public class CardButton : Button {
             CardName.Text = Morphid.Cards [CardIndex].Name;
             CardText.Text = Morphid.Cards [CardIndex].Text;
             Card.renderer.enabled = true;
-        } else {
-            Card.renderer.enabled = false;
+		} else {
+			CardCost.Text = "";
+			CardName.Text = "";
+			CardText.Text = "";
+			Card.renderer.enabled = false;
         }
         if (ClickRaycast.ClickedThis(Card.gameObject) && Enabled) {
             Action ();
