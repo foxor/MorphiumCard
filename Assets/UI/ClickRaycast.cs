@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public class ClickRaycast : MonoBehaviour {
 	private static ClickRaycast singleton;
 	
-	private RaycastHit lastHit;
+	private RaycastHit2D lastHit;
 	private bool hitSomething;
 	
-	public static Nullable<RaycastHit> GetLastHit() {
-		return singleton.hitSomething ? (Nullable<RaycastHit>)singleton.lastHit : null;
+	public static RaycastHit2D GetLastHit() {
+		return singleton.lastHit;
 	}
 	
 	public void Start() {
@@ -18,15 +18,19 @@ public class ClickRaycast : MonoBehaviour {
 
     public static bool ClickedThis(GameObject x)
     {
-        return singleton.hitSomething && GetLastHit().Value.transform.gameObject == x;
+        return singleton.hitSomething && GetLastHit().transform.gameObject == x;
     }
 	
 	public void Update() {
 		if (Camera.main != null) {
-			hitSomething = Physics.Raycast(
-				Camera.main.ScreenPointToRay(Input.mousePosition),
-				out lastHit
-			);
+			if (Input.GetMouseButton(0)) {
+				Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+				lastHit = Physics2D.Raycast(r.origin, r.direction);
+				hitSomething = lastHit.collider != null;
+			}
+			else {
+				hitSomething = false;
+			}
 		}
 	}
 }

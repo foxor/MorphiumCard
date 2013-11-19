@@ -24,7 +24,7 @@ public class CardButton : Button {
 
     public void OnPickup () {
         oldPos = Card.transform.position;
-		delta = Camera.main.ScreenPointToRay(Input.mousePosition).origin - oldPos;
+		delta = oldPos - Camera.main.ScreenPointToRay(Input.mousePosition).origin;
 		selected = true;
     }
 
