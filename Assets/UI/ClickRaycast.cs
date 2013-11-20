@@ -16,21 +16,15 @@ public class ClickRaycast : MonoBehaviour {
 		singleton = this;
 	}
 
-    public static bool ClickedThis(GameObject x)
-    {
+    public static bool MouseOverThis(GameObject x) {
         return singleton.hitSomething && GetLastHit().transform.gameObject == x;
     }
 	
 	public void Update() {
-		if (Camera.main != null) {
-			if (Input.GetMouseButton(0)) {
-				Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-				lastHit = Physics2D.Raycast(r.origin, r.direction);
-				hitSomething = lastHit.collider != null;
-			}
-			else {
-				hitSomething = false;
-			}
+        if (Camera.main != null) {
+            Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+            lastHit = Physics2D.Raycast(r.origin, r.direction);
+            hitSomething = lastHit.collider != null;
 		}
 	}
 }

@@ -60,7 +60,7 @@ public class CardButton : Button
             CardText.Text = "";
             Card.renderer.enabled = false;
         }
-        if (ClickRaycast.ClickedThis (Card.gameObject) && Enabled) {
+        if (Input.GetMouseButtonDown(0) && ClickRaycast.MouseOverThis(Card.gameObject) && Enabled) {
             Action ();
         }
     }
