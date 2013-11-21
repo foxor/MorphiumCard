@@ -1,14 +1,15 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ClickRaycast : MonoBehaviour {
 	private static ClickRaycast singleton;
 	
-	private RaycastHit2D lastHit;
+	private RaycastHit2D[] lastHit;
 	private bool hitSomething;
 	
-	public static RaycastHit2D GetLastHit() {
+	public static RaycastHit2D[] GetLastHit() {
 		return singleton.lastHit;
 	}
 	
@@ -17,14 +18,14 @@ public class ClickRaycast : MonoBehaviour {
 	}
 
     public static bool MouseOverThis(GameObject x) {
-        return singleton.hitSomething && GetLastHit().transform.gameObject == x;
+        return singleton.hitSomething && GetLastHit().Any(r => r.transform.gameObject == x);
     }
 	
 	public void Update() {
         if (Camera.main != null) {
             Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-            lastHit = Physics2D.Raycast(r.origin, r.direction);
-            hitSomething = lastHit.collider != null;
+            lastHit = Physics2D.RaycastAll(r.origin, r.direction);
+            hitSomething = lastHit.Length > 0;
 		}
 	}
 }

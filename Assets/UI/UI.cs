@@ -9,6 +9,8 @@ public class UI : MonoBehaviour {
 	protected const float DRAG_TIMER = 0.3f;
 	
 	public static UI Singleton;
+
+    public GameObject LeftSide;
 	
 	protected CardButton[] Cards;
 	protected Button[] Stats;

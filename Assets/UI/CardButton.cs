@@ -5,7 +5,10 @@ public class CardButton : Button
 {
     protected const int ART_WIDTH = 500;
     protected const int ART_HEIGHT = 770;
+
     public int CardIndex;
+    public bool SuspendDrag;
+
     protected CardMarker Card;
     protected CostFieldMarker CardCost;
     protected NameFieldMarker CardName;
@@ -46,9 +49,13 @@ public class CardButton : Button
     
     protected override void DrawInner ()
     {
-        if (selected) {
+        if (selected && !SuspendDrag) {
             Card.transform.position = Camera.main.ScreenPointToRay (Input.mousePosition).origin + delta;
         }
+        if (SuspendDrag) {
+            Card.transform.position = oldPos;
+        }
+
         if (Morphid.Cards != null && Morphid.Cards [CardIndex] != null) {
             CardCost.Text = Morphid.Cards [CardIndex].Cost.ToString ();
             CardName.Text = Morphid.Cards [CardIndex].Name;
