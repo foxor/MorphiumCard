@@ -7,7 +7,7 @@ public abstract class SpriteRegion {
     protected static Color DisabledColor = new Color(1f, 1f, 1f, 0.1f);
 
     protected GameObject Sprite;
-    protected TextMesh TextAreas;
+    protected TextMesh TextArea;
 
     public string Text;
     public bool Enabled;
@@ -15,7 +15,7 @@ public abstract class SpriteRegion {
 
     public SpriteRegion(GameObject Sprite) {
         this.Sprite = Sprite;
-        TextAreas = Sprite.GetComponentInChildren<TextMesh>();
+        TextArea = Sprite.GetComponentInChildren<TextMesh>();
         Enabled = true;
         Visible = true;
     }
@@ -27,8 +27,10 @@ public abstract class SpriteRegion {
     public virtual void Update () {
         Sprite.renderer.material.color = Enabled ? EnabledColor : DisabledColor;
         Sprite.renderer.enabled = Visible;
-        if (TextAreas != null) {
-            TextAreas.text = Text;
+        if (TextArea != null) {
+            TextArea.text = Text;
+            TextArea.renderer.material.color = Sprite.renderer.material.color;
+            TextArea.renderer.enabled = Sprite.renderer.enabled;
         }
     }
 }

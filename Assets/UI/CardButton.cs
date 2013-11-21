@@ -68,5 +68,8 @@ public class CardButton : SpriteButton
             Card.renderer.enabled = false;
         }
         base.Update();
+        CardCost.renderer.material.color = Sprite.renderer.material.color;
+        CardName.renderer.material.color = Sprite.renderer.material.color;
+        CardText.renderer.material.color = Sprite.renderer.material.color;
     }
 }
