@@ -123,9 +123,11 @@ public class Target {
         }
         foreach (SelectionRegion enemy in EnemyMinions) {
             enemy.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed (enemy.Minion));
+            enemy.Visible = enemy.Minion != null;
         }
         foreach (SelectionRegion friendly in FriendlyMinions) {
             friendly.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed (friendly.Minion));
+            friendly.Visible = friendly.Minion != null;
         }
     }
 }
