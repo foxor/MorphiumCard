@@ -99,7 +99,7 @@ public class Region {
 		return regions;
 	}
 	
-	public Region ContainsMouse() {
+	public virtual Region ContainsMouse() {
 		Vector2 MousePos = Input.mousePosition;
 		MousePos.y = Screen.height - MousePos.y;
 		if (Left < MousePos.x && Left + Width > MousePos.x &&

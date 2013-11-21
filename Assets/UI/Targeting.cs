@@ -27,13 +27,13 @@ public class Target {
         }
     }
     
-    public void SetTarget (Region Selected) {
+    public void SetTarget (SelectionRegion Selected) {
         if (Selected == null || !Selected.Enabled || !typeof(SelectionRegion).IsAssignableFrom (Selected.GetType ())) {
             return;
         }
-        Morphid = ((SelectionRegion)Selected).Morphid;
-        Lane = ((SelectionRegion)Selected).Lane;
-        Minion = ((SelectionRegion)Selected).Minion;
+        Morphid = Selected.Morphid;
+        Lane = Selected.Lane;
+        Minion = Selected.Minion;
     }
     
     public string GUID {
@@ -45,44 +45,53 @@ public class Target {
         }
     }
     
-    public void Draw (Region root) {
-        Region Top = root.Bisect (Region.Side.Top, 40);
-        Region Bottom = root.Bisect (Region.Side.Bottom, 40);
-        Region[] VerticalLanes = root.Split (Region.Direction.Horizontal, 3);
-        Region[][] LaneSegments = VerticalLanes.Select (x => x.Split (Region.Direction.Vertical, 3)).ToArray ();
-        
-        Region[] TopSegments = Top.Split (Region.Direction.Horizontal, 5);
-        Region[] BottomSegments = Bottom.Split (Region.Direction.Horizontal, 5);
-        
-        EnemyMorphid = new SelectionRegion (TopSegments [2]) {
-            Morphid = GameState.GetEnemy (Client.GUID)
+    public void Draw (List<SpriteRegion> Sprites) {
+        EnemyMorphid = new SelectionRegion(GameObject.FindObjectOfType<EnemyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
+            Morphid = GameState.GetEnemy(Client.GUID)
         };
-        FriendlyMorphid = new SelectionRegion (BottomSegments [2]) {
-            Morphid = GameState.GetMorphid (Client.GUID),
-            Text = "Yourself"
+        Sprites.Add(EnemyMorphid);
+
+        FriendlyMorphid = new SelectionRegion(GameObject.FindObjectOfType<FriendlyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
+            Morphid = GameState.GetMorphid (Client.GUID)
         };
+        Sprites.Add(FriendlyMorphid);
         
         Lanes = new SelectionRegion[3];
+        GameObject[] Factories = GameObject.FindObjectOfType<FriendlyMarker>()
+            .GetComponentsInChildren<FactoryMarker>()
+            .Select(x => x.gameObject)
+            .OrderBy(x => x.transform.position.x)
+            .ToArray();
         for (int i = 0; i < 3; i++) {
-            Lanes [i] = new SelectionRegion (LaneSegments [i] [1]) {
-                Lane = GameState.GetLane (i)
+            Lanes [i] = new SelectionRegion(Factories[i]) {
+                Lane = GameState.GetLane(i)
             };
         }
-        Lanes [0].Text = "Left";
-        Lanes [1].Text = "Middle";
-        Lanes [2].Text = "Right";
+        Sprites.AddRange(Lanes);
         
         FriendlyMinions = new SelectionRegion[3];
+        GameObject[] FriendlySprites = GameObject.FindObjectOfType<FriendlyMarker>()
+            .GetComponentsInChildren<MinionMarker>()
+            .Select(x => x.gameObject)
+            .OrderBy(x => x.transform.position.x)
+            .ToArray();
         for (int i = 0; i < 3; i++) {
-            FriendlyMinions [i] = new SelectionRegion (LaneSegments [i] [2]) {
+            FriendlyMinions [i] = new SelectionRegion(FriendlySprites[i]) {
             };
         }
+        Sprites.AddRange(FriendlyMinions);
         
         EnemyMinions = new SelectionRegion[3];
+        GameObject[] EnemySprites = GameObject.FindObjectOfType<EnemyMarker>()
+            .GetComponentsInChildren<MinionMarker>()
+            .Select(x => x.gameObject)
+            .OrderBy(x => x.transform.position.x)
+            .ToArray();
         for (int i = 0; i < 3; i++) {
-            EnemyMinions [i] = new SelectionRegion (LaneSegments [i] [0]) {
+            EnemyMinions [i] = new SelectionRegion(EnemySprites[i]) {
             };
         }
+        Sprites.AddRange(EnemyMinions);
     }
     
     public void Update (TargetingRequirements req) {

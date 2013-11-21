@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardButton : Button
+public class CardButton : SpriteButton
 {
     protected const int ART_WIDTH = 500;
     protected const int ART_HEIGHT = 770;
@@ -17,8 +17,7 @@ public class CardButton : Button
     protected Vector3 delta;
     protected bool selected;
     
-    public CardButton (int CardIndex, Region source, CardMarker card) : base(source)
-    {
+    public CardButton (int CardIndex, CardMarker card) : base(card.gameObject) {
         this.CardIndex = CardIndex;
         Action = UI.Singleton.PickupCard (CardIndex);
         Card = card;
@@ -47,8 +46,9 @@ public class CardButton : Button
             Morphid.Cards [CardIndex].Cost <= Morphid.LocalPlayer.Morphium;
     }
     
-    protected override void DrawInner ()
+    public override void Update ()
     {
+        Enabled = isEnabled();
         if (selected && !SuspendDrag) {
             Card.transform.position = Camera.main.ScreenPointToRay (Input.mousePosition).origin + delta;
         }
@@ -67,8 +67,6 @@ public class CardButton : Button
             CardText.Text = "";
             Card.renderer.enabled = false;
         }
-        if (Input.GetMouseButtonDown(0) && ClickRaycast.MouseOverThis(Card.gameObject) && Enabled) {
-            Action ();
-        }
+        base.Update();
     }
 }
