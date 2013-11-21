@@ -12,4 +12,10 @@ public class ReticleController : MonoBehaviour {
     public void Update() {
         transform.position = Camera.main.ScreenPointToRay(Input.mousePosition).origin + delta;
     }
+
+    public static bool Shown {
+        set {
+            singleton.renderer.enabled = value;
+        }
+    }
 }

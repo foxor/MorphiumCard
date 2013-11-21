@@ -110,6 +110,14 @@ public class UI : MonoBehaviour {
 				break;
 			}
 			yield return 0;
+            if (CardRequirements.TargetingType == TargetingType.All || ClickRaycast.MouseOverThis(LeftSide)) {
+                ReticleController.Shown = false;
+                Selected.SuspendDrag = false;
+            }
+            else {
+                ReticleController.Shown = true;
+                Selected.SuspendDrag = true;
+            }
 			Selected.Left = (int)(Input.mousePosition.x + dx);
 			Selected.Top = (int)(Screen.height - Input.mousePosition.y + dy);
 			Selected.invalid = true;
@@ -122,6 +130,8 @@ public class UI : MonoBehaviour {
 		) {
 			Morphid.PlayLocalCard(card, Target.GUID);
 		}
+        Selected.SuspendDrag = false;
+        ReticleController.Shown = false;
 		TargetingMode = TargetingMode.Inactive;
 		CardRequirements = null;
 		Selected.OnDrop();
