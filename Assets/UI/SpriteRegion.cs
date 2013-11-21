@@ -4,7 +4,7 @@ using System.Linq;
 
 public abstract class SpriteRegion {
     protected static Color EnabledColor = Color.white;
-    protected static Color DisabledColor = new Color(1f, 1f, 1f, 0.5f);
+    protected static Color DisabledColor = new Color(1f, 1f, 1f, 0.1f);
 
     protected GameObject Sprite;
     protected TextMesh TextAreas;
