@@ -115,7 +115,7 @@ public class UI : MonoBehaviour {
                          .Where(x => typeof(SelectionRegion).IsAssignableFrom(x.GetType()))
                          .Cast<SelectionRegion>()
                          .Where(x => x.ContainsMouse())
-                         .Single()
+                         .SingleOrDefault()
         );
         if (
             CardRequirements.AllTargets(Target.GUID).Count() > 0 && 
