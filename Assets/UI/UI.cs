@@ -17,6 +17,7 @@ public class UI : MonoBehaviour {
     protected CardButton[] Cards;
     protected CardButton Selected;
     protected SpriteButton EngineSprite;
+    protected SpriteButton DrawSprite;
 
     protected Target Target;
     protected TargetingRequirements CardRequirements;
@@ -40,10 +41,11 @@ public class UI : MonoBehaviour {
         Cards[3] = new CardButton (3, CardComponents[3]);
         Sprites.AddRange(Cards);
         
-        Sprites.Add(new SpriteButton(DrawButton) {
+        DrawSprite = new SpriteButton(DrawButton) {
             Text = "Draw",
             Action = Client.DrawCards
-        });
+        };
+        Sprites.Add(DrawSprite);
 
         EngineSprite = new SpriteButton(EngineButton) {
             Action = Client.BoostEngine
@@ -136,6 +138,7 @@ public class UI : MonoBehaviour {
             return;
         }
         EngineSprite.Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " (" + Morphid.LocalPlayer.Engine + ")";
+        DrawSprite.Enabled = EngineSprite.Enabled = GameState.IsLocalActive;
         foreach (SpriteRegion Sprite in Sprites) {
             Sprite.Update();
         }
