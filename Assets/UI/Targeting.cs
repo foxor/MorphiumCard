@@ -114,7 +114,8 @@ public class Target {
             }
         }
         
-        EnemyMorphid.Text = "Enemy morphid, " + Morphid.RemotePlayer.Health + " health";
+        EnemyMorphid.Text = Morphid.RemotePlayer.Health + " / " + Morphid.MAX_HEALTH;
+        FriendlyMorphid.Text = Morphid.LocalPlayer.Health + " / " + Morphid.MAX_HEALTH;
         
         FriendlyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed (FriendlyMorphid.Morphid.GUID));
         EnemyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed (EnemyMorphid.Morphid.GUID));
