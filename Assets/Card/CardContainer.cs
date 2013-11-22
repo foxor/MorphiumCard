@@ -25,17 +25,11 @@ public class CardContainer {
 		return Cards.Where(x => x != null && x.GUID == guid).Single();
 	}
 	
-	public void RemoveCard(Card c) {
+	public void ReplaceCard(Card c) {
 		for (int i = 0; i < Cards.Length; i++) {
 			if (Cards[i] == c) {
-				Cards[i] = null;
+                Cards[i] = Decks[i].Draw();
 			}
-		}
-	}
-	
-	public void Draw() {
-		for (int i = 0; i < Decks.Count(); i++) {
-			Cards[i] = Decks[i].Draw();
 		}
 	}
 	

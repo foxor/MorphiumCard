@@ -71,10 +71,4 @@ public class Server : MonoBehaviour {
 		GameState.GetMorphid(morphidGuid).Engine += 1;
 		EndTurn(GameState.GetEnemy(morphidGuid));
 	}
-	
-	[RPC]
-	public void ServerDrawCards(string morphidGuid) {
-		GameState.GetMorphid(morphidGuid).CardContainer.Draw();
-		EndTurn(GameState.GetEnemy(morphidGuid));
-	}
 }

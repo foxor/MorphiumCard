@@ -11,7 +11,6 @@ public class UI : MonoBehaviour {
     public static UI Singleton;
 
     public GameObject LeftSide;
-    public GameObject DrawButton;
     public GameObject EngineButton;
 
     protected CardButton[] Cards;
@@ -40,12 +39,6 @@ public class UI : MonoBehaviour {
         Cards[2] = new CardButton (2, CardComponents[2]);
         Cards[3] = new CardButton (3, CardComponents[3]);
         Sprites.AddRange(Cards);
-        
-        DrawSprite = new SpriteButton(DrawButton) {
-            Text = "Draw",
-            Action = Client.DrawCards
-        };
-        Sprites.Add(DrawSprite);
 
         EngineSprite = new SpriteButton(EngineButton) {
             Action = Client.BoostEngine
