@@ -10,6 +10,7 @@ Temp
 *.suo
 *.exe
 *.zip
+*.pdb
 obj/Debug
 build
 *.userprefs
