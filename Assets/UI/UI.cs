@@ -103,6 +103,9 @@ public class UI : MonoBehaviour {
                 Selected.SuspendDrag = true;
             }
         }
+        if (ClickRaycast.MouseOverThis(LeftSide)) {
+            cancel = true;
+        }
         Target.SetTarget(Sprites
                          .Where(x => typeof(SelectionRegion).IsAssignableFrom(x.GetType()))
                          .Cast<SelectionRegion>()
