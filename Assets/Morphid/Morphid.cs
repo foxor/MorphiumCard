@@ -12,8 +12,8 @@ public class Morphid {
 	
 	public const int MAX_HEALTH = 50;
 	public const int MAX_MORPHIUM = 10;
-	public const int START_MORPHIUM = 0;
-	public const int START_ENGINE = 1;
+	public const int START_MORPHIUM = MAX_MORPHIUM;
+	public const int START_ENGINE = 3;
 	
 	public static Morphid LocalPlayer {
 		get {
