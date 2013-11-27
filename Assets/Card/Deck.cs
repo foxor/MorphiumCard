@@ -30,7 +30,11 @@ public class Deck {
 	}
 	
 	public Card Draw() {
-		if (Cards != null && Index <= Cards.Count() - 1) {
+        if (Index >= Cards.Length) {
+            Cards = Cards.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
+            Index = 0;
+        }
+		if (Cards != null) {
 			return Cards[Index++];
 		}
 		return null;
