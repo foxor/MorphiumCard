@@ -16,7 +16,6 @@ public class UI : MonoBehaviour {
     protected CardButton[] Cards;
     protected CardButton Selected;
     protected SpriteButton EngineSprite;
-    protected SpriteButton DrawSprite;
 
     protected Target Target;
     protected TargetingRequirements CardRequirements;
@@ -104,6 +103,9 @@ public class UI : MonoBehaviour {
                 Selected.SuspendDrag = true;
             }
         }
+        if (ClickRaycast.MouseOverThis(LeftSide)) {
+            cancel = true;
+        }
         Target.SetTarget(Sprites
                          .Where(x => typeof(SelectionRegion).IsAssignableFrom(x.GetType()))
                          .Cast<SelectionRegion>()
@@ -131,7 +133,7 @@ public class UI : MonoBehaviour {
             return;
         }
         EngineSprite.Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " (" + Morphid.LocalPlayer.Engine + ")";
-        DrawSprite.Enabled = EngineSprite.Enabled = GameState.IsLocalActive;
+        EngineSprite.Enabled = GameState.IsLocalActive;
         foreach (SpriteRegion Sprite in Sprites) {
             Sprite.Update();
         }

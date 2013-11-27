@@ -5,7 +5,7 @@ Fire Blast,Deals 8 damage,9,TRUE,FALSE,30,0,0,2,0,8,0,0,0,0,0
 Repair Bot,Heals 2 health,4,TRUE,FALSE,30,0,8,0,0,0,2,0,0,0,0
 Repair Station,Heals 5 health,10,TRUE,FALSE,30,0,2,0,0,0,5,0,0,0,0
 Ambush,Reflects next 2 damage,5,FALSE,TRUE,18,0,5,0,0,0,0,2,0,0,0
-Transport Buggy,Summon a 2/2,2,TRUE,FALSE,33,6,0,0,0,0,0,0,0,2,2
-Conveyor,Summon a 4/5,4,TRUE,FALSE,33,4,0,0,0,0,0,0,0,4,5
-Extractor,Summon a 7/2,6,TRUE,FALSE,33,3,0,0,0,0,0,0,0,7,2
+Transport Buggy,Summon a 1/3,2,TRUE,FALSE,33,6,0,0,0,0,0,0,0,1,3
+Conveyor,Summon a 2/6,4,TRUE,FALSE,33,4,0,0,0,0,0,0,0,2,6
+Extractor,Summon a 3/9,6,TRUE,FALSE,33,3,0,0,0,0,0,0,0,3,9
 E/M Surge,Deals 3 damage to all enemy minions,7,FALSE,TRUE,12,0,0,0,4,3,0,0,0,0,0
