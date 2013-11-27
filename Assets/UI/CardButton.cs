@@ -43,7 +43,8 @@ public class CardButton : SpriteButton
     {
         return Morphid.Cards != null && 
             Morphid.Cards [CardIndex] != null &&
-            Morphid.Cards [CardIndex].Cost <= Morphid.LocalPlayer.Morphium;
+            Morphid.Cards [CardIndex].Cost <= Morphid.LocalPlayer.Morphium &&
+            Morphid.Cards [CardIndex].Charged;
     }
     
     public override void Update ()

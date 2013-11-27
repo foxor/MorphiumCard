@@ -8,6 +8,7 @@ using System.Linq;
 public class CardData {
 	public string Name;
 	public string Text;
+    public string Manufacturer;
 	public int Cost;
 	public bool TargetOne;
 	public bool TargetAll;
@@ -55,8 +56,9 @@ public class Importer {
 		CsvReader reader = new CsvReader(stream);
 		while (reader.Read()) {
 			CardData data = new CardData();
-			data.Name = reader.GetField<string>("Name");
-			data.Text = reader.GetField<string>("Text");
+            data.Name = reader.GetField<string>("Name");
+            data.Text = reader.GetField<string>("Text");
+            data.Manufacturer = reader.GetField<string>("Manufacturer");
 			data.Cost = reader.GetField<int>("Cost");
 			data.TargetOne = reader.GetField<bool>("TargetOne");
 			data.TargetAll = reader.GetField<bool>("TargetAll");

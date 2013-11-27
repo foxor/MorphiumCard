@@ -21,43 +21,51 @@ public class Card {
 	
 	[SerializeField]
 	[ProtoMember(2)]
-	public String Name;
-	
-	[SerializeField]
-	[ProtoMember(3)]
-	public String Text;
-	
-	[SerializeField]
-	[ProtoMember(4)]
-	public int Cost;
+    public String Name;
+    
+    [SerializeField]
+    [ProtoMember(3)]
+    public String Text;
+    
+    [SerializeField]
+    [ProtoMember(4)]
+    public String Manufacturer;
 	
 	[SerializeField]
 	[ProtoMember(5)]
-	public int Targeting;
+	public int Cost;
 	
 	[SerializeField]
 	[ProtoMember(6)]
-	public TargetingType TargetingType;
+	public int Targeting;
 	
 	[SerializeField]
 	[ProtoMember(7)]
-	public Damage Damage;
+	public TargetingType TargetingType;
 	
 	[SerializeField]
 	[ProtoMember(8)]
-	public Healing Healing;
+	public Damage Damage;
 	
 	[SerializeField]
 	[ProtoMember(9)]
-	public Reflect Reflect;
+	public Healing Healing;
 	
 	[SerializeField]
 	[ProtoMember(10)]
-	public Engine Engine;
+	public Reflect Reflect;
 	
 	[SerializeField]
 	[ProtoMember(11)]
-	public Spawn Spawn;
+    public Engine Engine;
+    
+    [SerializeField]
+    [ProtoMember(12)]
+    public Spawn Spawn;
+    
+    [SerializeField]
+    [ProtoMember(13)]
+    public bool Charged;
 	
 	public Card() {
 		GUID = Guid.NewGuid().ToString();

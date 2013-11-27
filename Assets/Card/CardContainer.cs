@@ -23,7 +23,29 @@ public class CardContainer {
 	
 	public Card FromGuid(string guid) {
 		return Cards.Where(x => x != null && x.GUID == guid).Single();
-	}
+    }
+
+    public void Uncharge() {
+        foreach (Card c in Cards) {
+            c.Charged = false;
+        }
+    }
+    
+    public void ComboManufacturer(string Manufacturer) {
+        foreach (Card c in Cards) {
+            if (c.Manufacturer == Manufacturer) {
+                c.Charged = true;
+            }
+        }
+    }
+    
+    public void ComboSlot(Slot slot) {
+        foreach (Card c in Cards) {
+            if (c.Slot == slot) {
+                c.Charged = true;
+            }
+        }
+    }
 	
 	public void ReplaceCard(Card c) {
 		for (int i = 0; i < Cards.Length; i++) {
