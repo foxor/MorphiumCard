@@ -6,15 +6,21 @@ public abstract class SpriteRegion {
     protected static Color EnabledColor = Color.white;
     protected static Color DisabledColor = new Color(1f, 1f, 1f, 0.1f);
 
-    protected GameObject Sprite;
+    protected GameObject sprite;
     protected TextMesh TextArea;
 
     public string Text;
     public bool Enabled;
     public bool Visible;
 
+    public GameObject Sprite {
+        get {
+            return sprite;
+        }
+    }
+
     public SpriteRegion(GameObject Sprite) {
-        this.Sprite = Sprite;
+        this.sprite = Sprite;
         TextArea = Sprite.GetComponentInChildren<TextMesh>();
         Enabled = true;
         Visible = true;

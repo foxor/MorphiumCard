@@ -17,7 +17,7 @@ public class UI : MonoBehaviour {
     protected CardButton Selected;
     protected SpriteButton EngineSprite;
 
-    protected Target Target;
+    public Target Target;
     protected TargetingRequirements CardRequirements;
     protected TargetingMode TargetingMode;
 

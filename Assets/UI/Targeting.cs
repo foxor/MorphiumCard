@@ -18,8 +18,8 @@ public class Target {
     protected SelectionRegion EnemyMorphid;
     protected SelectionRegion FriendlyMorphid;
     protected SelectionRegion[] Lanes;
-    protected SelectionRegion[] FriendlyMinions;
-    protected SelectionRegion[] EnemyMinions;
+    public SelectionRegion[] FriendlyMinions;
+    public SelectionRegion[] EnemyMinions;
     
     public bool HasSelected {
         get {
