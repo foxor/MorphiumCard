@@ -5,10 +5,8 @@ public class CardButton : SpriteButton
 {
     protected const int ART_WIDTH = 500;
     protected const int ART_HEIGHT = 770;
-
     public int CardIndex;
     public bool SuspendDrag;
-
     protected CardMarker Card;
     protected CostFieldMarker CardCost;
     protected NameFieldMarker CardName;
@@ -17,7 +15,8 @@ public class CardButton : SpriteButton
     protected Vector3 delta;
     protected bool selected;
     
-    public CardButton (int CardIndex, CardMarker card) : base(card.gameObject) {
+    public CardButton (int CardIndex, CardMarker card) : base(card.gameObject)
+    {
         this.CardIndex = CardIndex;
         Action = UI.Singleton.PickupCard (CardIndex);
         Card = card;
@@ -44,12 +43,13 @@ public class CardButton : SpriteButton
         return Morphid.Cards != null && 
             Morphid.Cards [CardIndex] != null &&
             Morphid.Cards [CardIndex].Cost <= Morphid.LocalPlayer.Morphium &&
+            Morphid.Cards [CardIndex].Charged &&
             GameState.IsLocalActive;
     }
     
     public override void Update ()
     {
-        Enabled = isEnabled();
+        Enabled = isEnabled ();
         if (selected && !SuspendDrag) {
             Card.transform.position = Camera.main.ScreenPointToRay (Input.mousePosition).origin + delta;
         }
@@ -68,7 +68,7 @@ public class CardButton : SpriteButton
             CardText.Text = "";
             Card.renderer.enabled = false;
         }
-        base.Update();
+        base.Update ();
         CardCost.renderer.material.color = Sprite.renderer.material.color;
         CardName.renderer.material.color = Sprite.renderer.material.color;
         CardText.renderer.material.color = Sprite.renderer.material.color;
