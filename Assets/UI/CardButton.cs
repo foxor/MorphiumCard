@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardButton : SpriteButton
-{
+public class CardButton : SpriteButton {
     protected const int ART_WIDTH = 500;
     protected const int ART_HEIGHT = 770;
     public int CardIndex;
@@ -15,52 +14,47 @@ public class CardButton : SpriteButton
     protected Vector3 delta;
     protected bool selected;
     
-    public CardButton (int CardIndex, CardMarker card) : base(card.gameObject)
-    {
+    public CardButton (int CardIndex, CardMarker card) : base(card.gameObject) {
         this.CardIndex = CardIndex;
-        Action = UI.Singleton.PickupCard (CardIndex);
+        Action = UI.Singleton.PickupCard(CardIndex);
         Card = card;
-        CardCost = card.GetComponentInChildren<CostFieldMarker> ();
-        CardName = card.GetComponentInChildren<NameFieldMarker> ();
-        CardText = card.GetComponentInChildren<TextFieldMarker> ();
+        CardCost = card.GetComponentInChildren<CostFieldMarker>();
+        CardName = card.GetComponentInChildren<NameFieldMarker>();
+        CardText = card.GetComponentInChildren<TextFieldMarker>();
     }
 
-    public void OnPickup ()
-    {
+    public void OnPickup () {
         oldPos = Card.transform.position;
-        delta = oldPos - Camera.main.ScreenPointToRay (Input.mousePosition).origin;
+        delta = oldPos - Camera.main.ScreenPointToRay(Input.mousePosition).origin;
         selected = true;
     }
 
-    public void OnDrop ()
-    {
+    public void OnDrop () {
         Card.transform.position = oldPos;
         selected = false;
     }
 
-    public bool isEnabled ()
-    {
+    public bool isEnabled () {
         return Morphid.Cards != null && 
-            Morphid.Cards [CardIndex] != null &&
-            Morphid.Cards [CardIndex].Cost <= Morphid.LocalPlayer.Morphium &&
-            Morphid.Cards [CardIndex].Charged &&
+            Morphid.Cards[CardIndex] != null &&
+            Morphid.Cards[CardIndex].Cost <= Morphid.LocalPlayer.Morphium &&
+            Morphid.Cards[CardIndex].Charged &&
             GameState.IsLocalActive;
     }
     
-    public override void Update ()
-    {
-        Enabled = isEnabled ();
+    public override void Update () {
+        Enabled = isEnabled();
         if (selected && !SuspendDrag) {
-            Card.transform.position = Camera.main.ScreenPointToRay (Input.mousePosition).origin + delta;
+            Card.transform.position = Camera.main.ScreenPointToRay(Input.mousePosition).origin + delta;
         }
         if (SuspendDrag) {
             Card.transform.position = oldPos;
         }
 
-        if (Morphid.Cards != null && Morphid.Cards [CardIndex] != null) {
-            CardCost.Text = Morphid.Cards [CardIndex].Cost.ToString ();
-            CardName.Text = Morphid.Cards [CardIndex].Name;
-            CardText.Text = Morphid.Cards [CardIndex].Text;
+        if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
+            CardCost.Text = Morphid.Cards[CardIndex].Cost.ToString();
+            CardName.Text = Morphid.Cards[CardIndex].Name;
+            CardText.Text = Morphid.Cards[CardIndex].Text;
             Card.renderer.enabled = true;
         } else {
             CardCost.Text = "";
@@ -68,7 +62,7 @@ public class CardButton : SpriteButton
             CardText.Text = "";
             Card.renderer.enabled = false;
         }
-        base.Update ();
+        base.Update();
         CardCost.renderer.material.color = Sprite.renderer.material.color;
         CardName.renderer.material.color = Sprite.renderer.material.color;
         CardText.renderer.material.color = Sprite.renderer.material.color;

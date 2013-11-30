@@ -8,8 +8,7 @@ using ProtoBuf.Meta;
 
 [Serializable]
 [ProtoContract]
-public class Morphid
-{
+public class Morphid {
     
     public const int MAX_HEALTH = 50;
     public const int MAX_MORPHIUM = 10;
@@ -18,13 +17,13 @@ public class Morphid
     
     public static Morphid LocalPlayer {
         get {
-            return GameState.GetMorphid (Client.GUID);
+            return GameState.GetMorphid(Client.GUID);
         }
     }
 
     public static Morphid RemotePlayer {
         get {
-            return GameState.GetEnemy (Client.GUID);
+            return GameState.GetEnemy(Client.GUID);
         }
     }
     
@@ -61,38 +60,35 @@ public class Morphid
     public string
         GUID;
     
-    public Morphid ()
-    {
+    public Morphid () {
         Health = MAX_HEALTH;
         Morphium = START_MORPHIUM;
         Engine = START_ENGINE;
         Reflect = 0;
     }
     
-    public static void PlayLocalCard (int card, string targetGuid)
-    {
-        Client.PlayCard (Morphid.Cards [card], targetGuid);
+    public static void PlayLocalCard (int card, string targetGuid) {
+        Client.PlayCard(Morphid.Cards[card], targetGuid);
     }
     
-    public void PlayCard (string cardGuid, string targetGuid)
-    {
-        Card c = CardContainer.FromGuid (cardGuid);
+    public void PlayCard (string cardGuid, string targetGuid) {
+        Card c = CardContainer.FromGuid(cardGuid);
         TargetingRequirements req = new TargetingRequirements (c.Targeting, c.TargetingType);
         switch (c.TargetingType) {
         case TargetingType.Single:
-            if (req.TargetAllowed (targetGuid)) {
-                c.Process (new string[] {targetGuid});
+            if (req.TargetAllowed(targetGuid)) {
+                c.Process(new string[] {targetGuid});
             } else {
-                Debug.Log ("Client picked impossible target!");
+                Debug.Log("Client picked impossible target!");
             }
             break;
         case TargetingType.All:
-            c.Process (req.AllTargets (targetGuid).ToArray ());
+            c.Process(req.AllTargets(targetGuid).ToArray());
             break;
         }
-        CardContainer.ReplaceCard (c);
-        CardContainer.Uncharge ();
-        CardContainer.ComboManufacturer (c.Manufacturer);
-        CardContainer.ComboSlot (c.Slot);
+        CardContainer.ReplaceCard(c);
+        CardContainer.Uncharge();
+        CardContainer.ComboManufacturer(c.Manufacturer);
+        CardContainer.ComboSlot(c.Slot);
     }
 }
