@@ -92,6 +92,7 @@ public class Importer {
             c.Damage = new Damage (){Magnitude = data.Damage};
             c.Engine = new Engine (){Magnitude = data.Engine};
             c.Healing = new Healing (){Magnitude = data.Healing};
+            c.Manufacturer = data.Manufacturer;
             c.Name = data.Name;
             c.Reflect = new Reflect (){Magnitude = data.Reflect};
             c.Slot = slot;

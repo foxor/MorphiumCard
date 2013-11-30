@@ -8,7 +8,7 @@ using ProtoBuf.Meta;
 
 [Serializable]
 [ProtoContract]
-public class Card {
+public sealed class Card {
     [SerializeField]
     public Slot
         Slot;
@@ -90,5 +90,9 @@ public class Card {
                 Spawn.Apply(targetGuid);
             }
         }
+    }
+
+    public Card Copy() {
+        return this.SerializeProtoBytes().DeserializeProtoBytes<Card>();
     }
 }
