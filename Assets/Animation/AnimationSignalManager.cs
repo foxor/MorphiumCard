@@ -12,18 +12,23 @@ public enum AnimationType {
 }
 
 public abstract class SignalData {
-    public virtual void OnQueue() {}
-    public virtual void OnActivate() {}
-    public virtual void OnDequeue() {}
+    public virtual void OnQueue () {
+    }
 
-    public virtual bool IsActive() {
+    public virtual void OnActivate () {
+    }
+
+    public virtual void OnDequeue () {
+    }
+
+    public virtual bool IsActive () {
         return false;
     }
 }
 
 public class AnimationSignalManager : MonoBehaviour {
 
-    protected Queue<SignalData> Signals = new Queue<SignalData>();
+    protected Queue<SignalData> Signals = new Queue<SignalData> ();
     
     [RPC]
     public void QueueMinionAnimation (string data) {
@@ -40,7 +45,7 @@ public class AnimationSignalManager : MonoBehaviour {
         Queue<MinionAliveLie>(data);
     }
 
-    protected void Queue<T>(string data) where T : SignalData {
+    protected void Queue<T> (string data) where T : SignalData {
         T signal = data.DeserializeProtoString<T>();
         signal.OnQueue();
         if (!Signals.Any()) {
@@ -49,7 +54,7 @@ public class AnimationSignalManager : MonoBehaviour {
         Signals.Enqueue(signal);
     }
     
-    public void Update() {
+    public void Update () {
         while (Signals.Any() && !Signals.Peek().IsActive()) {
             Signals.Dequeue().OnDequeue();
             if (Signals.Any()) {

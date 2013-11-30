@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-public class CardData
-{
+public class CardData {
     public string Name;
     public string Text;
     public string Manufacturer;
@@ -26,23 +25,21 @@ public class CardData
     public int Defense;
 }
 
-public class Importer
-{
+public class Importer {
     public const string CARD_FILE_NAME = "Cards";
     protected Card[] cards;
 
     protected Card[] Cards {
         get {
             if (cards == null) {
-                cards = ReadCards ().ToArray ();
+                cards = ReadCards().ToArray();
             }
             return cards;
         }
     }
     
-    public IEnumerable<Card> CardsBySlot (Slot slot)
-    {
-        ReadCards ();
+    public IEnumerable<Card> CardsBySlot (Slot slot) {
+        ReadCards();
         foreach (Card c in Cards) {
             if (c.Slot == slot) {
                 for (int i = 0; i < c.Appearances; i++) {
@@ -52,37 +49,35 @@ public class Importer
         }
     }
     
-    protected IEnumerable<CardData> ReadData ()
-    {
-        TextAsset CardFile = (TextAsset)Resources.Load (CARD_FILE_NAME);
+    protected IEnumerable<CardData> ReadData () {
+        TextAsset CardFile = (TextAsset)Resources.Load(CARD_FILE_NAME);
         MemoryStream memoryStream = new MemoryStream (CardFile.bytes);
         StreamReader stream = new StreamReader (memoryStream);
         CsvReader reader = new CsvReader (stream);
         while (reader.Read()) {
             CardData data = new CardData ();
-            data.Name = reader.GetField<string> ("Name");
-            data.Text = reader.GetField<string> ("Text");
-            data.Manufacturer = reader.GetField<string> ("Manufacturer");
-            data.Cost = reader.GetField<int> ("Cost");
-            data.TargetOne = reader.GetField<bool> ("TargetOne");
-            data.TargetAll = reader.GetField<bool> ("TargetAll");
-            data.Targeting = reader.GetField<int> ("Targeting");
-            data.Head = reader.GetField<int> ("Head");
-            data.Chest = reader.GetField<int> ("Chest");
-            data.Arm = reader.GetField<int> ("Arm");
-            data.Leg = reader.GetField<int> ("Leg");
-            data.Damage = reader.GetField<int> ("Damage");
-            data.Healing = reader.GetField<int> ("Healing");
-            data.Reflect = reader.GetField<int> ("Reflect");
-            data.Engine = reader.GetField<int> ("Engine");
-            data.Attack = reader.GetField<int> ("Attack");
-            data.Defense = reader.GetField<int> ("Defense");
+            data.Name = reader.GetField<string>("Name");
+            data.Text = reader.GetField<string>("Text");
+            data.Manufacturer = reader.GetField<string>("Manufacturer");
+            data.Cost = reader.GetField<int>("Cost");
+            data.TargetOne = reader.GetField<bool>("TargetOne");
+            data.TargetAll = reader.GetField<bool>("TargetAll");
+            data.Targeting = reader.GetField<int>("Targeting");
+            data.Head = reader.GetField<int>("Head");
+            data.Chest = reader.GetField<int>("Chest");
+            data.Arm = reader.GetField<int>("Arm");
+            data.Leg = reader.GetField<int>("Leg");
+            data.Damage = reader.GetField<int>("Damage");
+            data.Healing = reader.GetField<int>("Healing");
+            data.Reflect = reader.GetField<int>("Reflect");
+            data.Engine = reader.GetField<int>("Engine");
+            data.Attack = reader.GetField<int>("Attack");
+            data.Defense = reader.GetField<int>("Defense");
             yield return data;
         }
     }
     
-    protected IEnumerable<Card> ReadCards ()
-    {
+    protected IEnumerable<Card> ReadCards () {
         foreach (CardData data in ReadData()) {
             Slot slot = data.Arm > 0 ? Slot.Arm : (
                 data.Chest > 0 ? Slot.Chest : (

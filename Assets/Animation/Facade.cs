@@ -7,7 +7,7 @@ using System.Reflection;
 using ProtoBuf;
 using ProtoBuf.Meta;
 
-public delegate object Truth(params object[] args);
+public delegate object Truth (params object[] args);
 
 public enum Facet {
     MinionAlive,
@@ -17,23 +17,23 @@ public enum Facet {
 }
 
 public static class TruthFunctions {
-    public static object MinionAlive(params object[] args) {
+    public static object MinionAlive (params object[] args) {
         return GameState.GetMinion((string)args[0]) != null;
     }
     
-    public static object MinionHealth(params object[] args) {
+    public static object MinionHealth (params object[] args) {
         return GameState.GetMinion((string)args[0]).Defense;
     }
     
-    public static object MorphidHealth(params object[] args) {
+    public static object MorphidHealth (params object[] args) {
         return GameState.GetMorphid((string)args[0]).Health;
     }
     
-    public static object MyTurn(params object[] args) {
+    public static object MyTurn (params object[] args) {
         return GameState.IsLocalActive;
     }
 
-    public static Truth GetTruth(this Facet e) {
+    public static Truth GetTruth (this Facet e) {
         switch (e) {
         case Facet.MinionAlive:
             return MinionAlive;
@@ -51,26 +51,25 @@ public static class TruthFunctions {
 
 public class Facade {
     public static Facade Singleton;
-
     public Dictionary<Facet, HashSet<Lie>> Lies;
 
-    static Facade() {
-        Singleton = new Facade();
-        Singleton.Lies = new Dictionary<Facet, HashSet<Lie>>();
+    static Facade () {
+        Singleton = new Facade ();
+        Singleton.Lies = new Dictionary<Facet, HashSet<Lie>> ();
         foreach (Facet f in Enum.GetValues(typeof(Facet)).Cast<Facet>()) {
-            Singleton.Lies[f] = new HashSet<Lie>();
+            Singleton.Lies[f] = new HashSet<Lie> ();
         }
     }
     
-    public static void AddLie(Lie l) {
+    public static void AddLie (Lie l) {
         Singleton.Lies[l.Facet].Add(l);
     }
     
-    public static void RemoveLie(Lie l) {
+    public static void RemoveLie (Lie l) {
         Singleton.Lies[l.Facet].Remove(l);
     }
 
-    public static object Query(Facet f,  params object[] args) {
+    public static object Query (Facet f, params object[] args) {
         foreach (Lie l in Singleton.Lies[f]) {
             if (l.Applies(args)) {
                 return l.TellTale();

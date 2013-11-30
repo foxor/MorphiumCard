@@ -9,11 +9,12 @@ using ProtoBuf.Meta;
 [Serializable]
 [ProtoContract]
 public class Damage : Effect {
-	[SerializeField]
-	[ProtoMember(1)]
-	public int Magnitude;
-	
-	public override void Apply (string targetGuid) {
-		GameState.DamageGuid(targetGuid, Magnitude);
-	}
+    [SerializeField]
+    [ProtoMember(1)]
+    public int
+        Magnitude;
+    
+    public override void Apply (string targetGuid) {
+        GameState.DamageGuid(targetGuid, Magnitude);
+    }
 }

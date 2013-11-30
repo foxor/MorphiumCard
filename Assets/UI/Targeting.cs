@@ -28,7 +28,7 @@ public class Target {
     }
     
     public void SetTarget (SelectionRegion Selected) {
-        if (Selected == null || !Selected.Enabled || !typeof(SelectionRegion).IsAssignableFrom (Selected.GetType ())) {
+        if (Selected == null || !Selected.Enabled || !typeof(SelectionRegion).IsAssignableFrom(Selected.GetType())) {
             return;
         }
         Morphid = Selected.Morphid;
@@ -46,12 +46,12 @@ public class Target {
     }
     
     public void Draw (List<SpriteRegion> Sprites) {
-        EnemyMorphid = new SelectionRegion(GameObject.FindObjectOfType<EnemyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
+        EnemyMorphid = new SelectionRegion (GameObject.FindObjectOfType<EnemyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
             Morphid = GameState.GetEnemy(Client.GUID)
         };
         Sprites.Add(EnemyMorphid);
 
-        FriendlyMorphid = new SelectionRegion(GameObject.FindObjectOfType<FriendlyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
+        FriendlyMorphid = new SelectionRegion (GameObject.FindObjectOfType<FriendlyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
             Morphid = GameState.GetMorphid (Client.GUID)
         };
         Sprites.Add(FriendlyMorphid);
@@ -63,7 +63,7 @@ public class Target {
             .OrderBy(x => x.transform.position.x)
             .ToArray();
         for (int i = 0; i < 3; i++) {
-            Lanes [i] = new SelectionRegion(Factories[i]) {
+            Lanes[i] = new SelectionRegion (Factories[i]) {
                 Lane = GameState.GetLane(i)
             };
         }
@@ -76,7 +76,7 @@ public class Target {
             .OrderBy(x => x.transform.position.x)
             .ToArray();
         for (int i = 0; i < 3; i++) {
-            FriendlyMinions [i] = new SelectionRegion(FriendlySprites[i]) {
+            FriendlyMinions[i] = new SelectionRegion (FriendlySprites[i]) {
             };
         }
         Sprites.AddRange(FriendlyMinions);
@@ -88,46 +88,46 @@ public class Target {
             .OrderBy(x => x.transform.position.x)
             .ToArray();
         for (int i = 0; i < 3; i++) {
-            EnemyMinions [i] = new SelectionRegion(EnemySprites[i]) {
+            EnemyMinions[i] = new SelectionRegion (EnemySprites[i]) {
             };
         }
         Sprites.AddRange(EnemyMinions);
     }
     
     public void Update (TargetingRequirements req) {
-        EnemyMorphid.Morphid = GameState.GetEnemy (Client.GUID);
-        FriendlyMorphid.Morphid = GameState.GetMorphid (Client.GUID);
+        EnemyMorphid.Morphid = GameState.GetEnemy(Client.GUID);
+        FriendlyMorphid.Morphid = GameState.GetMorphid(Client.GUID);
         for (int i = 0; i < 3; i++) {
-            Lanes [i].Lane = GameState.GetLane (i);
-            FriendlyMinions [i].Minion = Lanes [i].Lane.FriendlyMinion (Client.GUID);
-            EnemyMinions [i].Minion = Lanes [i].Lane.EnemyMinion (Client.GUID);
+            Lanes[i].Lane = GameState.GetLane(i);
+            FriendlyMinions[i].Minion = Lanes[i].Lane.FriendlyMinion(Client.GUID);
+            EnemyMinions[i].Minion = Lanes[i].Lane.EnemyMinion(Client.GUID);
             
-            if (Minion.IsDead (FriendlyMinions [i].Minion)) {
-                FriendlyMinions [i].Text = "";
+            if (Minion.IsDead(FriendlyMinions[i].Minion)) {
+                FriendlyMinions[i].Text = "";
             } else {
-                FriendlyMinions [i].Text = FriendlyMinions [i].Minion.Attack + "/" + FriendlyMinions [i].Minion.Defense;
+                FriendlyMinions[i].Text = FriendlyMinions[i].Minion.Attack + "/" + FriendlyMinions[i].Minion.Defense;
             }
-            if (Minion.IsDead (EnemyMinions [i].Minion)) {
-                EnemyMinions [i].Text = "";
+            if (Minion.IsDead(EnemyMinions[i].Minion)) {
+                EnemyMinions[i].Text = "";
             } else {
-                EnemyMinions [i].Text = EnemyMinions [i].Minion.Attack + "/" + EnemyMinions [i].Minion.Defense;
+                EnemyMinions[i].Text = EnemyMinions[i].Minion.Attack + "/" + EnemyMinions[i].Minion.Defense;
             }
         }
         
         EnemyMorphid.Text = Morphid.RemotePlayer.Health + " / " + Morphid.MAX_HEALTH;
         FriendlyMorphid.Text = Morphid.LocalPlayer.Health + " / " + Morphid.MAX_HEALTH;
         
-        FriendlyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed (FriendlyMorphid.Morphid.GUID));
-        EnemyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed (EnemyMorphid.Morphid.GUID));
+        FriendlyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(FriendlyMorphid.Morphid.GUID));
+        EnemyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(EnemyMorphid.Morphid.GUID));
         foreach (SelectionRegion lane in Lanes) {
-            lane.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed (lane.Lane.GUID));
+            lane.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(lane.Lane.GUID));
         }
         foreach (SelectionRegion enemy in EnemyMinions) {
-            enemy.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed (enemy.Minion));
+            enemy.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed(enemy.Minion));
             enemy.Visible = enemy.Minion != null;
         }
         foreach (SelectionRegion friendly in FriendlyMinions) {
-            friendly.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed (friendly.Minion));
+            friendly.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed(friendly.Minion));
             friendly.Visible = friendly.Minion != null;
         }
     }

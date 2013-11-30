@@ -12,13 +12,14 @@ using ProtoBuf.Meta;
 public class MinionAliveLie : Lie {
     [SerializeField]
     [ProtoMember(2)]
-    public bool Alive;
-    
+    public bool
+        Alive;
     [SerializeField]
     [ProtoMember(3)]
-    public string GUID;
+    public string
+        GUID;
     
-    public MinionAliveLie() {
+    public MinionAliveLie () {
         Facet = Facet.MinionHealth;
     }
     

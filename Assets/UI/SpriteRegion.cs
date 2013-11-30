@@ -4,11 +4,9 @@ using System.Linq;
 
 public abstract class SpriteRegion {
     protected static Color EnabledColor = Color.white;
-    protected static Color DisabledColor = new Color(1f, 1f, 1f, 0.1f);
-
+    protected static Color DisabledColor = new Color (1f, 1f, 1f, 0.1f);
     protected GameObject sprite;
     protected TextMesh TextArea;
-
     public string Text;
     public bool Enabled;
     public bool Visible;
@@ -19,7 +17,7 @@ public abstract class SpriteRegion {
         }
     }
 
-    public SpriteRegion(GameObject Sprite) {
+    public SpriteRegion (GameObject Sprite) {
         this.sprite = Sprite;
         TextArea = Sprite.GetComponentInChildren<TextMesh>();
         Enabled = true;

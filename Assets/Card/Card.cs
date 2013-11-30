@@ -8,8 +8,7 @@ using ProtoBuf.Meta;
 
 [Serializable]
 [ProtoContract]
-public class Card
-{
+public class Card {
     [SerializeField]
     public Slot
         Slot;
@@ -70,9 +69,8 @@ public class Card
     public bool
         Charged;
     
-    public Card ()
-    {
-        GUID = Guid.NewGuid ().ToString ();
+    public Card () {
+        GUID = Guid.NewGuid().ToString();
         Damage = new Damage ();
         Healing = new Healing ();
         Reflect = new Reflect ();
@@ -80,17 +78,16 @@ public class Card
         Spawn = new Spawn ();
     }
     
-    public void Process (string[] targetGuids)
-    {
+    public void Process (string[] targetGuids) {
         Morphid self = GameState.ActiveMorphid;
         if (self.Morphium >= Cost) {
             self.Morphium -= Cost;
             foreach (string targetGuid in targetGuids) {
-                Damage.Apply (targetGuid);
-                Healing.Apply (targetGuid);
-                Reflect.Apply (targetGuid);
-                Engine.Apply (targetGuid);
-                Spawn.Apply (targetGuid);
+                Damage.Apply(targetGuid);
+                Healing.Apply(targetGuid);
+                Reflect.Apply(targetGuid);
+                Engine.Apply(targetGuid);
+                Spawn.Apply(targetGuid);
             }
         }
     }

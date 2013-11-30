@@ -9,29 +9,30 @@ using ProtoBuf.Meta;
 [Serializable]
 [ProtoContract]
 public class CardContainer {
-	[SerializeField]
-	[ProtoMember(1)]
-	public Card[] Cards;
-	
-	[SerializeField]
-	[ProtoMember(2)]
-	public Deck[] Decks;
-	
-	static CardContainer() {
-		RuntimeTypeModel.Default.Add(typeof(CardContainer), true)[1].SupportNull = true;
-	}
-	
-	public Card FromGuid(string guid) {
-		return Cards.Where(x => x != null && x.GUID == guid).Single();
+    [SerializeField]
+    [ProtoMember(1)]
+    public Card[]
+        Cards;
+    [SerializeField]
+    [ProtoMember(2)]
+    public Deck[]
+        Decks;
+    
+    static CardContainer () {
+        RuntimeTypeModel.Default.Add(typeof(CardContainer), true)[1].SupportNull = true;
+    }
+    
+    public Card FromGuid (string guid) {
+        return Cards.Where(x => x != null && x.GUID == guid).Single();
     }
 
-    public void Uncharge() {
+    public void Uncharge () {
         foreach (Card c in Cards) {
             c.Charged = false;
         }
     }
     
-    public void ComboManufacturer(string Manufacturer) {
+    public void ComboManufacturer (string Manufacturer) {
         foreach (Card c in Cards) {
             if (c.Manufacturer == Manufacturer) {
                 c.Charged = true;
@@ -39,33 +40,33 @@ public class CardContainer {
         }
     }
     
-    public void ComboSlot(Slot slot) {
+    public void ComboSlot (Slot slot) {
         foreach (Card c in Cards) {
             if (c.Slot == slot) {
                 c.Charged = true;
             }
         }
     }
-	
-	public void ReplaceCard(Card c) {
-		for (int i = 0; i < Cards.Length; i++) {
-			if (Cards[i] == c) {
+    
+    public void ReplaceCard (Card c) {
+        for (int i = 0; i < Cards.Length; i++) {
+            if (Cards[i] == c) {
                 Cards[i] = Decks[i].Draw();
-			}
-		}
-	}
-	
-	public void Setup() {
-		Slot[] Slots = Enum.GetValues(typeof(Slot)).Cast<Slot>().OrderBy(x => x.Order()).ToArray();
-		Cards = new Card[Slots.Count()];
-		Decks = new Deck[Slots.Count()];
-		for (int i = 0; i < Slots.Count(); i++) {
-			Decks[i] = new Deck(){
-				Slot = Slots[i]
-			};
-			Decks[i].Shuffle();
-			Cards[i] = Decks[i].Draw();
+            }
+        }
+    }
+    
+    public void Setup () {
+        Slot[] Slots = Enum.GetValues(typeof(Slot)).Cast<Slot>().OrderBy(x => x.Order()).ToArray();
+        Cards = new Card[Slots.Count()];
+        Decks = new Deck[Slots.Count()];
+        for (int i = 0; i < Slots.Count(); i++) {
+            Decks[i] = new Deck (){
+                Slot = Slots[i]
+            };
+            Decks[i].Shuffle();
+            Cards[i] = Decks[i].Draw();
             Cards[i].Charged = true;
-		}
-	}
+        }
+    }
 }

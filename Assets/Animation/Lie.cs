@@ -12,13 +12,14 @@ using ProtoBuf.Meta;
 public abstract class Lie : SignalData {
     [SerializeField]
     [ProtoMember(1)]
-    public Facet Facet;
+    public Facet
+        Facet;
     
-    public virtual bool Applies(params object[] args) {
+    public virtual bool Applies (params object[] args) {
         return true;
     }
     
-    public abstract object TellTale();
+    public abstract object TellTale ();
     
     public override void OnQueue () {
         Facade.AddLie(this);

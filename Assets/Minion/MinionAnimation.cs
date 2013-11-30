@@ -11,12 +11,12 @@ using ProtoBuf.Meta;
 public class MinionAnimation : SignalData {
     [SerializeField]
     [ProtoMember(1)]
-    public AnimationType AnimationType;
-    
+    public AnimationType
+        AnimationType;
     [SerializeField]
     [ProtoMember(2)]
-    public string GUID;
-    
+    public string
+        GUID;
     protected Animation animation;
     
     public override void OnActivate () {

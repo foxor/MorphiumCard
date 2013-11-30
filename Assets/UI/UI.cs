@@ -7,26 +7,21 @@ using System.Linq;
 public class UI : MonoBehaviour {
     protected const int DRAG_SIZE = 5;
     protected const float DRAG_TIMER = 0.3f;
-
     public static UI Singleton;
-
     public GameObject LeftSide;
     public GameObject EngineButton;
-
     protected CardButton[] Cards;
     protected CardButton Selected;
     protected SpriteButton EngineSprite;
-
     public Target Target;
     protected TargetingRequirements CardRequirements;
     protected TargetingMode TargetingMode;
-
     protected List<SpriteRegion> Sprites;
     
     public void Awake () {
         Singleton = this;
 
-        Sprites = new List<SpriteRegion>();
+        Sprites = new List<SpriteRegion> ();
 
         Cards = new CardButton[4];
 
@@ -39,7 +34,7 @@ public class UI : MonoBehaviour {
         Cards[3] = new CardButton (3, CardComponents[3]);
         Sprites.AddRange(Cards);
 
-        EngineSprite = new SpriteButton(EngineButton) {
+        EngineSprite = new SpriteButton (EngineButton) {
             Action = Client.BoostEngine
         };
         Sprites.Add(EngineSprite);

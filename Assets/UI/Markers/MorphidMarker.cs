@@ -10,7 +10,7 @@ public class MorphidMarker : MonoBehaviour {
     
     protected TextMesh text;
     
-    public void Awake() {
+    public void Awake () {
         text = GetComponent<TextMesh>();
     }
 }

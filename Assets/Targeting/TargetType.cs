@@ -2,6 +2,6 @@
 using System.Collections;
 
 public enum TargetingType {
-	Single,
-	All
+    Single,
+    All
 }
