@@ -1,20 +1,5 @@
 Name,Text,Manufacturer,Cost,Slot,Effect,Arguments,Target,Targeted
-It's Alive!,Put a minion from your discards into a lane,Central Chemical,5,???,,,,TRUE
-Lab Assistant,Summon a 0/2,Central Chemical,1,???,,,,TRUE
-Conduct Experiment,"Discard each card in your hand, then draw a card from each of your decks",Central Chemical,4,???,,,,FALSE
-Strength Serum,One of your minions gains +3 ATK,Central Chemical,3,???,,,,TRUE
-Replicate,Summon a copy of an enemy minion,Central Chemical,6,???,,,,TRUE
-Monstrous Minion,Summon a 6/6,Central Chemical,8,???,,,,TRUE
-Splice Minions,Destroy one of your minions. Then add that minion's attack and health to one of your minions.,Central Chemical,2,???,,,,TRUE
-Administered Poison,Destroy an enemy minion that was dealt damage by one of your minions this turn.,Central Chemical,4,???,,,,TRUE
-Reprogram,Steal an enemy minion,Hackers,8,???,,,,TRUE
-Phreak,Summon a 1/3,Hackers,2,???,,,,TRUE
-Firewall,"Until your next turn, minions that deal damage to your minions or morphid lose 1 health",Hackers,3,???,,,,FALSE
-Bypass Security,"Until your next turn, an attacking minion you control deals its damage to the enemy morphid directly",Hackers,2,???,,,,TRUE
-Download Data,Look at a player's hand. Steal a card from that player's hand. You discard a card of the same deck type and that player draws a card of the same deck type.,Hackers,3,???,,,,TRUE
-Encryption,A minion you control gains stealth.,Hackers,1,???,,,,TRUE
-Cyber Warrior,Summon a 4/6,Hackers,6,???,,,,TRUE
-Recompile,"Return one of your minions to your hand, then summon it again.",Hackers,1,???,,,,TRUE
+
 Rugged Suspension,Heal {HEAL} damage.  Gain {WEIGHT} weight.,Goliath,6,Leg,"Heal,Weight","4,4",18,FALSE
 Roll Over,Deals {DAMAGE} damage.,Goliath,2,Leg,Damage,3+Weight,30,TRUE
 Pulverize,Deals {DAMAGE} damage.,Goliath,7,Arm,Damage,2+Weight*2,30,TRUE

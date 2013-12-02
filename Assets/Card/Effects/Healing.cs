@@ -9,8 +9,10 @@ using ProtoBuf.Meta;
 [Serializable]
 [ProtoContract]
 public class Healing : Effect {
+    public const string CSV_NAME = "Heal";
+
     [SerializeField]
-    [ProtoMember(1)]
+    [ProtoMember(3)]
     public int
         Magnitude;
     

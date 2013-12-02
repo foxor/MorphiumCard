@@ -73,8 +73,8 @@ public class Morphid {
     
     public void PlayCard (string cardGuid, string targetGuid) {
         Card c = CardContainer.FromGuid(cardGuid);
-        TargetingRequirements req = new TargetingRequirements (c.Targeting, c.TargetingType);
-        switch (c.TargetingType) {
+        TargetingRequirements req = new TargetingRequirements (c.Effects[0].Targeting, c.Effects[0].TargetingType);
+        switch (c.Effects[0].TargetingType) {
         case TargetingType.Single:
             if (req.TargetAllowed(targetGuid)) {
                 c.Process(new string[] {targetGuid});

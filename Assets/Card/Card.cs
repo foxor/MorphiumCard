@@ -38,44 +38,15 @@ public sealed class Card {
         Cost;
     [SerializeField]
     [ProtoMember(6)]
-    public int
-        Targeting;
-    [SerializeField]
-    [ProtoMember(7)]
-    public TargetingType
-        TargetingType;
-    [SerializeField]
-    [ProtoMember(8)]
-    public Damage
-        Damage;
-    [SerializeField]
-    [ProtoMember(9)]
-    public Healing
-        Healing;
-    [SerializeField]
-    [ProtoMember(10)]
-    public Reflect
-        Reflect;
+    public Effect[] Effects;
     [SerializeField]
     [ProtoMember(11)]
-    public Engine
-        Engine;
-    [SerializeField]
-    [ProtoMember(12)]
-    public Spawn
-        Spawn;
-    [SerializeField]
-    [ProtoMember(13)]
     public bool
         Charged;
     
     public Card () {
         GUID = Guid.NewGuid().ToString();
-        Damage = new Damage ();
-        Healing = new Healing ();
-        Reflect = new Reflect ();
-        Engine = new Engine ();
-        Spawn = new Spawn ();
+        Effects = new Effect[0];
     }
     
     public void Process (string[] targetGuids) {
@@ -83,16 +54,31 @@ public sealed class Card {
         if (self.Morphium >= Cost) {
             self.Morphium -= Cost;
             foreach (string targetGuid in targetGuids) {
-                Damage.Apply(targetGuid);
-                Healing.Apply(targetGuid);
-                Reflect.Apply(targetGuid);
-                Engine.Apply(targetGuid);
-                Spawn.Apply(targetGuid);
+                foreach (Effect effect in Effects) {
+                    effect.Apply(targetGuid);
+                }
             }
         }
     }
 
     public Card Copy() {
         return this.SerializeProtoBytes().DeserializeProtoBytes<Card>();
+    }
+
+    private IEnumerable<Effect> BuildInner(string[] effects, string[] arguments, int[] targets, TargetingType[] targetTypes) {
+        IEnumerable<string> args = arguments.AsEnumerable();
+        for (int i = 0; i < effects.Length; i++) {
+            string effect = effects[i];
+            yield return Effect.Build(
+                effect, 
+                args.Take(Effect.Arguments(effect)).ToArray(), 
+                targets.Length == 1 ? targets[0] : targets[i],
+                targetTypes.Length == 1 ? targetTypes[0] : targetTypes[i]
+            );
+        }
+    }
+
+    public void Build(string[] effects, string[] arguments, int[] targets, TargetingType[] targetTypes) {
+        this.Effects = BuildInner(effects, arguments, targets, targetTypes).ToArray();
     }
 }

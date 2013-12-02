@@ -9,8 +9,10 @@ using ProtoBuf.Meta;
 [Serializable]
 [ProtoContract]
 public class Engine : Effect {
+    public const string CSV_NAME = "Engine";
+
     [SerializeField]
-    [ProtoMember(1)]
+    [ProtoMember(3)]
     public int
         Magnitude;
     

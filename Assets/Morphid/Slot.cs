@@ -14,7 +14,7 @@ public enum Slot {
     Arm,
     
     [SlotOrder(4)]
-    Legs
+    Leg
 }
 
 public static class SlotExtension {

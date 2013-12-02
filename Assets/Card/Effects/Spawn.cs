@@ -9,8 +9,10 @@ using ProtoBuf.Meta;
 [Serializable]
 [ProtoContract]
 public class Spawn : Effect {
+    public const string CSV_NAME = "Summon";
+
     [SerializeField]
-    [ProtoMember(1)]
+    [ProtoMember(3)]
     public Minion
         Minion;
     

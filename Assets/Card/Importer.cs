@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,19 +11,11 @@ public class CardData {
     public string Text;
     public string Manufacturer;
     public int Cost;
-    public bool TargetOne;
-    public bool TargetAll;
-    public int Targeting;
-    public int Head;
-    public int Chest;
-    public int Arm;
-    public int Leg;
-    public int Damage;
-    public int Healing;
-    public int Reflect;
-    public int Engine;
-    public int Attack;
-    public int Defense;
+    public string Slot;
+    public string Effect;
+    public string Arguments;
+    public string Target;
+    public string Targeted;
 }
 
 public class Importer {
@@ -60,45 +53,29 @@ public class Importer {
             data.Text = reader.GetField<string>("Text");
             data.Manufacturer = reader.GetField<string>("Manufacturer");
             data.Cost = reader.GetField<int>("Cost");
-            data.TargetOne = reader.GetField<bool>("TargetOne");
-            data.TargetAll = reader.GetField<bool>("TargetAll");
-            data.Targeting = reader.GetField<int>("Targeting");
-            data.Head = reader.GetField<int>("Head");
-            data.Chest = reader.GetField<int>("Chest");
-            data.Arm = reader.GetField<int>("Arm");
-            data.Leg = reader.GetField<int>("Leg");
-            data.Damage = reader.GetField<int>("Damage");
-            data.Healing = reader.GetField<int>("Healing");
-            data.Reflect = reader.GetField<int>("Reflect");
-            data.Engine = reader.GetField<int>("Engine");
-            data.Attack = reader.GetField<int>("Attack");
-            data.Defense = reader.GetField<int>("Defense");
+            data.Slot = reader.GetField<string>("Slot");
+            data.Effect = reader.GetField<string>("Effect");
+            data.Arguments = reader.GetField<string>("Arguments");
+            data.Target = reader.GetField<string>("Target");
+            data.Targeted = reader.GetField<string>("Targeted");
             yield return data;
         }
     }
     
     protected IEnumerable<Card> ReadCards () {
         foreach (CardData data in ReadData()) {
-            Slot slot = data.Arm > 0 ? Slot.Arm : (
-                data.Chest > 0 ? Slot.Chest : (
-                data.Leg > 0 ? Slot.Legs : Slot.Head
-            ));
+            Slot slot = (Slot)Enum.Parse(typeof(Slot), data.Slot);
             Card c = new Card ();
-            c.Appearances = slot == Slot.Arm ? data.Arm : (
-                slot == Slot.Chest ? data.Chest : (
-                slot == Slot.Head ? data.Head : data.Leg
-            ));
+            string[] Effects = data.Effect.Split(',');
+            string[] Arguments = data.Arguments.Split(',');
+            int[] Targets = data.Target.Split(',').Select(x => int.Parse(x)).ToArray();
+            TargetingType[] Targeted = data.Targeted.Split(',').Select(x => bool.Parse(x) ? TargetingType.Single : TargetingType.All).ToArray();
+            c.Build(Effects, Arguments, Targets, Targeted);
+            c.Appearances = 1;
             c.Cost = data.Cost;
-            c.Damage = new Damage (){Magnitude = data.Damage};
-            c.Engine = new Engine (){Magnitude = data.Engine};
-            c.Healing = new Healing (){Magnitude = data.Healing};
             c.Manufacturer = data.Manufacturer;
             c.Name = data.Name;
-            c.Reflect = new Reflect (){Magnitude = data.Reflect};
             c.Slot = slot;
-            c.Spawn = new Spawn (){Minion = new Minion(){Attack = data.Attack, Defense = data.Defense}};
-            c.TargetingType = data.TargetAll ? TargetingType.All : TargetingType.Single;
-            c.Targeting = data.Targeting;
             c.Text = data.Text;
             yield return c;
         }
