@@ -1233,10 +1233,10 @@ namespace CsvHelper
 				throw new CsvReaderException( string.Format( string.Format( "No properties are mapped for type '{0}'.", recordType.FullName ) ) );
 			}
 
-			var constructorExpression = configuration.Maps[recordType].Constructor ?? Expression.New( recordType );
-			var body = Expression.MemberInit( constructorExpression, bindings );
+			var constructorExpression = configuration.Maps[recordType].Constructor ?? System.Linq.Expressions.Expression.New( recordType );
+			var body = System.Linq.Expressions.Expression.MemberInit( constructorExpression, bindings );
 			var funcType = typeof( Func<> ).MakeGenericType( recordType );
-			recordFuncs[recordType] = Expression.Lambda( funcType, body ).Compile();
+			recordFuncs[recordType] = System.Linq.Expressions.Expression.Lambda( funcType, body ).Compile();
 		}
 
 		/// <summary>
@@ -1246,14 +1246,14 @@ namespace CsvHelper
 		protected virtual void CreateFuncForPrimitive( Type recordType )
 		{
 			var method = typeof( ICsvReaderRow ).GetProperty( "Item", typeof( string ), new[] { typeof( int ) } ).GetGetMethod();
-			Expression fieldExpression = Expression.Call( Expression.Constant( this ), method, Expression.Constant( 0, typeof( int ) ) );
+			System.Linq.Expressions.Expression fieldExpression = System.Linq.Expressions.Expression.Call( System.Linq.Expressions.Expression.Constant( this ), method, System.Linq.Expressions.Expression.Constant( 0, typeof( int ) ) );
 
 			var typeConverter = TypeConverterFactory.GetConverter( recordType );
-			fieldExpression = Expression.Call( Expression.Constant( typeConverter ), "ConvertFromString", null, Expression.Constant( new TypeConverterOptions() ), fieldExpression );
-			fieldExpression = Expression.Convert( fieldExpression, recordType );
+			fieldExpression =System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant( typeConverter ), "ConvertFromString", null,System.Linq.Expressions.Expression.Constant( new TypeConverterOptions() ), fieldExpression );
+			fieldExpression =System.Linq.Expressions.Expression.Convert( fieldExpression, recordType );
 	
 			var funcType = typeof( Func<> ).MakeGenericType( recordType );
-			recordFuncs[recordType] = Expression.Lambda( funcType, fieldExpression ).Compile();
+			recordFuncs[recordType] =System.Linq.Expressions.Expression.Lambda( funcType, fieldExpression ).Compile();
 		}
 
 		/// <summary>
@@ -1275,8 +1275,8 @@ namespace CsvHelper
 
 				var referenceBindings = new List<MemberBinding>();
 				CreatePropertyBindingsForMapping( referenceMap.Mapping, referenceMap.Property.PropertyType, referenceBindings );
-				var referenceBody = Expression.MemberInit( Expression.New( referenceMap.Property.PropertyType ), referenceBindings );
-				bindings.Add( Expression.Bind( referenceMap.Property, referenceBody ) );
+				var referenceBody =System.Linq.Expressions.Expression.MemberInit(System.Linq.Expressions.Expression.New( referenceMap.Property.PropertyType ), referenceBindings );
+				bindings.Add(System.Linq.Expressions.Expression.Bind( referenceMap.Property, referenceBody ) );
 			}
 		}
 
@@ -1292,8 +1292,8 @@ namespace CsvHelper
 				if( propertyMap.Data.ConvertExpression != null )
 				{
 					// The user is providing the expression to do the conversion.
-					var exp = Expression.Invoke( propertyMap.Data.ConvertExpression, Expression.Constant( this ) );
-					bindings.Add( Expression.Bind( propertyMap.Data.Property, exp ) );
+					var exp =System.Linq.Expressions.Expression.Invoke( propertyMap.Data.ConvertExpression,System.Linq.Expressions.Expression.Constant( this ) );
+					bindings.Add(System.Linq.Expressions.Expression.Bind( propertyMap.Data.Property, exp ) );
 					continue;
 				}
 
@@ -1347,34 +1347,34 @@ namespace CsvHelper
 
 				// Get the field using the field index.
 				var method = typeof( ICsvReaderRow ).GetProperty( "Item", typeof( string ), new[] { typeof( int ) } ).GetGetMethod();
-				Expression fieldExpression = Expression.Call( Expression.Constant( this ), method, Expression.Constant( index, typeof( int ) ) );
+                System.Linq.Expressions.Expression fieldExpression =System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant( this ), method,System.Linq.Expressions.Expression.Constant( index, typeof( int ) ) );
 
 				// Convert the field.
-				var typeConverterExpression = Expression.Constant( propertyMap.Data.TypeConverter );
+				var typeConverterExpression =System.Linq.Expressions.Expression.Constant( propertyMap.Data.TypeConverter );
 				if( propertyMap.Data.TypeConverterOptions.CultureInfo == null )
 				{
 					propertyMap.Data.TypeConverterOptions.CultureInfo = configuration.CultureInfo;
 				}
-				var typeConverterOptions = Expression.Constant( propertyMap.Data.TypeConverterOptions );
+				var typeConverterOptions =System.Linq.Expressions.Expression.Constant( propertyMap.Data.TypeConverterOptions );
 
 				// Create type converter expression.
-				Expression typeConverterFieldExpression = Expression.Call( typeConverterExpression, "ConvertFromString", null, typeConverterOptions, fieldExpression );
-				typeConverterFieldExpression = Expression.Convert( typeConverterFieldExpression, propertyMap.Data.Property.PropertyType );
+                System.Linq.Expressions.Expression typeConverterFieldExpression =System.Linq.Expressions.Expression.Call( typeConverterExpression, "ConvertFromString", null, typeConverterOptions, fieldExpression );
+				typeConverterFieldExpression =System.Linq.Expressions.Expression.Convert( typeConverterFieldExpression, propertyMap.Data.Property.PropertyType );
 
 				if( propertyMap.Data.IsDefaultSet )
 				{
 					// Create default value expression.
-					Expression defaultValueExpression = Expression.Convert( Expression.Constant( propertyMap.Data.Default ), propertyMap.Data.Property.PropertyType );
+                    System.Linq.Expressions.Expression defaultValueExpression =System.Linq.Expressions.Expression.Convert(System.Linq.Expressions.Expression.Constant( propertyMap.Data.Default ), propertyMap.Data.Property.PropertyType );
 
-					var checkFieldEmptyExpression = Expression.Equal( Expression.Convert( fieldExpression, typeof( string ) ), Expression.Constant( string.Empty, typeof( string ) ) );
-					fieldExpression = Expression.Condition( checkFieldEmptyExpression, defaultValueExpression, typeConverterFieldExpression );
+					var checkFieldEmptyExpression =System.Linq.Expressions.Expression.Equal(System.Linq.Expressions.Expression.Convert( fieldExpression, typeof( string ) ),System.Linq.Expressions.Expression.Constant( string.Empty, typeof( string ) ) );
+					fieldExpression =System.Linq.Expressions.Expression.Condition( checkFieldEmptyExpression, defaultValueExpression, typeConverterFieldExpression );
 				}
 				else
 				{
 					fieldExpression = typeConverterFieldExpression;
 				}
 
-				bindings.Add( Expression.Bind( propertyMap.Data.Property, fieldExpression ) );
+				bindings.Add(System.Linq.Expressions.Expression.Bind( propertyMap.Data.Property, fieldExpression ) );
 			}
 		}
 

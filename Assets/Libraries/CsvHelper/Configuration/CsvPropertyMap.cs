@@ -152,7 +152,7 @@ namespace CsvHelper.Configuration
 		/// <param name="convertExpression">The convert expression.</param>
 		public virtual CsvPropertyMap ConvertUsing<T>( Func<ICsvReaderRow, T> convertExpression )
 		{
-			data.ConvertExpression = (Expression<Func<ICsvReaderRow, T>>)( x => convertExpression( x ) );
+            data.ConvertExpression = (System.Linq.Expressions.Expression<Func<ICsvReaderRow, T>>)( x => convertExpression( x ) );
 			return this;
 		}
 

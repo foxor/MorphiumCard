@@ -29,8 +29,8 @@ namespace CsvHelper
 			return Activator.CreateInstance<T>();
 #else
 
-			var constructor = Expression.New( typeof( T ) );
-			var compiled = (Func<T>)Expression.Lambda( constructor ).Compile();
+			var constructor = System.Linq.Expressions.Expression.New( typeof( T ) );
+            var compiled = (Func<T>)System.Linq.Expressions.Expression.Lambda( constructor ).Compile();
 			return compiled();
 #endif
 		}
@@ -45,8 +45,8 @@ namespace CsvHelper
 #if NET_2_0
 			return Activator.CreateInstance( type );
 #else
-			var constructor = Expression.New( type );
-			var compiled = Expression.Lambda( constructor ).Compile();
+			var constructor = System.Linq.Expressions.Expression.New( type );
+			var compiled = System.Linq.Expressions.Expression.Lambda( constructor ).Compile();
 			return compiled.DynamicInvoke();
 #endif
 		}
@@ -90,7 +90,7 @@ namespace CsvHelper
 		/// <param name="expression">The constructor <see cref="Expression"/>.</param>
 		/// <returns>A constructor <see cref="NewExpression"/>.</returns>
 		/// <exception cref="System.ArgumentException">Not a constructor expression.;expression</exception>
-		public static NewExpression GetConstructor<T>( Expression<Func<T>> expression )
+		public static NewExpression GetConstructor<T>( System.Linq.Expressions.Expression<Func<T>> expression )
 		{
 			var newExpression = expression.Body as NewExpression;
 			if( newExpression == null )
@@ -107,7 +107,7 @@ namespace CsvHelper
 		/// <typeparam name="TModel">The type of the model.</typeparam>
 		/// <param name="expression">The expression.</param>
 		/// <returns>The <see cref="PropertyInfo"/> for the expression.</returns>
-		public static PropertyInfo GetProperty<TModel>( Expression<Func<TModel, object>> expression )
+		public static PropertyInfo GetProperty<TModel>( System.Linq.Expressions.Expression<Func<TModel, object>> expression )
 		{
 			var member = GetMemberExpression( expression ).Member;
 			var property = member as PropertyInfo;
@@ -126,18 +126,18 @@ namespace CsvHelper
 		/// <typeparam name="T"></typeparam>
 		/// <param name="expression">The expression.</param>
 		/// <returns></returns>
-		private static MemberExpression GetMemberExpression<TModel, T>( Expression<Func<TModel, T>> expression )
+		private static MemberExpression GetMemberExpression<TModel, T>( System.Linq.Expressions.Expression<Func<TModel, T>> expression )
 		{
 			// This method was taken from FluentNHibernate.Utils.ReflectionHelper.cs and modified.
 			// http://fluentnhibernate.org/
 
 			MemberExpression memberExpression = null;
-			if( expression.Body.NodeType == ExpressionType.Convert )
+			if( expression.Body.NodeType == System.Linq.Expressions.ExpressionType.Convert )
 			{
 				var body = (UnaryExpression)expression.Body;
 				memberExpression = body.Operand as MemberExpression;
 			}
-			else if( expression.Body.NodeType == ExpressionType.MemberAccess )
+			else if( expression.Body.NodeType == System.Linq.Expressions.ExpressionType.MemberAccess )
 			{
 				memberExpression = expression.Body as MemberExpression;
 			}

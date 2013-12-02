@@ -109,7 +109,7 @@ namespace CsvHelper.Configuration
 		/// Gets or sets the expression used to convert data in the
 		/// row to the property.
 		/// </summary>
-		public virtual Expression ConvertExpression { get; set; }
+        public virtual System.Linq.Expressions.Expression ConvertExpression { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CsvPropertyMapData"/> class.

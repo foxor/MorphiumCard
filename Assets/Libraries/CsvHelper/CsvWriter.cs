@@ -464,7 +464,7 @@ namespace CsvHelper
 		/// <param name="mapping">The mapping to look for the property map on.</param>
 		/// <param name="propertyMap">The property map to look for on the mapping.</param>
 		/// <returns>A <see cref="ParameterExpression"/> to access the given property map.</returns>
-		protected virtual Expression CreateParameterForProperty( Expression parameter, CsvClassMap mapping, CsvPropertyMap propertyMap )
+		protected virtual System.Linq.Expressions.Expression CreateParameterForProperty(System.Linq.Expressions.Expression parameter, CsvClassMap mapping, CsvPropertyMap propertyMap )
 		{
 			var propertyMapping = mapping.PropertyMaps.SingleOrDefault( pm => pm == propertyMap );
 			if( propertyMapping != null )
@@ -478,7 +478,7 @@ namespace CsvHelper
 			// We need to search down through the reference maps.
 			foreach( var refMap in mapping.ReferenceMaps )
 			{
-				var wrappedParameter = Expression.Property( parameter, refMap.Property );
+                var wrappedParameter = System.Linq.Expressions.Expression.Property( parameter, refMap.Property );
 				var param = CreateParameterForProperty( wrappedParameter, refMap.Mapping, propertyMap );
 				if( param != null )
 				{
@@ -601,7 +601,7 @@ namespace CsvHelper
 		/// <param name="type">The type of object to create the action for.</param>
 		protected virtual void CreateActionForObject( Type type )
 		{
-			var recordParameter = Expression.Parameter( type, "record" );
+			var recordParameter =System.Linq.Expressions.Expression.Parameter( type, "record" );
 
 			// Get a list of all the properties so they will
 			// be sorted properly.
@@ -631,17 +631,17 @@ namespace CsvHelper
 				// Find the object that contains this property.
 				var currentRecordObject = CreateParameterForProperty( recordParameter, configuration.Maps[type], propertyMap );
 
-				Expression fieldExpression = Expression.Property( currentRecordObject, propertyMap.Data.Property );
+                System.Linq.Expressions.Expression fieldExpression =System.Linq.Expressions.Expression.Property( currentRecordObject, propertyMap.Data.Property );
 
-				var typeConverterExpression = Expression.Constant( propertyMap.Data.TypeConverter );
+				var typeConverterExpression =System.Linq.Expressions.Expression.Constant( propertyMap.Data.TypeConverter );
 				if( propertyMap.Data.TypeConverterOptions.CultureInfo == null )
 				{
 					propertyMap.Data.TypeConverterOptions.CultureInfo = configuration.CultureInfo;
 				}
-				var typeConverterOptions = Expression.Constant( propertyMap.Data.TypeConverterOptions );
+				var typeConverterOptions =System.Linq.Expressions.Expression.Constant( propertyMap.Data.TypeConverterOptions );
 				var method = propertyMap.Data.TypeConverter.GetType().GetMethod( "ConvertToString" );
-				fieldExpression = Expression.Convert( fieldExpression, typeof( object ) );
-				fieldExpression = Expression.Call( typeConverterExpression, method, typeConverterOptions, fieldExpression );
+				fieldExpression =System.Linq.Expressions.Expression.Convert( fieldExpression, typeof( object ) );
+				fieldExpression =System.Linq.Expressions.Expression.Call( typeConverterExpression, method, typeConverterOptions, fieldExpression );
 
 #if !WINRT_4_5
 				if( type.IsClass )
@@ -649,14 +649,14 @@ namespace CsvHelper
 				if( type.GetTypeInfo().IsClass )
 #endif
 				{
-					var areEqualExpression = Expression.Equal( recordParameter, Expression.Constant( null ) );
-					fieldExpression = Expression.Condition( areEqualExpression, Expression.Constant( string.Empty ), fieldExpression );
+					var areEqualExpression =System.Linq.Expressions.Expression.Equal( recordParameter,System.Linq.Expressions.Expression.Constant( null ) );
+					fieldExpression =System.Linq.Expressions.Expression.Condition( areEqualExpression,System.Linq.Expressions.Expression.Constant( string.Empty ), fieldExpression );
 				}
 
-				var writeFieldMethodCall = Expression.Call( Expression.Constant( this ), "WriteField", new[] { typeof( string ) }, fieldExpression );
+				var writeFieldMethodCall =System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant( this ), "WriteField", new[] { typeof( string ) }, fieldExpression );
 
 				var actionType = typeof( Action<> ).MakeGenericType( type );
-				delegates.Add( Expression.Lambda( actionType, writeFieldMethodCall, recordParameter ).Compile() );
+				delegates.Add(System.Linq.Expressions.Expression.Lambda( actionType, writeFieldMethodCall, recordParameter ).Compile() );
 			}
 
 			typeActions[type] = CombineDelegates( delegates );
@@ -668,19 +668,19 @@ namespace CsvHelper
 		/// <param name="type">The type of primitive to create the action for.</param>
 		protected virtual void CreateActionForPrimitive( Type type )
 		{
-			var recordParameter = Expression.Parameter( type, "record" );
+			var recordParameter =System.Linq.Expressions.Expression.Parameter( type, "record" );
 
-			Expression fieldExpression = Expression.Convert( recordParameter, typeof( object ) );
+            System.Linq.Expressions.Expression fieldExpression =System.Linq.Expressions.Expression.Convert( recordParameter, typeof( object ) );
 
 			var typeConverter = TypeConverterFactory.GetConverter( type );
-			var typeConverterExpression = Expression.Constant( typeConverter );
+			var typeConverterExpression =System.Linq.Expressions.Expression.Constant( typeConverter );
 			var method = typeConverter.GetType().GetMethod( "ConvertToString" );
-			fieldExpression = Expression.Call( typeConverterExpression, method, Expression.Constant( new TypeConverterOptions() ), fieldExpression );
+			fieldExpression =System.Linq.Expressions.Expression.Call( typeConverterExpression, method,System.Linq.Expressions.Expression.Constant( new TypeConverterOptions() ), fieldExpression );
 
-			fieldExpression = Expression.Call( Expression.Constant( this ), "WriteField", new[] { typeof( string ) }, fieldExpression );
+			fieldExpression =System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant( this ), "WriteField", new[] { typeof( string ) }, fieldExpression );
 
 			var actionType = typeof( Action<> ).MakeGenericType( type );
-			typeActions[type] = Expression.Lambda( actionType, fieldExpression, recordParameter ).Compile();
+			typeActions[type] =System.Linq.Expressions.Expression.Lambda( actionType, fieldExpression, recordParameter ).Compile();
 		}
 
 		/// <summary>
