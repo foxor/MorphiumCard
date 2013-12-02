@@ -10,6 +10,7 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public class Reflect : Effect {
     public const string CSV_NAME = "Reflect";
+    public const string ARGUMENT_NAME = "REFLECT";
 
     [SerializeField]
     [ProtoMember(3)]
@@ -17,6 +18,7 @@ public class Reflect : Effect {
         Magnitude;
     
     public override void Apply (string target) {
+        SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         Morphid morphid = GameState.GetMorphid(target);
         if (morphid != null) {
             morphid.Reflect += Magnitude;

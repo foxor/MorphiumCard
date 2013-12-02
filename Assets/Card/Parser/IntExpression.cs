@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IntExpression : MonoBehaviour {
+public class IntExpression : Expression {
+    protected int value;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public IntExpression(string value) {
+        this.value = int.Parse(value);
+    }
+
+    public override int Evaluate () {
+        return value;
+    }
 }

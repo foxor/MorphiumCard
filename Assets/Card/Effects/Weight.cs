@@ -10,6 +10,7 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public class Weight : Effect {
     public const string CSV_NAME = "Weight";
+    public const string ARGUMENT_NAME = "WEIGHT";
     
     [SerializeField]
     [ProtoMember(3)]
@@ -17,6 +18,7 @@ public class Weight : Effect {
         Magnitude;
     
     public override void Apply (string target) {
+        SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         GameState.GetMorphid(target).Weight += Magnitude;
     }
 }

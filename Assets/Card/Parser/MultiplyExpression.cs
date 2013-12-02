@@ -9,7 +9,7 @@ public class MultiplyExpression : Expression {
         this.expressions = expressions;
     }
     
-    public int Evaluate() {
+    public override int Evaluate() {
         return expressions.Aggregate(1, (x, y) => x * y.Evaluate());
     }
 }
