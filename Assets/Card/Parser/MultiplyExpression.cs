@@ -3,6 +3,8 @@ using System.Collections;
 using System.Linq;
 
 public class MultiplyExpression : Expression {
+    public const string DELIMITER = "*";
+
     protected Expression[] expressions;
     
     public MultiplyExpression(Expression[] expressions) {
