@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class DivideExpression : Expression {
-    public const string DELIMITER = "/";
+    public static char DELIMITER = '/';
 
     protected Expression[] expressions;
     

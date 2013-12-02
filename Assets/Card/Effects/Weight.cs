@@ -14,11 +14,10 @@ public class Weight : Effect {
     
     [SerializeField]
     [ProtoMember(3)]
-    public int
-        Magnitude;
+    public Expression Magnitude;
     
     public override void Apply (string target) {
         SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
-        GameState.GetMorphid(target).Weight += Magnitude;
+        GameState.GetMorphid(target).Weight += Magnitude.Evaluate();
     }
 }

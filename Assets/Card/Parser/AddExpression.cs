@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class AddExpression : Expression {
-    public const string DELIMITER = "+";
+    public static char DELIMITER = '+';
 
     protected Expression[] expressions;
 

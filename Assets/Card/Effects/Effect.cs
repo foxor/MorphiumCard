@@ -32,26 +32,25 @@ public abstract class Effect {
         Effect r = null;
         switch (effect) {
         case Damage.CSV_NAME:
-            r = new Damage(){Magnitude = int.Parse(arguments[0])};
+            r = new Damage(){Magnitude = Expression.Parse(arguments[0])};
             break;
         case Engine.CSV_NAME:
-            r = new Engine(){Magnitude = int.Parse(arguments[0])};
+            r = new Engine(){Magnitude = Expression.Parse(arguments[0])};
             break;
         case Healing.CSV_NAME:
-            r = new Healing(){Magnitude = int.Parse(arguments[0])};
+            r = new Healing(){Magnitude = Expression.Parse(arguments[0])};
             break;
         case Reflect.CSV_NAME:
-            r = new Reflect(){Magnitude = int.Parse(arguments[0])};
+            r = new Reflect(){Magnitude = Expression.Parse(arguments[0])};
             break;
         case Spawn.CSV_NAME:
-            r = new Spawn(){Minion = new Minion(){
-                    Attack = int.Parse(arguments[0]),
-                    Defense = int.Parse(arguments[1])
-                }
+            r = new Spawn(){
+                Attack = Expression.Parse(arguments[0]),
+                Defense = Expression.Parse(arguments[1])
             };
             break;
         case Weight.CSV_NAME:
-            r = new Weight(){Magnitude = int.Parse(arguments[0])};
+            r = new Weight(){Magnitude = Expression.Parse(arguments[0])};
             break;
         }
         r.Targeting = target;

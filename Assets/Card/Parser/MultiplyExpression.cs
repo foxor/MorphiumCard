@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class MultiplyExpression : Expression {
-    public const string DELIMITER = "*";
+    public static char DELIMITER = '*';
 
     protected Expression[] expressions;
     
