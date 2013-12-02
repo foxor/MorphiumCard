@@ -38,33 +38,38 @@ public class Morphid {
         }
     }
     
+    [HideInInspector]
     [SerializeField]
     [ProtoMember(2)]
-    public int
-        Health;
+    public string
+        GUID;
     [SerializeField]
     [ProtoMember(3)]
     public int
-        Morphium;
+        Health;
     [SerializeField]
     [ProtoMember(4)]
     public int
-        Engine;
+        Morphium;
     [SerializeField]
     [ProtoMember(5)]
     public int
-        Reflect;
-    [HideInInspector]
+        Engine;
     [SerializeField]
     [ProtoMember(6)]
-    public string
-        GUID;
+    public int
+        Reflect;
+    [SerializeField]
+    [ProtoMember(7)]
+    public int
+        Weight;
     
     public Morphid () {
         Health = MAX_HEALTH;
         Morphium = START_MORPHIUM;
         Engine = START_ENGINE;
         Reflect = 0;
+        Weight = 0;
     }
     
     public static void PlayLocalCard (int card, string targetGuid) {

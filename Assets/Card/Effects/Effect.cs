@@ -45,10 +45,13 @@ public abstract class Effect {
             break;
         case Spawn.CSV_NAME:
             r = new Spawn(){Minion = new Minion(){
-                        Attack = int.Parse(arguments[0]),
-                        Defense = int.Parse(arguments[1])
-                    }
-                };
+                    Attack = int.Parse(arguments[0]),
+                    Defense = int.Parse(arguments[1])
+                }
+            };
+            break;
+        case Weight.CSV_NAME:
+            r = new Weight(){Magnitude = int.Parse(arguments[0])};
             break;
         }
         r.Targeting = target;
