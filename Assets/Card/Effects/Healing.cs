@@ -14,10 +14,15 @@ public class Healing : Effect {
     
     [SerializeField]
     [ProtoMember(3)]
-    public Expression Magnitude;
+    public string magnitude;
+    public int Magnitude {
+        get {
+            return Expression.Parse(magnitude).Evaluate();
+        }
+    }
     
     public override void Apply (string target) {
         SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
-        GameState.HealGuid(target, Magnitude.Evaluate());
+        GameState.HealGuid(target, Magnitude);
     }
 }

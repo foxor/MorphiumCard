@@ -11,10 +11,6 @@ using ProtoBuf.Meta;
 public class Destroy : Effect {
     public const string CSV_NAME = "Destroy";
     
-    [SerializeField]
-    [ProtoMember(3)]
-    public Expression Magnitude;
-    
     public override void Apply (string target) {
         SubstitutionExpression.Substitutions[CSV_NAME] = GameState.GetMinion(target);
         GameState.RemoveMinion(target);

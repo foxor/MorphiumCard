@@ -14,10 +14,15 @@ public class Damage : Effect {
     
     [SerializeField]
     [ProtoMember(3)]
-    public Expression Magnitude;
+    public string magnitude;
+    public int Magnitude {
+        get {
+            return Expression.Parse(magnitude).Evaluate();
+        }
+    }
     
     public override void Apply (string targetGuid) {
         SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
-        GameState.DamageGuid(targetGuid, Magnitude.Evaluate());
+        GameState.DamageGuid(targetGuid, Magnitude);
     }
 }

@@ -15,15 +15,15 @@ public class Spawn : Effect {
     
     [SerializeField]
     [ProtoMember(3)]
-    public Expression Attack;
+    public string Attack;
 
     [SerializeField]
     [ProtoMember(4)]
-    public Expression Defense;
+    public string Defense;
     
     public override void Apply (string target) {
-        int attack = Attack.Evaluate();
-        int defense = Defense.Evaluate();
+        int attack = Expression.Parse(Attack).Evaluate();
+        int defense = Expression.Parse(Defense).Evaluate();
         SubstitutionExpression.Substitutions[ATTACK_NAME] = attack;
         SubstitutionExpression.Substitutions[DEFENSE_NAME] = defense;
         Lane lane = GameState.GetLane(target);

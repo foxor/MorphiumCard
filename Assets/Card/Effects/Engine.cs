@@ -14,13 +14,18 @@ public class Engine : Effect {
 
     [SerializeField]
     [ProtoMember(3)]
-    public Expression Magnitude;
+    public string magnitude;
+    public int Magnitude {
+        get {
+            return Expression.Parse(magnitude).Evaluate();
+        }
+    }
     
     public override void Apply (string target) {
         SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         Morphid morphid = GameState.GetMorphid(target);
         if (morphid != null) {
-            morphid.Engine += Magnitude.Evaluate();
+            morphid.Engine += Magnitude;
         }
     }
 }
