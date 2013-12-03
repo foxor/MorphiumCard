@@ -30,7 +30,7 @@ public abstract class Effect {
         return 1;
     }
 
-    public static Effect Build (string effect, string[] arguments, int target, TargetingType targetingType) {
+    public static EffectWrapper Build (string effect, string[] arguments, int target, TargetingType targetingType) {
         Effect r = null;
         switch (effect) {
         case Damage.CSV_NAME:
@@ -60,6 +60,6 @@ public abstract class Effect {
         }
         r.Targeting = target;
         r.TargetingType = targetingType;
-        return r;
+        return EffectWrapper.Build(r);
     }
 }

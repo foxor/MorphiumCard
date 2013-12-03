@@ -38,7 +38,7 @@ public sealed class Card {
 
     [SerializeField]
     [ProtoMember(6)]
-    public Effect[] Effects;
+    public EffectWrapper[] Effects;
 
     [SerializeField]
     [ProtoMember(11)]
@@ -46,7 +46,7 @@ public sealed class Card {
     
     public Card () {
         GUID = Guid.NewGuid().ToString();
-        Effects = new Effect[0];
+        Effects = new EffectWrapper[0];
     }
     
     public void Process (string[] targetGuids) {
@@ -54,7 +54,7 @@ public sealed class Card {
         if (self.Morphium >= Cost) {
             self.Morphium -= Cost;
             foreach (string targetGuid in targetGuids) {
-                foreach (Effect effect in Effects) {
+                foreach (EffectWrapper effect in Effects) {
                     effect.Apply(targetGuid);
                 }
             }
@@ -65,7 +65,7 @@ public sealed class Card {
         return this.SerializeProtoBytes().DeserializeProtoBytes<Card>();
     }
 
-    private IEnumerable<Effect> BuildInner(string[] effects, string[] arguments, int[] targets, TargetingType[] targetTypes) {
+    private IEnumerable<EffectWrapper> BuildInner(string[] effects, string[] arguments, int[] targets, TargetingType[] targetTypes) {
         IEnumerable<string> args = arguments.AsEnumerable();
         for (int i = 0; i < effects.Length; i++) {
             string effect = effects[i];
