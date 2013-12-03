@@ -14,6 +14,14 @@ public class Spawn : Effect {
     public const string DEFENSE_NAME = "DEFENSE";
     
     [SerializeField]
+    [ProtoMember(1)]
+    public int targeting;
+    
+    [SerializeField]
+    [ProtoMember(2)]
+    public TargetingType targetingType;
+    
+    [SerializeField]
     [ProtoMember(3)]
     public string Attack;
 
@@ -30,5 +38,13 @@ public class Spawn : Effect {
         if (lane != null) {
             lane.SpawnFriendly(new Minion(){Attack = attack, Defense = defense});
         }
+    }
+    
+    public override int Targeting () {
+        return targeting;
+    }
+    
+    public override TargetingType TargetingType () {
+        return targetingType;
     }
 }

@@ -13,6 +13,14 @@ public class Healing : Effect {
     public const string ARGUMENT_NAME = "HEAL";
     
     [SerializeField]
+    [ProtoMember(1)]
+    public int targeting;
+    
+    [SerializeField]
+    [ProtoMember(2)]
+    public TargetingType targetingType;
+    
+    [SerializeField]
     [ProtoMember(3)]
     public string magnitude;
     public int Magnitude {
@@ -24,5 +32,13 @@ public class Healing : Effect {
     public override void Apply (string target) {
         SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         GameState.HealGuid(target, Magnitude);
+    }
+    
+    public override int Targeting () {
+        return targeting;
+    }
+    
+    public override TargetingType TargetingType () {
+        return targetingType;
     }
 }

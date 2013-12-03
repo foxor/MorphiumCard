@@ -11,6 +11,14 @@ using ProtoBuf.Meta;
 public class Reflect : Effect {
     public const string CSV_NAME = "Reflect";
     public const string ARGUMENT_NAME = "REFLECT";
+    
+    [SerializeField]
+    [ProtoMember(1)]
+    public int targeting;
+    
+    [SerializeField]
+    [ProtoMember(2)]
+    public TargetingType targetingType;
 
     [SerializeField]
     [ProtoMember(3)]
@@ -27,5 +35,13 @@ public class Reflect : Effect {
         if (morphid != null) {
             morphid.Reflect += Magnitude;
         }
+    }
+    
+    public override int Targeting () {
+        return targeting;
+    }
+    
+    public override TargetingType TargetingType () {
+        return targetingType;
     }
 }

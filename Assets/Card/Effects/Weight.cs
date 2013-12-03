@@ -13,6 +13,14 @@ public class Weight : Effect {
     public const string ARGUMENT_NAME = "WEIGHT";
     
     [SerializeField]
+    [ProtoMember(1)]
+    public int targeting;
+    
+    [SerializeField]
+    [ProtoMember(2)]
+    public TargetingType targetingType;
+    
+    [SerializeField]
     [ProtoMember(3)]
     public string magnitude;
     public int Magnitude {
@@ -25,5 +33,13 @@ public class Weight : Effect {
 
         SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         GameState.GetMorphid(target).Weight += Magnitude;
+    }
+    
+    public override int Targeting () {
+        return targeting;
+    }
+    
+    public override TargetingType TargetingType () {
+        return targetingType;
     }
 }

@@ -13,6 +13,14 @@ public class Damage : Effect {
     public const string ARGUMENT_NAME = "DAMAGE";
     
     [SerializeField]
+    [ProtoMember(1)]
+    public int targeting;
+    
+    [SerializeField]
+    [ProtoMember(2)]
+    public TargetingType targetingType;
+    
+    [SerializeField]
     [ProtoMember(3)]
     public string magnitude;
     public int Magnitude {
@@ -24,5 +32,13 @@ public class Damage : Effect {
     public override void Apply (string targetGuid) {
         SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         GameState.DamageGuid(targetGuid, Magnitude);
+    }
+    
+    public override int Targeting () {
+        return targeting;
+    }
+    
+    public override TargetingType TargetingType () {
+        return targetingType;
     }
 }

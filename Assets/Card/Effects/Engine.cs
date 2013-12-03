@@ -11,6 +11,14 @@ using ProtoBuf.Meta;
 public class Engine : Effect {
     public const string CSV_NAME = "Engine";
     public const string ARGUMENT_NAME = "ENGINE";
+    
+    [SerializeField]
+    [ProtoMember(1)]
+    public int targeting;
+    
+    [SerializeField]
+    [ProtoMember(2)]
+    public TargetingType targetingType;
 
     [SerializeField]
     [ProtoMember(3)]
@@ -27,5 +35,13 @@ public class Engine : Effect {
         if (morphid != null) {
             morphid.Engine += Magnitude;
         }
+    }
+    
+    public override int Targeting () {
+        return targeting;
+    }
+    
+    public override TargetingType TargetingType () {
+        return targetingType;
     }
 }
