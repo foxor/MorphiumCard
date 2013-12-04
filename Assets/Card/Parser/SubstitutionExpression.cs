@@ -14,13 +14,13 @@ public class SubstitutionExpression : Expression {
         Searches[Weight.ARGUMENT_NAME] = () => GameState.ActiveMorphid.Weight;
     }
 
-    protected string substitution;
+    public string substitution;
 
     public SubstitutionExpression(string substitution) {
         this.substitution = substitution;
     }
 
-    protected object Value {
+    public object Value {
         get {
             if (Searches.ContainsKey(substitution)) {
                 return Searches[substitution]();
