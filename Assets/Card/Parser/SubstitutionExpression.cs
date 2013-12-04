@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public delegate object Poll();
+public delegate int Poll();
 
 public class SubstitutionExpression : Expression {
     public const string MORPHID_PREFIX = "Morphid.";
@@ -35,16 +35,16 @@ public class SubstitutionExpression : Expression {
         this.substitution = substitution;
     }
 
-    public object Value {
+    public int Value {
         get {
             if (Searches.ContainsKey(substitution)) {
                 return Searches[substitution]();
             }
-            return null;
+            return 0;
         }
     }
 
     public override int Evaluate() {
-        return (int)(Value ?? 0);
+        return Value;
     }
 }

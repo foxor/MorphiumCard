@@ -55,8 +55,8 @@ public abstract class Effect {
             break;
         case Spawn.CSV_NAME:
             r = new Spawn(){
-                Attack = arguments[0],
-                Defense = arguments[1],
+                attack = arguments[0],
+                defense = arguments[1],
                 targeting = target,
                 targetingType = targetingType
             };

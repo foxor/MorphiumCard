@@ -23,18 +23,26 @@ public class Spawn : Effect {
     
     [SerializeField]
     [ProtoMember(3)]
-    public string Attack;
+    public string attack;
+    public int Attack {
+        get {
+            return Expression.Parse(attack).Evaluate();
+        }
+    }
 
     [SerializeField]
     [ProtoMember(4)]
-    public string Defense;
+    public string defense;
+    public int Defense {
+        get {
+            return Expression.Parse(defense).Evaluate();
+        }
+    }
     
     public override void Apply (string target) {
-        int attack = Expression.Parse(Attack).Evaluate();
-        int defense = Expression.Parse(Defense).Evaluate();
         Lane lane = GameState.GetLane(target);
         if (lane != null) {
-            lane.SpawnFriendly(new Minion(){Attack = attack, Defense = defense});
+            lane.SpawnFriendly(new Minion(){Attack = Attack, Defense = Defense});
         }
     }
     
