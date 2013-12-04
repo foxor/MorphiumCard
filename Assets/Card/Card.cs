@@ -61,6 +61,11 @@ public sealed class Card {
         }
     }
 
+    public void Bind() {
+        SubstitutionExpression.morphidContext = Morphid.LocalPlayer;
+        SubstitutionExpression.cardContext = this;
+    }
+
     public Card Copy() {
         return this.SerializeProtoBytes().DeserializeProtoBytes<Card>();
     }
@@ -76,6 +81,10 @@ public sealed class Card {
                 targetTypes.Length == 1 ? targetTypes[0] : targetTypes[i]
             );
         }
+    }
+
+    public IEnumerable<T> EffectsOfType<T>() {
+        return Effects.Select(x => x.Wrapped).Where(x => x.GetType() == typeof(T)).Cast<T>();
     }
 
     public void Build(string[] effects, string[] arguments, int[] targets, TargetingType[] targetTypes) {

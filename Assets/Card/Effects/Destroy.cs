@@ -28,7 +28,7 @@ public class Destroy : Effect {
     }
     
     public override void Apply (string target) {
-        SubstitutionExpression.Substitutions[CSV_NAME] = GameState.GetMinion(target);
+        SubstitutionExpression.minionContext = GameState.GetMinion(target);
         GameState.RemoveMinion(target);
     }
 }

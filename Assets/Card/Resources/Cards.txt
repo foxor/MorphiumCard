@@ -1,10 +1,10 @@
 Name,Text,Manufacturer,Cost,Slot,Effect,Arguments,Target,Targeted
 
-Rugged Suspension,Heal {HEAL} damage.  Gain {WEIGHT} weight.,Goliath,6,Leg,"Heal,Weight","4,4",18,FALSE
-Roll Over,Deals {DAMAGE} damage.,Goliath,2,Leg,Damage,3+WEIGHT,30,TRUE
-Pulverize,Deals {DAMAGE} damage.,Goliath,7,Arm,Damage,2+WEIGHT*2,30,TRUE
-Quake,{DAMAGE} damage to all minions.,Goliath,9,Arm,Damage,7,28,FALSE
-Spare Parts,Summon a {ATTACK}/{DEFENSE}.  Gain {WEIGHT} Weight.,Goliath,4,Chest,Summon,"WEIGHT/2,WEIGHT*2",33,TRUE
-Load Up,Gain {ENGINE} Engine and {WEIGHT} Weight.,Goliath,0,Chest,"Engine,Weight","1,3",18,FALSE
-Salvage,"Destroy a friendly minion, gain Weight equal to it's defense",Goliath,2,Head,"Destroy,Weight",Destroy.Defense,20,TRUE
-ExoTruck,Summon a {ATTACK}/{DEFENSE}.,Goliath,3,Head,Summon,"2,7",33,TRUE
+Rugged Suspension,Heal {Card.Heal} damage.  Gain {Card.Weight} weight.,Goliath,6,Leg,"Heal,Weight","4,4",18,FALSE
+Roll Over,Deals {Card.Damage} damage.,Goliath,2,Leg,Damage,3+Morphid.Weight,30,TRUE
+Pulverize,Deals {Card.Damage} damage.,Goliath,7,Arm,Damage,2+Morphid.Weight*2,30,TRUE
+Quake,{Card.Damage} damage to all minions.,Goliath,9,Arm,Damage,7,28,FALSE
+Spare Parts,Summon a {Card.Attack}/{Card.Defense}.  Gain {Card.Weight} Weight.,Goliath,4,Chest,"Summon,Weight","Morphid.Weight/2,Morphid.Weight*2,2",33,TRUE
+Load Up,Gain {Card.Engine} Engine and {Card.Weight} Weight.,Goliath,0,Chest,"Engine,Weight","1,3",18,FALSE
+Salvage,"Destroy a friendly minion, gain Weight equal to it's defense",Goliath,2,Head,"Destroy,Weight",Minion.Defense,20,TRUE
+ExoTruck,Summon a {Card.Attack}/{Card.Defense}.,Goliath,3,Head,Summon,"2,7",33,TRUE

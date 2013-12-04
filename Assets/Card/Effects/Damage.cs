@@ -10,7 +10,6 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public class Damage : Effect {
     public const string CSV_NAME = "Damage";
-    public const string ARGUMENT_NAME = "DAMAGE";
     
     [SerializeField]
     [ProtoMember(1)]
@@ -30,7 +29,6 @@ public class Damage : Effect {
     }
     
     public override void Apply (string targetGuid) {
-        SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         GameState.DamageGuid(targetGuid, Magnitude);
     }
     

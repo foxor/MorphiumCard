@@ -10,8 +10,8 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public class Spawn : Effect {
     public const string CSV_NAME = "Summon";
-    public const string ATTACK_NAME = "ATTACK";
-    public const string DEFENSE_NAME = "DEFENSE";
+    public const string ATTACK_NAME = "Attack";
+    public const string DEFENSE_NAME = "Defense";
     
     [SerializeField]
     [ProtoMember(1)]
@@ -32,8 +32,6 @@ public class Spawn : Effect {
     public override void Apply (string target) {
         int attack = Expression.Parse(Attack).Evaluate();
         int defense = Expression.Parse(Defense).Evaluate();
-        SubstitutionExpression.Substitutions[ATTACK_NAME] = attack;
-        SubstitutionExpression.Substitutions[DEFENSE_NAME] = defense;
         Lane lane = GameState.GetLane(target);
         if (lane != null) {
             lane.SpawnFriendly(new Minion(){Attack = attack, Defense = defense});

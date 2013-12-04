@@ -30,7 +30,6 @@ public class Reflect : Effect {
     }
     
     public override void Apply (string target) {
-        SubstitutionExpression.Substitutions[ARGUMENT_NAME] = Magnitude;
         Morphid morphid = GameState.GetMorphid(target);
         if (morphid != null) {
             morphid.Reflect += Magnitude;

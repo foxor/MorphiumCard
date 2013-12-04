@@ -78,6 +78,7 @@ public class CardButton : SpriteButton {
         }
 
         if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
+            Morphid.Cards[CardIndex].Bind();
             CardCost.Text = CostText.Parse(Morphid.Cards[CardIndex].Cost.ToString());
             CardName.Text = NameText.Parse(Morphid.Cards[CardIndex].Name);
             CardText.Text = MainText.Parse(Morphid.Cards[CardIndex].Text);
