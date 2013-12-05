@@ -31,6 +31,10 @@ public abstract class SpriteRegion {
     public virtual void Update () {
         Sprite.renderer.material.color = Enabled ? EnabledColor : DisabledColor;
         Sprite.renderer.enabled = Visible;
+        ManageText();
+    }
+
+    protected virtual void ManageText() {
         if (TextArea != null) {
             TextArea.text = Text;
             TextArea.renderer.material.color = Sprite.renderer.material.color;

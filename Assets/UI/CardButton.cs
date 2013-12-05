@@ -76,7 +76,10 @@ public class CardButton : SpriteButton {
         if (SuspendDrag) {
             Card.transform.position = oldPos;
         }
+        base.Update();
+    }
 
+    protected override void ManageText () {
         if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
             Morphid.Cards[CardIndex].Bind();
             CardCost.Text = CostText.Parse(Morphid.Cards[CardIndex].Cost.ToString());
@@ -89,7 +92,6 @@ public class CardButton : SpriteButton {
             CardText.Text = "";
             Card.renderer.enabled = false;
         }
-        base.Update();
         CardCost.renderer.material.color = Sprite.renderer.material.color;
         CardName.renderer.material.color = Sprite.renderer.material.color;
         CardText.renderer.material.color = Sprite.renderer.material.color;
