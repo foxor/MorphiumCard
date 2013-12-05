@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public class DivideExpression : Expression {
@@ -9,10 +10,14 @@ public class DivideExpression : Expression {
     
     public DivideExpression(Expression[] expressions) {
         this.expressions = expressions;
+        if (this.expressions.Length != 2) {
+            Debug.Log("Don't divide more than 2 things without parenthasis");
+        }
     }
     
     public override int Evaluate() {
-        int First = expressions.Take(1).First().Evaluate();
-        return expressions.Aggregate(First, (x, y) => x / y.Evaluate());
+        int First = expressions.First().Evaluate();
+        int Last = expressions.Last().Evaluate();
+        return First / Last;
     }
 }
