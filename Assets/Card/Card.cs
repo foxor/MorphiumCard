@@ -62,7 +62,6 @@ public sealed class Card {
     }
 
     public void Bind() {
-        SubstitutionExpression.morphidContext = Morphid.LocalPlayer;
         SubstitutionExpression.cardContext = this;
     }
 

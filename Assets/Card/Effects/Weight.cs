@@ -29,7 +29,7 @@ public class Weight : Effect {
     }
     
     public override void Apply (string target) {
-        GameState.GetMorphid(target).Weight += Magnitude;
+        GameState.ActiveMorphid.Weight += Magnitude;
     }
     
     public override int Targeting () {
