@@ -72,14 +72,17 @@ public sealed class Card {
 
     private IEnumerable<EffectWrapper> BuildInner(string[] effects, string[] arguments, int[] targets, TargetingType[] targetTypes) {
         IEnumerable<string> args = arguments.AsEnumerable();
+        int argPtr = 0;
         for (int i = 0; i < effects.Length; i++) {
             string effect = effects[i];
+            int argCount = Effect.Arguments(effect);
             yield return Effect.Build(
                 effect, 
-                args.Take(Effect.Arguments(effect)).ToArray(), 
+                args.Skip(argPtr).Take(argCount).ToArray(), 
                 targets.Length == 1 ? targets[0] : targets[i],
                 targetTypes.Length == 1 ? targetTypes[0] : targetTypes[i]
             );
+            argPtr += argCount;
         }
     }
 
