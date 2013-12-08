@@ -10,10 +10,10 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public abstract class Effect {
 
-    public abstract void Apply (string TargetGuid);
+    public abstract void Apply(string TargetGuid);
 
-    public static int Arguments (string effect) {
-        switch (effect) {
+    public static int Arguments(string effect) {
+        switch(effect) {
         case Spawn.CSV_NAME:
             return 2;
         case Destroy.CSV_NAME:
@@ -22,9 +22,9 @@ public abstract class Effect {
         return 1;
     }
 
-    public static EffectWrapper Build (string effect, string[] arguments, int target, TargetingType targetingType) {
+    public static EffectWrapper Build(string effect, string[] arguments, int target, TargetingType targetingType) {
         Effect r = null;
-        switch (effect) {
+        switch(effect) {
         case Damage.CSV_NAME:
             r = new Damage(){
                 magnitude = arguments[0],
@@ -74,12 +74,14 @@ public abstract class Effect {
                 targetingType = targetingType
             };
             break;
-		default:
-			Debug.Log("Effect not implemented: " + effect);
+        default:
+            Debug.Log("Effect not implemented: " + effect);
+            break;
         }
         return EffectWrapper.Build(r);
     }
     
     public abstract int Targeting();
+
     public abstract TargetingType TargetingType();
 }
