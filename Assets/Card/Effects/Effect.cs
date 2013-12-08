@@ -74,6 +74,8 @@ public abstract class Effect {
                 targetingType = targetingType
             };
             break;
+		default:
+			Debug.Log("Effect not implemented: " + effect);
         }
         return EffectWrapper.Build(r);
     }
