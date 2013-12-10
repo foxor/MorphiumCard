@@ -18,6 +18,8 @@ public abstract class Effect {
             return 2;
         case Destroy.CSV_NAME:
             return 0;
+        case Research.CSV_NAME:
+            return 0;
         }
         return 1;
     }
