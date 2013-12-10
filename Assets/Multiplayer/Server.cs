@@ -42,6 +42,7 @@ public class Server : MonoBehaviour {
     
     private void EndTurn (Morphid enemy) {
         if (GameState.ActiveMorphid.Research != null) {
+            GameState.ActiveMorphid.Research.Activate();
         }
         foreach (Lane l in GameState.Lanes) {
             Minion attacker = l.EnemyMinion(GameState.ActiveMorphid.GUID);

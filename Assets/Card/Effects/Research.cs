@@ -26,12 +26,21 @@ public class Research : Effect {
     public override void Apply(string TargetGuid) {
         this.TargetGuid = TargetGuid;
         GameState.ActiveMorphid.Research = this;
-        //Source.Effects = Source.Effects.Where(x => x.
+        Source = Source.Copy();
+        Source.Effects = Source.Effects.Where(x => x.GetType() != typeof(Research)).ToArray();
     }
 
     public void Activate() {
         GameState.ActiveMorphid.Research.Source.Process(
             new string[]{GameState.ActiveMorphid.Research.TargetGuid}
         );
+    }
+    
+    public override int Targeting () {
+        return targeting;
+    }
+    
+    public override TargetingType TargetingType () {
+        return global::TargetingType.All;
     }
 }

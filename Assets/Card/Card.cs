@@ -79,7 +79,8 @@ public sealed class Card {
                 effect, 
                 args.Skip(argPtr).Take(argCount).ToArray(), 
                 targets.Length == 1 ? targets[0] : targets[i],
-                targetTypes.Length == 1 ? targetTypes[0] : targetTypes[i]
+                targetTypes.Length == 1 ? targetTypes[0] : targetTypes[i],
+                this
             );
             argPtr += argCount;
         }

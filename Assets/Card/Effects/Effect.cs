@@ -22,7 +22,7 @@ public abstract class Effect {
         return 1;
     }
 
-    public static EffectWrapper Build(string effect, string[] arguments, int target, TargetingType targetingType) {
+    public static EffectWrapper Build(string effect, string[] arguments, int target, TargetingType targetingType, Card card) {
         Effect r = null;
         switch(effect) {
         case Damage.CSV_NAME:
@@ -72,6 +72,12 @@ public abstract class Effect {
             r = new Destroy(){
                 targeting = target,
                 targetingType = targetingType
+            };
+            break;
+        case Research.CSV_NAME:
+            r = new Research() {
+                targeting = target,
+                Source = card
             };
             break;
         default:
