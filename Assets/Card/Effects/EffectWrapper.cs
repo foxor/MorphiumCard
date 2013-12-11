@@ -44,6 +44,10 @@ public class EffectWrapper {
     [SerializeField]
     [ProtoMember(9)]
     public Defensive Defensive;
+    
+    [SerializeField]
+    [ProtoMember(9)]
+    public AddEngineSequence AddEngineSequence;
 
     public static EffectWrapper Build(Effect e) {
         EffectWrapper r = new EffectWrapper();
@@ -73,6 +77,9 @@ public class EffectWrapper {
         }
         if (e.GetType() == typeof(Defensive)) {
             r.Defensive = (Defensive)e;
+        }
+        if (e.GetType() == typeof(AddEngineSequence)) {
+            r.AddEngineSequence = (AddEngineSequence)e;
         }
         return r;
     }
@@ -105,6 +112,9 @@ public class EffectWrapper {
             }
             if (Defensive != null) {
                 return Defensive;
+            }
+            if (AddEngineSequence != null) {
+                return AddEngineSequence;
             }
             Debug.Log("Effect wrapper is wrapping nothing");
             return null;

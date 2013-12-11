@@ -41,32 +41,35 @@ public class Morphid {
     [HideInInspector]
     [SerializeField]
     [ProtoMember(2)]
-    public string
-        GUID;
+    public string GUID;
+
     [SerializeField]
     [ProtoMember(3)]
-    public int
-        Health;
+    public int Health;
+
     [SerializeField]
     [ProtoMember(4)]
-    public int
-        Morphium;
+    public int Morphium;
+
     [SerializeField]
     [ProtoMember(5)]
-    public int
-        Engine;
+    public int Engine;
+
     [SerializeField]
     [ProtoMember(6)]
-    public int
-        Reflect;
+    public int Reflect;
+
     [SerializeField]
     [ProtoMember(7)]
-    public int
-        Weight;
+    public int Weight;
 
     [SerializeField]
     [ProtoMember(8)]
     public Research Research;
+
+    [SerializeField]
+    [ProtoMember(9)]
+    public EffectWrapper[] EngineSequence;
     
     public Morphid () {
         Health = MAX_HEALTH;
@@ -74,6 +77,7 @@ public class Morphid {
         Engine = START_ENGINE;
         Reflect = 0;
         Weight = 0;
+        EngineSequence = new EffectWrapper[0];
     }
     
     public static void PlayLocalCard (int card, string targetGuid) {

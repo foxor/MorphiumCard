@@ -88,6 +88,11 @@ public class Server : MonoBehaviour {
     [RPC]
     public void ServerBoostEngine (string morphidGuid) {
         GameState.GetMorphid(morphidGuid).Engine += 1;
+        foreach (Effect e in GameState.ActiveMorphid.EngineSequence.Select(x => x.Wrapped)) {
+            foreach (string guid in (new TargetingRequirements(e.Targeting(), global::TargetingType.All)).AllTargets("")) {
+                e.Apply(guid);
+            }
+        }
         EndTurn(GameState.GetEnemy(morphidGuid));
     }
 }

@@ -25,6 +25,7 @@ public abstract class Effect {
         case Destroy.CSV_NAME:
         case Research.CSV_NAME:
         case Defensive.CSV_NAME:
+        case AddEngineSequence.CSV_NAME:
             return 0;
         default:
             Debug.Log("Effect " + effect + " missing from argument count register");
@@ -93,6 +94,9 @@ public abstract class Effect {
             break;
         case Defensive.CSV_NAME:
             r = new Defensive();
+            break;
+        case AddEngineSequence.CSV_NAME:
+            r = new AddEngineSequence();
             break;
         default:
             Debug.Log("Effect not implemented: " + effect);
