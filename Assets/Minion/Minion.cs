@@ -12,20 +12,19 @@ public class Minion {
     
     [SerializeField]
     [ProtoMember(1)]
-    public string
-        GUID;
+    public string GUID;
+
     [SerializeField]
     [ProtoMember(2)]
-    public int
-        Attack;
+    public int Attack;
+
     [SerializeField]
     [ProtoMember(3)]
-    public int
-        Defense;
+    public int Defense;
+
     [SerializeField]
     [ProtoMember(4)]
-    public string
-        MorphidGUID;
+    public string MorphidGUID;
 
     [SerializeField]
     [ProtoMember(5)]
