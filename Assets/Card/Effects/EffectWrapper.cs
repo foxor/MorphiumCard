@@ -54,32 +54,35 @@ public class EffectWrapper {
         if (e.GetType() == typeof(Damage)) {
             r.Damage = (Damage)e;
         }
-        if (e.GetType() == typeof(Destroy)) {
+        else if (e.GetType() == typeof(Destroy)) {
             r.Destroy = (Destroy)e;
         }
-        if (e.GetType() == typeof(Engine)) {
+        else if (e.GetType() == typeof(Engine)) {
             r.Engine = (Engine)e;
         }
-        if (e.GetType() == typeof(Healing)) {
+        else if (e.GetType() == typeof(Healing)) {
             r.Healing = (Healing)e;
         }
-        if (e.GetType() == typeof(Reflect)) {
+        else if (e.GetType() == typeof(Reflect)) {
             r.Reflect = (Reflect)e;
         }
-        if (e.GetType() == typeof(Spawn)) {
+        else if (e.GetType() == typeof(Spawn)) {
             r.Spawn = (Spawn)e;
         }
-        if (e.GetType() == typeof(Weight)) {
+        else if (e.GetType() == typeof(Weight)) {
             r.Weight = (Weight)e;
         }
-        if (e.GetType() == typeof(Research)) {
+        else if (e.GetType() == typeof(Research)) {
             r.Research = (Research)e;
         }
-        if (e.GetType() == typeof(Defensive)) {
+        else if (e.GetType() == typeof(Defensive)) {
             r.Defensive = (Defensive)e;
         }
-        if (e.GetType() == typeof(AddEngineSequence)) {
+        else if (e.GetType() == typeof(AddEngineSequence)) {
             r.AddEngineSequence = (AddEngineSequence)e;
+        }
+        else {
+            Debug.Log("Effect type: " + e.GetType().ToString() + " is unsupported by Effectwrapper");
         }
         return r;
     }
