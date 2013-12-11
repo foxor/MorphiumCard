@@ -16,12 +16,20 @@ public abstract class Effect {
         switch(effect) {
         case Spawn.CSV_NAME:
             return 2;
+        case Damage.CSV_NAME:
+        case Engine.CSV_NAME:
+        case Healing.CSV_NAME:
+        case Reflect.CSV_NAME:
+        case Weight.CSV_NAME:
+            return 1;
         case Destroy.CSV_NAME:
-            return 0;
         case Research.CSV_NAME:
+        case Defensive.CSV_NAME:
+            return 0;
+        default:
+            Debug.Log("Effect " + effect + " missing from argument count register");
             return 0;
         }
-        return 1;
     }
 
     public static EffectWrapper Build(string effect, string[] arguments, int target, TargetingType targetingType, Card card) {
