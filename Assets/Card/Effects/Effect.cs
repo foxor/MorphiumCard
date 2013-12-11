@@ -60,7 +60,8 @@ public abstract class Effect {
                 attack = arguments[0],
                 defense = arguments[1],
                 targeting = target,
-                targetingType = targetingType
+                targetingType = targetingType,
+                Source = card
             };
             break;
         case Weight.CSV_NAME:
@@ -81,6 +82,9 @@ public abstract class Effect {
                 targeting = target,
                 Source = card
             };
+            break;
+        case Defensive.CSV_NAME:
+            r = new Defensive();
             break;
         default:
             Debug.Log("Effect not implemented: " + effect);

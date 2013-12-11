@@ -36,10 +36,14 @@ public class EffectWrapper {
     [SerializeField]
     [ProtoMember(7)]
     public Weight Weight;
-
+    
     [SerializeField]
     [ProtoMember(8)]
     public Research Research;
+    
+    [SerializeField]
+    [ProtoMember(9)]
+    public Defensive Defensive;
 
     public static EffectWrapper Build(Effect e) {
         EffectWrapper r = new EffectWrapper();
@@ -66,6 +70,9 @@ public class EffectWrapper {
         }
         if (e.GetType() == typeof(Research)) {
             r.Research = (Research)e;
+        }
+        if (e.GetType() == typeof(Defensive)) {
+            r.Defensive = (Defensive)e;
         }
         return r;
     }
@@ -95,6 +102,9 @@ public class EffectWrapper {
             }
             if (Research != null) {
                 return Research;
+            }
+            if (Defensive != null) {
+                return Defensive;
             }
             Debug.Log("Effect wrapper is wrapping nothing");
             return null;

@@ -69,7 +69,9 @@ public class Server : MonoBehaviour {
                     );
                     GameState.DamageGuid(defender.GUID, attacker.Attack);
                 } else {
-                    GameState.DamageGuid(GameState.ActiveMorphid.GUID, attacker.Attack);
+                    if (!attacker.Defensive) {
+                        GameState.DamageGuid(GameState.ActiveMorphid.GUID, attacker.Attack);
+                    }
                 }
             }
         }

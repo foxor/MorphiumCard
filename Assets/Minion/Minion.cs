@@ -26,6 +26,11 @@ public class Minion {
     [ProtoMember(4)]
     public string
         MorphidGUID;
+
+    [SerializeField]
+    [ProtoMember(5)]
+    public bool Defensive;
+
     public GameObject GameObject;
     
     public bool IsFriendly (string morphidGuid) {

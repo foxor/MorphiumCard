@@ -38,11 +38,20 @@ public class Spawn : Effect {
             return Expression.Parse(defense).Evaluate();
         }
     }
+
+    [SerializeField]
+    [ProtoMember(5)]
+    public Card Source;
     
     public override void Apply (string target) {
         Lane lane = GameState.GetLane(target);
+        bool defensive = Source.EffectsOfType<Defensive>().Any();
         if (lane != null) {
-            lane.SpawnFriendly(new Minion(){Attack = Attack, Defense = Defense});
+            lane.SpawnFriendly(new Minion(){
+                Attack = Attack,
+                Defense = Defense,
+                Defensive = defensive
+            });
         }
     }
     
