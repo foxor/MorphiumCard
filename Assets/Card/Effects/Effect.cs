@@ -21,6 +21,7 @@ public abstract class Effect {
         case Healing.CSV_NAME:
         case Reflect.CSV_NAME:
         case Weight.CSV_NAME:
+        case Prevent.CSV_NAME:
             return 1;
         case Destroy.CSV_NAME:
         case Research.CSV_NAME:
@@ -97,6 +98,13 @@ public abstract class Effect {
             break;
         case AddEngineSequence.CSV_NAME:
             r = new AddEngineSequence();
+            break;
+        case Prevent.CSV_NAME:
+            r = new Prevent() {
+                targeting = target,
+                targetingType = targetingType,
+                magnitude = arguments[0]
+            };
             break;
         default:
             Debug.Log("Effect not implemented: " + effect);

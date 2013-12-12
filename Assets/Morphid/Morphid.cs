@@ -66,10 +66,14 @@ public class Morphid {
     [SerializeField]
     [ProtoMember(8)]
     public Research Research;
-
+    
     [SerializeField]
     [ProtoMember(9)]
     public EffectWrapper[] EngineSequence;
+    
+    [SerializeField]
+    [ProtoMember(10)]
+    public int Prevent;
     
     public Morphid () {
         Health = MAX_HEALTH;

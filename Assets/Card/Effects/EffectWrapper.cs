@@ -46,8 +46,12 @@ public class EffectWrapper {
     public Defensive Defensive;
     
     [SerializeField]
-    [ProtoMember(9)]
+    [ProtoMember(10)]
     public AddEngineSequence AddEngineSequence;
+    
+    [SerializeField]
+    [ProtoMember(11)]
+    public Prevent Prevent;
 
     public static EffectWrapper Build(Effect e) {
         EffectWrapper r = new EffectWrapper();
@@ -80,6 +84,9 @@ public class EffectWrapper {
         }
         else if (e.GetType() == typeof(AddEngineSequence)) {
             r.AddEngineSequence = (AddEngineSequence)e;
+        }
+        else if (e.GetType() == typeof(Prevent)) {
+            r.Prevent = (Prevent)e;
         }
         else {
             Debug.Log("Effect type: " + e.GetType().ToString() + " is unsupported by Effectwrapper");
@@ -118,6 +125,9 @@ public class EffectWrapper {
             }
             if (AddEngineSequence != null) {
                 return AddEngineSequence;
+            }
+            if (Prevent != null) {
+                return Prevent;
             }
             Debug.Log("Effect wrapper is wrapping nothing");
             return null;

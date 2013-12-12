@@ -115,6 +115,11 @@ public class GameState : MonoBehaviour {
                 GetEnemy(guid).Health -= reflected;
                 damage -= reflected;
             }
+            if (morphid.Prevent > 0) {
+                int prevented = Mathf.Min(morphid.Prevent, damage);
+                morphid.Prevent -= prevented;
+                damage -= prevented;
+            }
             morphid.Health -= damage;
         }
         if (minion != null) {
