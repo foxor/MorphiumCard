@@ -70,8 +70,7 @@ public abstract class Effect {
                 attack = arguments[0],
                 defense = arguments[1],
                 targeting = target,
-                targetingType = targetingType,
-                Source = card
+                targetingType = targetingType
             };
             break;
         case Weight.CSV_NAME:
