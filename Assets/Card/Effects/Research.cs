@@ -24,8 +24,10 @@ public class Research : Effect {
     public string TargetGuid;
 
     public override void OnComplete (Card Source) {
+        EffectWrapper[] orig = Source.Effects;
+        Source.Effects = Source.Effects.After(x => x.Wrapped.GetType() == typeof(Research)).ToArray();
         this.Source = Source.Copy();
-        this.Source.Effects = this.Source.Effects.Where(x => x.Wrapped.GetType() != typeof(Research)).ToArray();
+        Source.Effects = orig;
     }
 
     public override void Apply(string TargetGuid) {
