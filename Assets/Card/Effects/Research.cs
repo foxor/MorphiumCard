@@ -23,11 +23,14 @@ public class Research : Effect {
     [ProtoMember(3)]
     public string TargetGuid;
 
+    public override void OnComplete (Card Source) {
+        this.Source = Source.Copy();
+        this.Source.Effects = this.Source.Effects.Where(x => x.Wrapped.GetType() != typeof(Research)).ToArray();
+    }
+
     public override void Apply(string TargetGuid) {
         this.TargetGuid = TargetGuid;
         GameState.ActiveMorphid.Research = this;
-        Source = Source.Copy();
-        Source.Effects = Source.Effects.Where(x => x.GetType() != typeof(Research)).ToArray();
     }
 
     public void Activate() {

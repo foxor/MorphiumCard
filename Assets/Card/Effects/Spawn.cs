@@ -41,16 +41,19 @@ public class Spawn : Effect {
 
     [SerializeField]
     [ProtoMember(5)]
-    public Card Source;
+    public bool Defensive;
+
+    public override void OnComplete (Card Source) {
+        Defensive = Source.EffectsOfType<Defensive>().Any();
+    }
     
     public override void Apply (string target) {
         Lane lane = GameState.GetLane(target);
-        bool defensive = Source.EffectsOfType<Defensive>().Any();
         if (lane != null) {
             lane.SpawnFriendly(new Minion(){
                 Attack = Attack,
                 Defense = Defense,
-                Defensive = defensive
+                Defensive = Defensive
             });
         }
     }

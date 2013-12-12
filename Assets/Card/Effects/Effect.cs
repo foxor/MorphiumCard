@@ -116,4 +116,6 @@ public abstract class Effect {
     public abstract int Targeting();
 
     public abstract TargetingType TargetingType();
+
+    public virtual void OnComplete(Card Source) {}
 }

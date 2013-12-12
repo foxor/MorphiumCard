@@ -92,5 +92,8 @@ public sealed class Card {
 
     public void Build(string[] effects, string[] arguments, int[] targets, TargetingType[] targetTypes) {
         this.Effects = BuildInner(effects, arguments, targets, targetTypes).ToArray();
+        foreach (Effect e in Effects.Select(x => x.Wrapped)) {
+            e.OnComplete(this);
+        }
     }
 }
