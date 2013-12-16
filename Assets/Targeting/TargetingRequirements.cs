@@ -6,9 +6,15 @@ public class TargetingRequirements {
     public int TargetFlags;
     public TargetingType TargetingType;
     
-    public TargetingRequirements (int Flags, TargetingType TargetingType) {
-        this.TargetFlags = Flags;
-        this.TargetingType = TargetingType;
+    public TargetingRequirements (Effect effect) {
+        if (effect != null) {
+            this.TargetFlags = effect.Targeting();
+            this.TargetingType = effect.TargetingType();
+        }
+        else {
+            this.TargetFlags = (int)TargetTypeFlag.Friendly | (int)TargetTypeFlag.Morphid;
+            this.TargetingType = TargetingType.All;
+        }
     }
     
     public bool HasFlag (TargetTypeFlag flag) {

@@ -96,4 +96,15 @@ public sealed class Card {
             e.OnComplete(this);
         }
     }
+
+    public Effect TargetedEffect {
+        get {
+            foreach (Effect e in Effects.Select(x => x.Wrapped)) {
+                if (e.TargetingType() != global::TargetingType.Skip) {
+                    return e;
+                }
+            }
+            return null;
+        }
+    }
 }

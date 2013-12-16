@@ -75,9 +75,7 @@ public abstract class Effect {
             break;
         case Weight.CSV_NAME:
             r = new Weight(){
-                magnitude = arguments[0],
-                targeting = target,
-                targetingType = targetingType
+                magnitude = arguments[0]
             };
             break;
         case Destroy.CSV_NAME:

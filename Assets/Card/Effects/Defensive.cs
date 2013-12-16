@@ -15,10 +15,10 @@ public class Defensive : Effect {
     }
 
     public override int Targeting () {
-        return (int)TargetTypeFlag.Empty | (int)TargetTypeFlag.Lane;
+        return 0;
     }
 
     public override TargetingType TargetingType () {
-        return global::TargetingType.All;
+        return global::TargetingType.Skip;
     }
 }

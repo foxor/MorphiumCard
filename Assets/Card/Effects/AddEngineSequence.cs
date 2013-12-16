@@ -27,11 +27,11 @@ public class AddEngineSequence : Effect {
     }
 
     public override int Targeting () {
-        return (int)TargetTypeFlag.Friendly & (int)TargetTypeFlag.Morphid;
+        return 0;
     }
 
     public override TargetingType TargetingType () {
-        return global::TargetingType.All;
+        return global::TargetingType.Skip;
     }
 }
 

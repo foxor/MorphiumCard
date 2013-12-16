@@ -3,5 +3,6 @@ using System.Collections;
 
 public enum TargetingType {
     Single,
-    All
+    All,
+    Skip
 }

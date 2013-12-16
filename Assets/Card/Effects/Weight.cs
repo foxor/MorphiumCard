@@ -10,17 +10,9 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public class Weight : Effect {
     public const string CSV_NAME = "Weight";
-    
+
     [SerializeField]
     [ProtoMember(1)]
-    public int targeting;
-    
-    [SerializeField]
-    [ProtoMember(2)]
-    public TargetingType targetingType;
-    
-    [SerializeField]
-    [ProtoMember(3)]
     public string magnitude;
     public int Magnitude {
         get {
@@ -33,10 +25,10 @@ public class Weight : Effect {
     }
     
     public override int Targeting () {
-        return targeting;
+        return 0;
     }
     
     public override TargetingType TargetingType () {
-        return targetingType;
+        return global::TargetingType.Skip;
     }
 }

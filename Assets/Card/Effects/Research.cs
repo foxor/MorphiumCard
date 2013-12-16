@@ -46,6 +46,6 @@ public class Research : Effect {
     }
     
     public override TargetingType TargetingType () {
-        return global::TargetingType.All;
+        return global::TargetingType.Skip;
     }
 }
