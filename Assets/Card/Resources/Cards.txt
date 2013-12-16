@@ -7,11 +7,3 @@ Spare Parts,Summon a {Card.Attack}/{Card.Defense}.  Gain {Card.Weight} Weight.,G
 Load Up,Gain {Card.Engine} Engine and {Card.Weight} Weight.,Goliath,0,Chest,"Engine,Weight","1,3",18,FALSE
 Salvage,"Destroy a friendly minion, gain Weight equal to it's defense",Goliath,2,Head,"Destroy,Weight",Minion.Defense,20,TRUE
 ExoTruck,Summon a {Card.Attack}/{Card.Defense}.,Goliath,3,Head,Summon,"2,7",33,TRUE
-Drones,Research.  Summon a minion in a random lane.,Vanguard Labs,10,Head,"Research,Summon","Card.Cost,Card.Cost*3",99,FALSE
-Advanced Weaponry,Research.  Deals damage to the enemy morphid.,Vanguard Labs,10,Head,"Research,Damage",Card.Cost,10,FALSE
-Auto Turret,Summon a 10/1 who only attacks minions.,Vanguard Labs,5,Chest,"Defensive,Summon","10,1",33,TRUE
-Regenerative Suspension,Heal {Card.Heal} whenever you upgrade your engine.  Engine {Card.Engine}.,Vanguard Labs,7,Chest,"Engine,AddEngineSequence,Heal","-1,4",18,FALSE
-Morphium Laser,Deals {Card.Damage} damage depending on your engine.,Vanguard Labs,8,Arm,Damage,"pow(pow(30,1/9),Morphid.Engine-1)",30,TRUE
-Morphium Bomb,Destroy all enemy minions.  Engine {Card.Engine}.,Vanguard Labs,8,Arm,"Destroy,Engine",-4,"12,18","FALSE,FALSE"
-Evasive Manuver,Prevent the next {Card.Prevent} damage from minions.,Vanguard Labs,6,Leg,Prevent,12,18,FALSE
-Bladed Appendage,Deals {Card.Damage}.,Vanguard Labs,2,Leg,Damage,3,30,TRUE
