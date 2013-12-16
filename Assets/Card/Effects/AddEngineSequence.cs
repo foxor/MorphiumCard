@@ -13,16 +13,15 @@ public class AddEngineSequence : Effect {
 
     [SerializeField]
     [ProtoMember(1)]
-    public Card Source;
+    public EffectWrapper[] SequenceAddition;
 
     public override void Apply (string TargetGuid) {
-        IEnumerable<EffectWrapper> sequenceAddition = Source.Effects.After(x => x.GetType() == typeof(AddEngineSequence));
         if (GameState.ActiveMorphid.EngineSequence == null) {
-            GameState.ActiveMorphid.EngineSequence = sequenceAddition.ToArray();
+            GameState.ActiveMorphid.EngineSequence = SequenceAddition.ToArray();
         }
         else {
             GameState.ActiveMorphid.EngineSequence = 
-                GameState.ActiveMorphid.EngineSequence.Concat(sequenceAddition).ToArray();
+                GameState.ActiveMorphid.EngineSequence.Concat(SequenceAddition).ToArray();
         }
     }
 
@@ -32,6 +31,10 @@ public class AddEngineSequence : Effect {
 
     public override TargetingType TargetingType () {
         return global::TargetingType.Skip;
+    }
+
+    public override void OnComplete (Card Source) {
+        SequenceAddition = Source.Effects.After(x => x.GetType() == typeof(AddEngineSequence)).ToArray();
     }
 }
 
