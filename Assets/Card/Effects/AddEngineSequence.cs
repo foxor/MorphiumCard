@@ -16,8 +16,14 @@ public class AddEngineSequence : Effect {
     public Card Source;
 
     public override void Apply (string TargetGuid) {
-        GameState.ActiveMorphid.EngineSequence = 
-            GameState.ActiveMorphid.EngineSequence.Concat(Source.Effects.After(x => x.GetType() == typeof(AddEngineSequence))).ToArray();
+        IEnumerable<EffectWrapper> sequenceAddition = Source.Effects.After(x => x.GetType() == typeof(AddEngineSequence));
+        if (GameState.ActiveMorphid.EngineSequence == null) {
+            GameState.ActiveMorphid.EngineSequence = sequenceAddition.ToArray();
+        }
+        else {
+            GameState.ActiveMorphid.EngineSequence = 
+                GameState.ActiveMorphid.EngineSequence.Concat(sequenceAddition).ToArray();
+        }
     }
 
     public override int Targeting () {
