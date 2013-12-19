@@ -66,7 +66,9 @@ public class CardContainer {
             };
             Decks[i].Shuffle();
             Cards[i] = Decks[i].Draw();
-            Cards[i].Charged = true;
+            if (Cards[i] != null) {
+                Cards[i].Charged = true;
+            }
         }
     }
 }
