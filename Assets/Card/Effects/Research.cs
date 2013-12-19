@@ -36,8 +36,9 @@ public class Research : Effect {
     }
 
     public void Activate() {
-        GameState.ActiveMorphid.Research.Source.Process(
-            new string[]{GameState.ActiveMorphid.Research.TargetGuid}
+        Source.Cost = GameState.ActiveMorphid.Morphium;
+        Source.Process(
+            new string[]{TargetGuid}
         );
     }
     

@@ -28,13 +28,15 @@ public class CardContainer {
 
     public void Uncharge () {
         foreach (Card c in Cards) {
-            c.Charged = false;
+            if (c != null) {
+                c.Charged = false;
+            }
         }
     }
     
     public void ComboManufacturer (string Manufacturer) {
         foreach (Card c in Cards) {
-            if (c.Manufacturer == Manufacturer) {
+            if (c != null && c.Manufacturer == Manufacturer) {
                 c.Charged = true;
             }
         }
@@ -42,7 +44,7 @@ public class CardContainer {
     
     public void ComboSlot (Slot slot) {
         foreach (Card c in Cards) {
-            if (c.Slot == slot) {
+            if (c != null && c.Slot == slot) {
                 c.Charged = true;
             }
         }

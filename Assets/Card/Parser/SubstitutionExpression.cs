@@ -9,6 +9,8 @@ public class SubstitutionExpression : Expression {
     public const string CARD_PREFIX = "Card.";
     public const string MINION_PREFIX = "Minion.";
 
+    public const string COST_SUFFIX = "Cost";
+
     public static Card cardContext;
     public static Minion minionContext;
 
@@ -24,6 +26,7 @@ public class SubstitutionExpression : Expression {
         Searches[CARD_PREFIX + Weight.CSV_NAME] = () => cardContext.EffectsOfType<Weight>().First().Magnitude;
         Searches[CARD_PREFIX + Spawn.ATTACK_NAME] = () => cardContext.EffectsOfType<Spawn>().First().Attack;
         Searches[CARD_PREFIX + Spawn.DEFENSE_NAME] = () => cardContext.EffectsOfType<Spawn>().First().Defense;
+        Searches[CARD_PREFIX + COST_SUFFIX] = () => cardContext.Cost;
         Searches[MORPHID_PREFIX + Weight.CSV_NAME] = () => GameState.ActiveMorphid.Weight;
         Searches[MINION_PREFIX + Spawn.DEFENSE_NAME] = () => minionContext.Defense;
     }

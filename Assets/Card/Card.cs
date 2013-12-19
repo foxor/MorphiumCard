@@ -50,6 +50,7 @@ public sealed class Card {
     }
     
     public void Process (string[] targetGuids) {
+        Bind();
         Morphid self = GameState.ActiveMorphid;
         if (self.Morphium >= Cost) {
             self.Morphium -= Cost;
