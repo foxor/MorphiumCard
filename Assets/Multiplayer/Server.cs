@@ -44,13 +44,6 @@ public class Server : MonoBehaviour {
         if (GameState.ActiveMorphid.Research != null) {
             GameState.ActiveMorphid.Research.Activate();
         }
-        if (GameState.ActiveMorphid.EngineSequence != null) {
-            foreach (EffectWrapper e in GameState.ActiveMorphid.EngineSequence) {
-                foreach (string guid in new TargetingRequirements(e.Wrapped).AllTargets(GameState.ActiveMorphid.GUID)) {
-                    e.Apply(guid);
-                }
-            }
-        }
         foreach (Lane l in GameState.Lanes) {
             Minion attacker = l.EnemyMinion(GameState.ActiveMorphid.GUID);
             Minion defender = l.FriendlyMinion(GameState.ActiveMorphid.GUID);
