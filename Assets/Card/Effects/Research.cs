@@ -48,4 +48,8 @@ public class Research : Effect {
     public override TargetingType TargetingType () {
         return global::TargetingType.Skip;
     }
+
+    public override bool IgnoreAfter() {
+        return true;
+    }
 }

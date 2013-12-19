@@ -56,6 +56,9 @@ public sealed class Card {
             foreach (string targetGuid in targetGuids) {
                 foreach (EffectWrapper effect in Effects) {
                     effect.Apply(targetGuid);
+                    if (effect.Wrapped.IgnoreAfter()) {
+                        return;
+                    }
                 }
             }
         }

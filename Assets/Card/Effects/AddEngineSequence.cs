@@ -36,6 +36,10 @@ public class AddEngineSequence : Effect {
     public override void OnComplete (Card Source) {
         SequenceAddition = Source.Effects.After(x => x.GetType() == typeof(AddEngineSequence)).ToArray();
     }
+
+    public override bool IgnoreAfter() {
+        return true;
+    }
 }
 
 public static class AfterExtension {

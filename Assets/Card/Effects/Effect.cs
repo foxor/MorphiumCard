@@ -115,4 +115,8 @@ public abstract class Effect {
     public abstract TargetingType TargetingType();
 
     public virtual void OnComplete(Card Source) {}
+
+    public virtual bool IgnoreAfter() {
+        return false;
+    }
 }
