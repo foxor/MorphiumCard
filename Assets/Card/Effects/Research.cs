@@ -31,14 +31,13 @@ public class Research : Effect {
     }
 
     public override void Apply(string TargetGuid) {
-        this.TargetGuid = TargetGuid;
         GameState.ActiveMorphid.Research = this;
     }
 
     public void Activate() {
         Source.Cost = GameState.ActiveMorphid.Morphium;
         Source.Process(
-            new string[]{TargetGuid}
+            new TargetingRequirements(Source.TargetedEffect).AllTargets("").ToArray()
         );
     }
     

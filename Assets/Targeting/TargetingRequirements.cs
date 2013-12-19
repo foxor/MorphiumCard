@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class TargetingRequirements {
     public int TargetFlags;
@@ -41,6 +42,16 @@ public class TargetingRequirements {
     }
     
     public IEnumerable<string> AllTargets (string guid) {
+        if (HasFlag(TargetTypeFlag.Random)) {
+            TargetingRequirements PotentialTargets = new TargetingRequirements(null);
+            PotentialTargets.TargetFlags = TargetFlags & (~((int)TargetTypeFlag.Random));
+            PotentialTargets.TargetingType = TargetingType.All;
+            IEnumerable<string> orderedTargets = PotentialTargets.AllTargets(guid).OrderBy(x => Random.Range(0f, 1f));
+            if (orderedTargets.Any()) {
+                yield return orderedTargets.First();
+            }
+            yield break;
+        }
         foreach (Lane lane in GameState.Singleton.Lanes) {
             if (LaneAllowed(lane) &&
                 (TargetingType == TargetingType.All || lane.GUID == guid)

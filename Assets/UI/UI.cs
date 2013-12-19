@@ -90,7 +90,10 @@ public class UI : MonoBehaviour {
                 break;
             }
             yield return 0;
-            if (CardRequirements.TargetingType == TargetingType.All || ClickRaycast.MouseOverThis(LeftSide)) {
+            if (CardRequirements.TargetingType == TargetingType.All ||
+                ClickRaycast.MouseOverThis(LeftSide) ||
+                CardRequirements.HasFlag(TargetTypeFlag.Random)
+            ) {
                 ReticleController.Shown = false;
                 Selected.SuspendDrag = false;
             } else {
