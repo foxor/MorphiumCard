@@ -2,13 +2,13 @@
 using System.Collections;
 
 public class IntExpression : Expression {
-    protected int value;
+    protected float value;
 
     public IntExpression(string value) {
         this.value = int.Parse(value);
     }
 
-    public override int Evaluate () {
+    public override float Evaluate () {
         return value;
     }
 }

@@ -26,7 +26,7 @@ public class Spawn : Effect {
     public string attack;
     public int Attack {
         get {
-            return Expression.Parse(attack).Evaluate();
+            return Parser.Parse(attack).EvaluateAsInt();
         }
     }
 
@@ -35,7 +35,7 @@ public class Spawn : Effect {
     public string defense;
     public int Defense {
         get {
-            return Expression.Parse(defense).Evaluate();
+            return Parser.Parse(defense).EvaluateAsInt();
         }
     }
 

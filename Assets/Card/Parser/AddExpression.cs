@@ -3,15 +3,13 @@ using System.Collections;
 using System.Linq;
 
 public class AddExpression : Expression {
-    public static char DELIMITER = '+';
-
     protected Expression[] expressions;
 
-    public AddExpression(Expression[] expressions) {
+    public AddExpression(params Expression[] expressions) {
         this.expressions = expressions;
     }
 
-    public override int Evaluate() {
-        return expressions.Aggregate(0, (x, y) => x + y.Evaluate());
+    public override float Evaluate() {
+        return expressions.Aggregate(0f, (x, y) => x + y.Evaluate());
     }
 }

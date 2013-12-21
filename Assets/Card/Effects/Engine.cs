@@ -24,7 +24,7 @@ public class Engine : Effect {
     public string magnitude;
     public int Magnitude {
         get {
-            return Expression.Parse(magnitude).Evaluate();
+            return Parser.Parse(magnitude).EvaluateAsInt();
         }
     }
     

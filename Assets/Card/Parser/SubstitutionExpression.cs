@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public delegate int Poll();
+public delegate float Poll();
 
 public class SubstitutionExpression : Expression {
     public const string MORPHID_PREFIX = "Morphid.";
@@ -28,6 +28,7 @@ public class SubstitutionExpression : Expression {
         Searches[CARD_PREFIX + Spawn.DEFENSE_NAME] = () => cardContext.EffectsOfType<Spawn>().First().Defense;
         Searches[CARD_PREFIX + COST_SUFFIX] = () => cardContext.Cost;
         Searches[MORPHID_PREFIX + Weight.CSV_NAME] = () => GameState.ActiveMorphid.Weight;
+        Searches[MORPHID_PREFIX + Engine.CSV_NAME] = () => GameState.ActiveMorphid.Engine;
         Searches[MINION_PREFIX + Spawn.DEFENSE_NAME] = () => minionContext.Defense;
     }
 
@@ -37,16 +38,16 @@ public class SubstitutionExpression : Expression {
         this.substitution = substitution;
     }
 
-    public int Value {
+    public float Value {
         get {
             if (Searches.ContainsKey(substitution)) {
                 return Searches[substitution]();
             }
-            return 0;
+            return 0f;
         }
     }
 
-    public override int Evaluate() {
+    public override float Evaluate() {
         return Value;
     }
 }

@@ -10,6 +10,7 @@ public class Client : MonoBehaviour {
     public void Awake () {
         Singleton = this;
         ModeSelectionListener.Singleton.AddCallback(ModeSelection.Client, Connect);
+        ParserTest.RunTests();
     }
     
     protected void Connect (object ip) {

@@ -8,11 +8,11 @@ public class DotExpression : Expression {
 
     protected Expression[] expressions;
 
-    public DotExpression(Expression[] expressions) {
+    public DotExpression(params Expression[] expressions) {
         this.expressions = expressions;
     }
 
-    public override int Evaluate () {
+    public override float Evaluate () {
         IEnumerable<Expression> enumerator = expressions.AsEnumerable();
         object context = ((SubstitutionExpression)enumerator.Take(1).First()).Value;
         while (enumerator.Any()) {
@@ -25,6 +25,6 @@ public class DotExpression : Expression {
             }
         }
         Debug.Log("Dot expression failed");
-        return 0;
+        return 0f;
     }
 }

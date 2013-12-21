@@ -8,16 +8,16 @@ public class DivideExpression : Expression {
 
     protected Expression[] expressions;
     
-    public DivideExpression(Expression[] expressions) {
+    public DivideExpression(params Expression[] expressions) {
         this.expressions = expressions;
         if (this.expressions.Length != 2) {
             Debug.Log("Don't divide more than 2 things without parenthasis");
         }
     }
     
-    public override int Evaluate() {
-        int First = expressions.First().Evaluate();
-        int Last = expressions.Last().Evaluate();
+    public override float Evaluate() {
+        float First = expressions.First().Evaluate();
+        float Last = expressions.Last().Evaluate();
         return First / Last;
     }
 }

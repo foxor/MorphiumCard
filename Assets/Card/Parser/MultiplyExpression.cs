@@ -7,11 +7,11 @@ public class MultiplyExpression : Expression {
 
     protected Expression[] expressions;
     
-    public MultiplyExpression(Expression[] expressions) {
+    public MultiplyExpression(params Expression[] expressions) {
         this.expressions = expressions;
     }
     
-    public override int Evaluate() {
-        return expressions.Aggregate(1, (x, y) => x * y.Evaluate());
+    public override float Evaluate() {
+        return expressions.Aggregate(1f, (x, y) => x * y.Evaluate());
     }
 }
