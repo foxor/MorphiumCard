@@ -26,6 +26,7 @@ public class SubstitutionExpression : Expression {
         Searches[CARD_PREFIX + Weight.CSV_NAME] = () => cardContext.EffectsOfType<Weight>().First().Magnitude;
         Searches[CARD_PREFIX + Spawn.ATTACK_NAME] = () => cardContext.EffectsOfType<Spawn>().First().Attack;
         Searches[CARD_PREFIX + Spawn.DEFENSE_NAME] = () => cardContext.EffectsOfType<Spawn>().First().Defense;
+        Searches[CARD_PREFIX + Prevent.CSV_NAME] = () => cardContext.EffectsOfType<Prevent>().First().Magnitude;
         Searches[CARD_PREFIX + COST_SUFFIX] = () => cardContext.Cost;
         Searches[MORPHID_PREFIX + Weight.CSV_NAME] = () => GameState.ActiveMorphid.Weight;
         Searches[MORPHID_PREFIX + Engine.CSV_NAME] = () => GameState.ActiveMorphid.Engine;
