@@ -118,9 +118,15 @@ public static class Parser {
 
         public void CollapseWithPrecidence(int Precidence) {
             while (Operators.Any() && Operators.Peek().Precidence > Precidence) {
-                Expression Right = Expressions.Pop();
-                Expression Left = Expressions.Pop();
                 Operator op = Operators.Pop();
+                Expression Right = Expressions.Pop();
+                Expression Left;
+                if (typeof(MinusOperator).IsAssignableFrom(op.GetType()) && !Expressions.Any()) {
+                    Left = new IntExpression("0");
+                }
+                else {
+                    Left = Expressions.Pop();
+                }
                 Expressions.Push(op.Build(Left, Right));
             }
         }
@@ -168,9 +174,13 @@ public class ParserTest {
             throw new Exception();
         }
     }
+    public static void UnaryMinusTest() {
+        Parser.Parse("-4");
+    }
 
     public static void RunTests() {
         PowerTest10();
         PowerTest2();
+        UnaryMinusTest();
     }
 }
