@@ -88,21 +88,9 @@ public class Morphid {
         Client.PlayCard(Morphid.Cards[card], targetGuid);
     }
     
-    public void PlayCard (string cardGuid, string targetGuid) {
+    public void PlayCard (string cardGuid, string pickedGuid) {
         Card c = CardContainer.FromGuid(cardGuid);
-        TargetingRequirements req = new TargetingRequirements(c.TargetedEffect);
-        switch (c.TargetedEffect.TargetingType()) {
-        case TargetingType.Single:
-            if (req.TargetAllowed(targetGuid)) {
-                c.Process(new string[] {targetGuid});
-            } else {
-                Debug.Log("Client picked impossible target!");
-            }
-            break;
-        case TargetingType.All:
-            c.Process(req.AllTargets(targetGuid).ToArray());
-            break;
-        }
+        c.Process(pickedGuid);
         CardContainer.ReplaceCard(c);
         CardContainer.Uncharge();
         CardContainer.ComboManufacturer(c.Manufacturer);

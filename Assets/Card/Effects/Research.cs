@@ -36,9 +36,7 @@ public class Research : Effect {
 
     public void Activate() {
         Source.Cost = GameState.ActiveMorphid.Morphium;
-        Source.Process(
-            new TargetingRequirements(Source.TargetedEffect).AllTargets("").ToArray()
-        );
+        Source.Process("");
     }
     
     public override int Targeting () {

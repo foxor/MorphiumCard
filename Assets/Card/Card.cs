@@ -49,17 +49,22 @@ public sealed class Card {
         Effects = new EffectWrapper[0];
     }
     
-    public void Process (string[] targetGuids) {
+    public void Process (string pickedGuid) {
         Bind();
         Morphid self = GameState.ActiveMorphid;
         if (self.Morphium >= Cost) {
             self.Morphium -= Cost;
-            foreach (string targetGuid in targetGuids) {
-                foreach (EffectWrapper effect in Effects) {
+            foreach (Effect effect in Effects.Select(x => x.Wrapped)) {
+                TargetingRequirements req = new TargetingRequirements(effect);
+                IEnumerable<string> targets = req.AllTargets(pickedGuid);
+                if (!targets.Any() && effect.TargetingType() != TargetingType.Skip) {
+                    throw new Exception("Client picked no valid targets for effect: " + effect.ToString());
+                }
+                foreach (string targetGuid in targets) {
                     effect.Apply(targetGuid);
-                    if (effect.Wrapped.IgnoreAfter()) {
-                        return;
-                    }
+                }
+                if (effect.IgnoreAfter()) {
+                    return;
                 }
             }
         }
