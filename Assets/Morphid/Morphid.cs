@@ -76,12 +76,16 @@ public class Morphid {
     public int Prevent;
     
     public Morphid () {
+    }
+
+    public Morphid Setup() {
         Health = MAX_HEALTH;
         Morphium = START_MORPHIUM;
         Engine = START_ENGINE;
         Reflect = 0;
         Weight = 0;
         EngineSequence = new EffectWrapper[0];
+        return this;
     }
     
     public static void PlayLocalCard (int card, string targetGuid) {

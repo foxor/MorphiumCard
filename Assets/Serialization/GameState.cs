@@ -17,7 +17,7 @@ public class GameState : MonoBehaviour {
         if (Network.peerType == NetworkPeerType.Client) {
             StartCoroutine(SetupCoroutine());
         }
-        Morphids = new Morphid[NUM_PLAYERS].Select(x => new Morphid ()).ToArray();
+        Morphids = new Morphid[NUM_PLAYERS].Select(x => new Morphid ().Setup()).ToArray();
         Lanes = new Lane[NUM_LANES].Select(x => new Lane ()).ToArray();
     }
     
