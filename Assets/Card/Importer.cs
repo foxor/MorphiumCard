@@ -71,7 +71,7 @@ public class Importer {
             int[] Targets = data.Target.Split(',').Select(x => int.Parse(x)).ToArray();
             TargetingType[] Targeted = data.Targeted.Split(',').Select(x => bool.Parse(x) ? TargetingType.Single : TargetingType.All).ToArray();
             c.Build(Effects, Arguments, Targets, Targeted);
-            c.Appearances = (data.Name == "Morphium Bomb" || data.Name == "ExoTruck") ? 1 : 0;
+            c.Appearances = (data.Name == "Drones") ? 1 : 0;
             c.Cost = data.Cost;
             c.Manufacturer = data.Manufacturer;
             c.Name = data.Name;

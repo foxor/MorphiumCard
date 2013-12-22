@@ -36,7 +36,12 @@ public class Research : Effect {
 
     public void Activate() {
         Source.Cost = GameState.ActiveMorphid.Morphium;
-        Source.Process("");
+        try {
+            Source.Process("");
+        }
+        catch (TargetingException e) {
+            Debug.Log("Research targeting error suppressed: " + e.Message);
+        }
     }
     
     public override int Targeting () {

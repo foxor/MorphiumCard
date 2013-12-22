@@ -58,7 +58,7 @@ public sealed class Card {
                 TargetingRequirements req = new TargetingRequirements(effect);
                 IEnumerable<string> targets = req.AllTargets(pickedGuid);
                 if (!targets.Any() && effect.TargetingType() != TargetingType.Skip) {
-                    throw new Exception("Client picked no valid targets for effect: " + effect.ToString());
+                    throw new TargetingException("Client picked no valid targets for effect: " + effect.ToString());
                 }
                 foreach (string targetGuid in targets) {
                     effect.Apply(targetGuid);
