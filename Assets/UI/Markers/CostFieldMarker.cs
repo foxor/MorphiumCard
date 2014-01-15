@@ -4,13 +4,13 @@ using System.Collections;
 public class CostFieldMarker : MonoBehaviour {
     public string Text {
         set {
-            text.text = value;
+            text.Text = value;
         }
     }
 
-    protected TextMesh text;
+    protected TextMeshController text;
 
     public void Awake () {
-        text = GetComponent<TextMesh>();
+        text = GetComponent<TextMeshController>();
     }
 }
