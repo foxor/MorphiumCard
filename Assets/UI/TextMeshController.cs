@@ -7,6 +7,7 @@ public class TextMeshController : MonoBehaviour {
     protected static char[] SEPERATORS = new char[]{' ', '\n', '\t'};
     
     public float MaxWidth = 100;
+    public int MaxLines = 1;
     public string Text = "";
 
     protected TextMesh textMesh;
