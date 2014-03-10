@@ -2,23 +2,6 @@
 using System.Collections;
 using System.Linq;
 
-public class SubstituteText {
-    public readonly char[] DELIMITERS = {'{','}'};
-
-    protected string orig;
-    protected string lastParse;
-
-    public string Parse(string orig) {
-        if (orig == this.orig) {
-            return lastParse;
-        }
-        return lastParse = orig
-            .Split(DELIMITERS)
-            .Select((x, i) => i % 2 == 1 ? new SubstitutionExpression(x).Evaluate().ToString() : x)
-            .Aggregate((x, y) => x + y);
-    }
-}
-
 public class CardButton : SpriteButton {
     protected const int ART_WIDTH = 500;
     protected const int ART_HEIGHT = 770;
@@ -28,10 +11,6 @@ public class CardButton : SpriteButton {
     protected CostFieldMarker CardCost;
     protected NameFieldMarker CardName;
     protected TextFieldMarker CardText;
-    
-    protected SubstituteText CostText;
-    protected SubstituteText NameText;
-    protected SubstituteText MainText;
 
     protected Vector3 oldPos;
     protected Vector3 delta;
@@ -44,9 +23,6 @@ public class CardButton : SpriteButton {
         CardCost = card.GetComponentInChildren<CostFieldMarker>();
         CardName = card.GetComponentInChildren<NameFieldMarker>();
         CardText = card.GetComponentInChildren<TextFieldMarker>();
-        CostText = new SubstituteText();
-        NameText = new SubstituteText();
-        MainText = new SubstituteText();
     }
 
     public void OnPickup () {
@@ -81,10 +57,9 @@ public class CardButton : SpriteButton {
 
     protected override void ManageText () {
         if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
-            Morphid.Cards[CardIndex].Bind();
-            CardCost.Text = CostText.Parse(Morphid.Cards[CardIndex].Cost.ToString());
-            CardName.Text = NameText.Parse(Morphid.Cards[CardIndex].Name);
-            CardText.Text = MainText.Parse(Morphid.Cards[CardIndex].Text);
+            CardCost.Text = Morphid.Cards[CardIndex].Cost.ToString();
+            CardName.Text = Morphid.Cards[CardIndex].Name;
+            CardText.Text = Morphid.Cards[CardIndex].Text;
             Card.renderer.enabled = true;
         } else {
             CardCost.Text = "";

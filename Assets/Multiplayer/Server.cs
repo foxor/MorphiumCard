@@ -42,7 +42,7 @@ public class Server : MonoBehaviour {
     
     private void EndTurn (Morphid enemy) {
         if (GameState.ActiveMorphid.Research != null) {
-            GameState.ActiveMorphid.Research.Activate();
+            GameState.ActiveMorphid.Research();
         }
         foreach (Lane l in GameState.Lanes) {
             Minion attacker = l.EnemyMinion(GameState.ActiveMorphid.GUID);
@@ -88,11 +88,7 @@ public class Server : MonoBehaviour {
     [RPC]
     public void ServerBoostEngine (string morphidGuid) {
         GameState.GetMorphid(morphidGuid).Engine += 1;
-        foreach (Effect e in GameState.ActiveMorphid.EngineSequence.Select(x => x.Wrapped)) {
-            foreach (string guid in (new TargetingRequirements(e)).AllTargets("")) {
-                e.Apply(guid);
-            }
-        }
+        GameState.ActiveMorphid.EngineSequence();
         EndTurn(GameState.GetEnemy(morphidGuid));
     }
 }

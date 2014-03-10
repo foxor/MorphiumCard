@@ -9,8 +9,8 @@ public class TargetingRequirements {
     
     public TargetingRequirements (Effect effect) {
         if (effect != null) {
-            this.TargetFlags = effect.Targeting();
-            this.TargetingType = effect.TargetingType();
+            this.TargetFlags = effect.Targeting;
+            this.TargetingType = effect.TargetingType;
         }
         else {
             this.TargetFlags = (int)TargetTypeFlag.Friendly | (int)TargetTypeFlag.Morphid;

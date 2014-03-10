@@ -63,17 +63,8 @@ public class Morphid {
     [ProtoMember(7)]
     public int Weight;
 
-    [SerializeField]
-    [ProtoMember(8)]
-    public Research Research;
-    
-    [SerializeField]
-    [ProtoMember(9)]
-    public EffectWrapper[] EngineSequence;
-    
-    [SerializeField]
-    [ProtoMember(10)]
-    public int Prevent;
+    public Action Research;
+    public Action EngineSequence;
     
     public Morphid () {
     }
@@ -84,7 +75,7 @@ public class Morphid {
         Engine = START_ENGINE;
         Reflect = 0;
         Weight = 0;
-        EngineSequence = new EffectWrapper[0];
+        EngineSequence = null;
         return this;
     }
     

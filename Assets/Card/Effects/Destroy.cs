@@ -8,7 +8,7 @@ using ProtoBuf.Meta;
 
 [Serializable]
 [ProtoContract]
-public class Destroy : Effect {
+public class Destroy {
     public const string CSV_NAME = "Destroy";
 
     [SerializeField]
@@ -19,16 +19,15 @@ public class Destroy : Effect {
     [ProtoMember(2)]
     public TargetingType targetingType;
 
-    public override int Targeting () {
+    public  int Targeting () {
         return targeting;
     }
 
-    public override TargetingType TargetingType () {
+    public  TargetingType TargetingType () {
         return targetingType;
     }
     
-    public override void Apply (string target) {
-        SubstitutionExpression.minionContext = GameState.GetMinion(target);
+    public  void Apply (string target) {
         GameState.RemoveMinion(target);
     }
 }

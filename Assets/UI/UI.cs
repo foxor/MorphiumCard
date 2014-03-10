@@ -53,7 +53,7 @@ public class UI : MonoBehaviour {
             TargetingMode = TargetingMode.Transitional;
             Selected = Cards[card];
             Selected.OnPickup();
-            CardRequirements = new TargetingRequirements(Morphid.Cards[card].TargetedEffect);
+            CardRequirements = new TargetingRequirements(Morphid.Cards[card].Effect);
             StartCoroutine(Select(card));
         };
     }

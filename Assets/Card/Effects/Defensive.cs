@@ -8,17 +8,17 @@ using ProtoBuf.Meta;
 
 [Serializable]
 [ProtoContract]
-public class Defensive : Effect {
+public class Defensive {
     public const string CSV_NAME = "Defensive";
 
-    public override void Apply (string TargetGuid) {
+    public  void Apply (string TargetGuid) {
     }
 
-    public override int Targeting () {
+    public  int Targeting () {
         return 0;
     }
 
-    public override TargetingType TargetingType () {
+    public  TargetingType TargetingType () {
         return global::TargetingType.Skip;
     }
 }
