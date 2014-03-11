@@ -14,8 +14,7 @@ namespace Assets.Card.Effects
 
         protected override IEnumerable<DynamicProvider> TemplatingArguments()
         {
-            yield return AttackMag;
-            yield return DefenseMag;
+            yield break;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()

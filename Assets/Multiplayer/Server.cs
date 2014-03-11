@@ -38,6 +38,7 @@ public class Server : MonoBehaviour {
     protected void SubmitPlayer (string guid) {
         Players.Add(guid);
         GameState.AddMorphid(guid);
+        GameState.RetemplateCards();
     }
     
     private void EndTurn (Morphid enemy) {
@@ -76,9 +77,7 @@ public class Server : MonoBehaviour {
             }
         }
         GameState.SwapTurn();
-		foreach (Morphid m in GameState.Morphids) {
-			m.RetemplateCards();
-		}
+        GameState.RetemplateCards();
         enemy.Morphium = Mathf.Min(Morphid.MAX_MORPHIUM, enemy.Morphium + enemy.Engine);
     }
     

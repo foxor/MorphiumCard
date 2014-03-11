@@ -93,8 +93,11 @@ public class Morphid {
     }
 
 	public void RetemplateCards() {
+        if (CardContainer.Cards == null) {
+            return;
+        }
 		foreach (Card c in CardContainer.Cards) {
-			c.Template();
+            c.Template();
 		}
 	}
 }

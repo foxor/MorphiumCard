@@ -92,6 +92,12 @@ public class GameState : MonoBehaviour {
         return Singleton == null || guid == null ? null : Singleton.Lanes.SelectMany(x => x.Minions).Where(x => x != null && x.GUID == guid).SingleOrDefault();
     }
     
+    public static void RetemplateCards() {
+        foreach (Morphid m in Singleton.Morphids) {
+            m.RetemplateCards();
+        }
+    }
+    
     public static Morphid ActiveMorphid {
         get {
             return Singleton.Morphids[Singleton.ActivePlayer];
