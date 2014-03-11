@@ -90,6 +90,9 @@ public class UI : MonoBehaviour {
                 break;
             }
             yield return 0;
+            Debug.Log("All Targeting: " + ((CardRequirements.TargetingType == TargetingType.All) ? "true" : "false"));
+            Debug.Log("Mouse over left: " + ((ClickRaycast.MouseOverThis(LeftSide)) ? "true" : "false"));
+            Debug.Log("Random: " + ((CardRequirements.HasFlag(TargetTypeFlag.Random) ? "true" : "false")));
             if (CardRequirements.TargetingType == TargetingType.All ||
                 ClickRaycast.MouseOverThis(LeftSide) ||
                 CardRequirements.HasFlag(TargetTypeFlag.Random)

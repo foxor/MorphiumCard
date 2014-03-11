@@ -50,10 +50,12 @@ public sealed class Card {
             self.Morphium -= Cost;
             TargetingRequirements req = new TargetingRequirements(Effect);
             IEnumerable<string> targets = req.AllTargets(pickedGuid);
-            if (!targets.Any() && Effect.TargetingType != TargetingType.Skip) {
+            if (!targets.Any()) {
                 throw new TargetingException("Client picked no valid targets for effect: " + Effect.ToString());
             }
-            Effect.Apply(targets);
+			foreach (string guid in targets) {
+            	Effect.Apply(guid);
+			}
         }
     }
 
@@ -65,6 +67,6 @@ public sealed class Card {
 
     public void Template() {
         this.Cost = Effect.Cost();
-        this.Text = Effect.Text();
+        this.Text = Effect.Text;
     }
 }

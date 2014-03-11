@@ -98,7 +98,7 @@ public class GameState : MonoBehaviour {
         }
     }
     
-    public static void RemoveMinion (string guid) {
+    public static void DestroyMinion (string guid) {
         Lane owner = Singleton.Lanes.Where(x => x.Minions.Any(y => y.GUID == guid)).SingleOrDefault();
         if (owner != null) {
             owner.Minions = owner.Minions.Where(x => x.GUID != guid).ToArray();
@@ -114,19 +114,87 @@ public class GameState : MonoBehaviour {
         if (minion != null) {
             minion.Defense -= damage;
             if (minion.Defense <= 0) {
-                RemoveMinion(guid);
+                DestroyMinion(guid);
             }
         }
     }
-    
-    public static void HealGuid (string guid, int healing) {
+
+    public static void RepairGuid(string guid, int healing)
+    {
         Morphid morphid = GetMorphid(guid);
         Minion minion = GetMinion(guid);
-        if (morphid != null) {
+        if (morphid != null)
+        {
             morphid.Health += healing;
         }
-        if (minion != null) {
+        if (minion != null)
+        {
             minion.Defense += healing;
+        }
+    }
+
+    public static void AddWeight(string guid, int weight)
+    {
+        Morphid morphid = GetMorphid(guid);
+        if (morphid != null)
+        {
+            morphid.Weight += weight;
+        }
+    }
+
+    public static void AddEngine(string guid, int engine)
+    {
+        Morphid morphid = GetMorphid(guid);
+        if (morphid != null)
+        {
+            morphid.Engine += engine;
+        }
+    }
+
+    public static Minion SummonMinion(string laneGuid, int attack, int defense, bool defensive)
+    {
+        Lane lane = GameState.GetLane(laneGuid);
+        if (lane != null)
+        {
+            Minion m = new Minion()
+            {
+                Attack = attack,
+                Defense = defense,
+                Defensive = defensive
+            };
+            lane.SpawnFriendly(m);
+            return m;
+        }
+        return null;
+    }
+
+    public static void SetResearch(string guid, Action research)
+    {
+        Morphid m = GameState.GetMorphid(guid);
+        if (m != null)
+        {
+            m.Research = research;
+        }
+    }
+
+    public static void AddEngineSequence(string guid, Action sequence)
+    {
+        Morphid m = GameState.GetMorphid(guid);
+        if (m != null)
+        {
+            if (m.EngineSequence == null)
+            {
+                m.EngineSequence = sequence;
+            }
+            else
+            {
+                Action oldSequence = m.EngineSequence;
+                m.EngineSequence = () =>
+                {
+                    oldSequence();
+                    sequence();
+                };
+            }
         }
     }
 }

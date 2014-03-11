@@ -55,4 +55,9 @@ public class Lane {
             Concat(new Minion[1] {toAdd}).
             ToArray();
     }
+
+    public bool isEmpty(string morphidGuid)
+    {
+        return Minion.IsDead(FriendlyMinion(GameState.ActiveMorphid.GUID));
+    }
 }

@@ -9,13 +9,19 @@ public class TargetingRequirements {
     
     public TargetingRequirements (Effect effect) {
         if (effect != null) {
-            this.TargetFlags = effect.Targeting;
-            this.TargetingType = effect.TargetingType;
+            this.TargetFlags = effect.TargetFlags;
+            this.TargetingType = effect.TargetingType();
         }
         else {
             this.TargetFlags = (int)TargetTypeFlag.Friendly | (int)TargetTypeFlag.Morphid;
             this.TargetingType = TargetingType.All;
         }
+    }
+
+    public TargetingRequirements(int flags, TargetingType type)
+    {
+        this.TargetFlags = flags;
+        this.TargetingType = type;
     }
     
     public bool HasFlag (TargetTypeFlag flag) {
@@ -24,7 +30,7 @@ public class TargetingRequirements {
     
     public bool LaneAllowed (Lane l) {
         return HasFlag(TargetTypeFlag.Lane) &&
-            (!HasFlag(TargetTypeFlag.Empty) || Minion.IsDead(l.FriendlyMinion(GameState.ActiveMorphid.GUID)));
+            (!HasFlag(TargetTypeFlag.Empty) || l.isEmpty(GameState.ActiveMorphid.GUID));
     }
     
     public bool MorphidAllowed (Morphid m) {

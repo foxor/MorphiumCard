@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public delegate string TextProvider();
+
 public static class Templating {
     public static char[] SUBSTITUTION_CHAR = new char[]{'*'};
 
@@ -18,7 +20,8 @@ public static class Templating {
         }
     }
 
-    public static TextFn Template(string original, params DynamicProvider[] providers) {
+    public static TextProvider Template(string original, params DynamicProvider[] providers)
+    {
         string[] parts = original.Split(SUBSTITUTION_CHAR);
         return () => {
             return string.Join("", JoinStrings(parts, providers).ToArray());
