@@ -14,7 +14,7 @@ public class UI : MonoBehaviour {
     protected CardButton Selected;
     protected SpriteButton EngineSprite;
     public Target Target;
-    protected TargetingRequirements CardRequirements;
+	protected Card ActiveCard;
     protected TargetingMode TargetingMode;
     protected List<SpriteRegion> Sprites;
     
@@ -53,7 +53,7 @@ public class UI : MonoBehaviour {
             TargetingMode = TargetingMode.Transitional;
             Selected = Cards[card];
             Selected.OnPickup();
-            CardRequirements = new TargetingRequirements(Morphid.Cards[card].Effect);
+			ActiveCard = Morphid.Cards[card];
             StartCoroutine(Select(card));
         };
     }
@@ -90,12 +90,8 @@ public class UI : MonoBehaviour {
                 break;
             }
             yield return 0;
-            Debug.Log("All Targeting: " + ((CardRequirements.TargetingType == TargetingType.All) ? "true" : "false"));
-            Debug.Log("Mouse over left: " + ((ClickRaycast.MouseOverThis(LeftSide)) ? "true" : "false"));
-            Debug.Log("Random: " + ((CardRequirements.HasFlag(TargetTypeFlag.Random) ? "true" : "false")));
-            if (CardRequirements.TargetingType == TargetingType.All ||
-                ClickRaycast.MouseOverThis(LeftSide) ||
-                CardRequirements.HasFlag(TargetTypeFlag.Random)
+            if (ActiveCard.TargetingType == TargetingType.All ||
+                ClickRaycast.MouseOverThis(LeftSide)
             ) {
                 ReticleController.Shown = false;
                 Selected.SuspendDrag = false;
@@ -114,8 +110,9 @@ public class UI : MonoBehaviour {
                          .SingleOrDefault()
         );
         if (
-            CardRequirements.AllTargets(Target.GUID).Count() > 0 && 
-            !cancel &&
+			!cancel &&
+			ActiveCard.TargetableGuids != null &&
+			ActiveCard.TargetableGuids.Contains(Target.GUID) && 
             Morphid.Cards[card].Cost <= Morphid.LocalPlayer.Morphium
         ) {
             Morphid.PlayLocalCard(card, Target.GUID);
@@ -123,7 +120,7 @@ public class UI : MonoBehaviour {
         Selected.SuspendDrag = false;
         ReticleController.Shown = false;
         TargetingMode = TargetingMode.Inactive;
-        CardRequirements = null;
+        ActiveCard = null;
         Selected.OnDrop();
         Selected = null;
         Cards[card].Enabled = true;
@@ -138,6 +135,6 @@ public class UI : MonoBehaviour {
         foreach (SpriteRegion Sprite in Sprites) {
             Sprite.Update();
         }
-        Target.Update(CardRequirements);
+        Target.Update(ActiveCard == null ? null : ActiveCard.TargetableGuids);
     }
 }

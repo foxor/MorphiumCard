@@ -9,6 +9,7 @@ namespace Assets.Card.Effects
     {
         protected static DynamicProvider AttackMag = () => GameState.ActiveMorphid.Weight / 2;
         protected static DynamicProvider DefenseMag = () => GameState.ActiveMorphid.Weight * 2;
+		protected static DynamicProvider WeightMag = () => 2;
 
         public SpareParts(string text) : base(text) { }
 
@@ -16,6 +17,7 @@ namespace Assets.Card.Effects
         {
             yield return AttackMag;
             yield return DefenseMag;
+			yield return WeightMag;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
@@ -27,6 +29,7 @@ namespace Assets.Card.Effects
         public override void Apply(string guid)
         {
             GameState.SummonMinion(guid, AttackMag(), DefenseMag(), false);
+			GameState.AddWeight(GameState.ActiveMorphid.GUID, WeightMag());
         }
 
         public override int Cost()

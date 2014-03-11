@@ -94,7 +94,7 @@ public class Target {
         Sprites.AddRange(EnemyMinions);
     }
     
-    public void Update (TargetingRequirements req) {
+    public void Update (string[] guids) {
         EnemyMorphid.Morphid = GameState.GetEnemy(Client.GUID);
         FriendlyMorphid.Morphid = GameState.GetMorphid(Client.GUID);
         for (int i = 0; i < 3; i++) {
@@ -117,17 +117,17 @@ public class Target {
         EnemyMorphid.Text = Morphid.RemotePlayer.Health + " / " + Morphid.MAX_HEALTH;
         FriendlyMorphid.Text = Morphid.LocalPlayer.Health + " / " + Morphid.MAX_HEALTH;
         
-        FriendlyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(FriendlyMorphid.Morphid.GUID));
-        EnemyMorphid.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(EnemyMorphid.Morphid.GUID));
+		FriendlyMorphid.Enabled = guids != null && guids.Contains(FriendlyMorphid.Morphid.GUID);
+		EnemyMorphid.Enabled = guids != null && guids.Contains(EnemyMorphid.Morphid.GUID);
         foreach (SelectionRegion lane in Lanes) {
-            lane.Enabled = req != null && (req.TargetingType == TargetingType.All || req.TargetAllowed(lane.Lane.GUID));
+			lane.Enabled = guids != null && guids.Contains(lane.Lane.GUID);
         }
         foreach (SelectionRegion enemy in EnemyMinions) {
-            enemy.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed(enemy.Minion));
+			enemy.Enabled = guids != null && enemy.Minion != null && guids.Contains(enemy.Minion.GUID);
             enemy.Visible = enemy.Minion != null;
         }
         foreach (SelectionRegion friendly in FriendlyMinions) {
-            friendly.Enabled = req != null && (req.TargetingType == TargetingType.All || req.MinionAllowed(friendly.Minion));
+			friendly.Enabled = guids != null && friendly.Minion != null && guids.Contains(friendly.Minion.GUID);
             friendly.Visible = friendly.Minion != null;
         }
     }

@@ -76,6 +76,9 @@ public class Server : MonoBehaviour {
             }
         }
         GameState.SwapTurn();
+		foreach (Morphid m in GameState.Morphids) {
+			m.RetemplateCards();
+		}
         enemy.Morphium = Mathf.Min(Morphid.MAX_MORPHIUM, enemy.Morphium + enemy.Engine);
     }
     

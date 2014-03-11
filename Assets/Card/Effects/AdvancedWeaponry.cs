@@ -30,7 +30,7 @@ namespace Assets.Card.Effects
                     (int)TargetTypeFlag.Enemy | (int)TargetTypeFlag.Morphid,
                     global::TargetingType.All
                 );
-                foreach (string morphid in req.AllTargets(null))
+                foreach (string morphid in req.ChosenTargets(null))
                 {
                     GameState.DamageGuid(morphid, DamageMag());
                 }

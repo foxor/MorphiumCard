@@ -37,6 +37,14 @@ public sealed class Card {
     [ProtoMember(6)]
     public bool Charged;
 
+	[SerializeField]
+	[ProtoMember(7)]
+	public string[] TargetableGuids;
+
+	[SerializeField]
+	[ProtoMember(8)]
+	public TargetingType TargetingType;
+
     public Effect Effect;
     
     public Card () {
@@ -49,7 +57,7 @@ public sealed class Card {
         if (self.Morphium >= Cost) {
             self.Morphium -= Cost;
             TargetingRequirements req = new TargetingRequirements(Effect);
-            IEnumerable<string> targets = req.AllTargets(pickedGuid);
+            IEnumerable<string> targets = req.ChosenTargets(pickedGuid);
             if (!targets.Any()) {
                 throw new TargetingException("Client picked no valid targets for effect: " + Effect.ToString());
             }
@@ -68,5 +76,8 @@ public sealed class Card {
     public void Template() {
         this.Cost = Effect.Cost();
         this.Text = Effect.Text;
+		TargetingRequirements req = new TargetingRequirements(Effect);
+		this.TargetableGuids = req.AllowedTargets().ToArray();
+		this.TargetingType = Effect.TargetingType();
     }
 }

@@ -91,4 +91,10 @@ public class Morphid {
         CardContainer.ComboManufacturer(c.Manufacturer);
         CardContainer.ComboSlot(c.Slot);
     }
+
+	public void RetemplateCards() {
+		foreach (Card c in CardContainer.Cards) {
+			c.Template();
+		}
+	}
 }

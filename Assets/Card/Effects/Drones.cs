@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +31,7 @@ namespace Assets.Card.Effects
                     (int)TargetTypeFlag.Random | (int)TargetTypeFlag.Empty | (int)TargetTypeFlag.Lane,
                     global::TargetingType.Single
                 );
-                foreach (string lane in req.AllTargets(null))
+                foreach (string lane in req.ChosenTargets(null))
                 {
                     GameState.SummonMinion(lane, AttackMag(), DefenseMag(), false);
                 }

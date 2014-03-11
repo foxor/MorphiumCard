@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +30,7 @@ namespace Assets.Card.Effects
                 (int)TargetTypeFlag.Enemy | (int)TargetTypeFlag.Minion,
                 global::TargetingType.All
             );
-            foreach (string minionGuid in req.AllTargets(null))
+            foreach (string minionGuid in req.ChosenTargets(null))
             {
                 GameState.DestroyMinion(minionGuid);
             }

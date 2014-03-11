@@ -47,12 +47,12 @@ public class TargetingRequirements {
             (HasFlag(TargetTypeFlag.Enemy) && m.IsEnemy(GameState.ActiveMorphid.GUID)));
     }
     
-    public IEnumerable<string> AllTargets (string guid) {
+    public IEnumerable<string> ChosenTargets (string guid) {
         if (HasFlag(TargetTypeFlag.Random)) {
             TargetingRequirements PotentialTargets = new TargetingRequirements(null);
             PotentialTargets.TargetFlags = TargetFlags & (~((int)TargetTypeFlag.Random));
             PotentialTargets.TargetingType = TargetingType.All;
-            IEnumerable<string> orderedTargets = PotentialTargets.AllTargets(guid).OrderBy(x => Random.Range(0f, 1f));
+            IEnumerable<string> orderedTargets = PotentialTargets.ChosenTargets(guid).OrderBy(x => Random.Range(0f, 1f));
             if (orderedTargets.Any()) {
                 yield return orderedTargets.First();
             }
@@ -81,22 +81,21 @@ public class TargetingRequirements {
         }
     }
     
-    public bool TargetAllowed (string guid) {
-        Lane lane = GameState.GetLane(guid);
-        Morphid morphid = GameState.GetMorphid(guid);
-        Minion minion = GameState.GetMinion(guid);
-        if (lane != null) {
-            return LaneAllowed(lane);
-        }
-        if (morphid != null) {
-            return MorphidAllowed(morphid);
-        }
-        if (minion != null) {
-            return MinionAllowed(minion);
-        }
-        if (TargetingType == TargetingType.All) {
-            return true;
-        }
-        return false;
+	public IEnumerable<string> AllowedTargets () {
+		foreach (Lane lane in GameState.Singleton.Lanes) {
+			if (LaneAllowed(lane)) {
+				yield return lane.GUID;
+			}
+			foreach (Minion minion in lane.Minions) {
+				if (MinionAllowed(minion)) {
+					yield return minion.GUID;
+				}
+			}
+		}
+		foreach (Morphid morphid in GameState.Singleton.Morphids) {
+			if (MorphidAllowed(morphid)) {
+				yield return morphid.GUID;
+			}
+		}
     }
 }
