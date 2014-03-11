@@ -91,7 +91,9 @@ public class Server : MonoBehaviour {
     [RPC]
     public void ServerBoostEngine (string morphidGuid) {
         GameState.GetMorphid(morphidGuid).Engine += 1;
-        GameState.ActiveMorphid.EngineSequence();
+		if (GameState.ActiveMorphid.EngineSequence != null) {
+        	GameState.ActiveMorphid.EngineSequence();
+		}
         EndTurn(GameState.GetEnemy(morphidGuid));
     }
 }

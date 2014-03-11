@@ -111,9 +111,9 @@ public class UI : MonoBehaviour {
         );
         if (
 			!cancel &&
+			Morphid.Cards[card].Cost <= Morphid.LocalPlayer.Morphium &&
 			ActiveCard.TargetableGuids != null &&
-			ActiveCard.TargetableGuids.Contains(Target.GUID) && 
-            Morphid.Cards[card].Cost <= Morphid.LocalPlayer.Morphium
+			((ActiveCard.TargetableGuids.Contains(Target.GUID)) || ActiveCard.TargetingType != TargetingType.Single)
         ) {
             Morphid.PlayLocalCard(card, Target.GUID);
         }
