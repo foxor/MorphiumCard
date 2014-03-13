@@ -7,7 +7,7 @@ using System.Linq;
 public delegate string TextProvider();
 
 public static class Templating {
-    public static char[] SUBSTITUTION_CHAR = new char[]{'*'};
+    public static char[] SUBSTITUTION_CHAR = new char[]{'*', '-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
 
     public static IEnumerable<string> JoinStrings(string[] parts, DynamicProvider[] providers) {
         for (int i = 0; i < parts.Length || i < providers.Length; i++) {
@@ -22,7 +22,7 @@ public static class Templating {
 
     public static TextProvider Template(string original, params DynamicProvider[] providers)
     {
-        string[] parts = original.Split(SUBSTITUTION_CHAR);
+        string[] parts = original.Split(SUBSTITUTION_CHAR, StringSplitOptions.RemoveEmptyEntries);
         return () => {
             return string.Join("", JoinStrings(parts, providers).ToArray());
         };

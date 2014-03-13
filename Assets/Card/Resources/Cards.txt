@@ -1,16 +1,16 @@
-Name,Text,Manufacturer,Cost,Slot
-Rugged Suspension,Repair * damage.  Gain * weight.,Goliath,6,Leg
-Roll Over,Deals * damage.,Goliath,2,Leg
-Pulverize,Deals * damage.,Goliath,7,Arm
-Quake,* damage to all minions.,Goliath,9,Arm
-Spare Parts,Summon a */*.  Gain * Weight.,Goliath,4,Chest
-Load Up,Gain * Engine and * Weight.,Goliath,0,Chest
-Salvage,"Destroy a friendly minion, gain Weight equal to it's defense",Goliath,2,Head
-ExoTruck,Summon a */*.,Goliath,3,Head
-Drones,Research.  Summon a minion in a random lane.,Vanguard Labs,10,Head
-Advanced Weaponry,Research.  Deals damage to the enemy morphid.,Vanguard Labs,10,Head
-Auto Turret,Summon a 10/1 who only attacks minions.,Vanguard Labs,5,Chest
-Regenerative Suspension,Repair * damage whenever you upgrade your engine.  Engine *.,Vanguard Labs,7,Chest
-Morphium Laser,Deals * damage depending on your engine.,Vanguard Labs,8,Arm
-Morphium Bomb,Destroy all enemy minions.  Engine *.,Vanguard Labs,8,Arm
-Bladed Appendage,Deals *.,Vanguard Labs,2,Leg
+Name,Text,Manufacturer,Cost,Slot,Notes
+Rugged Suspension,Repair 4 damage.  Gain 4 weight.,Goliath,6,Leg,
+Roll Over,Deals * damage.,Goliath,2,Leg,3+Morphid.Weight
+Pulverize,Deals * damage.,Goliath,7,Arm,2+Morphid.Weight*2
+Quake,7 damage to all minions.,Goliath,9,Arm,
+Spare Parts,Summon a */*.  Gain 2 Weight.,Goliath,4,Chest,"Morphid.Weight/2,Morphid.Weight*2,2"
+Load Up,Gain 1 Engine and 3 Weight.,Goliath,0,Chest,
+Salvage,"Destroy a friendly minion, gain Weight equal to it's defense",Goliath,2,Head,
+ExoTruck,Summon a 2/7.,Goliath,3,Head,
+Drones,Research.  Summon a minion in a random lane.,Vanguard Labs,10,Head,"Card.Cost,Card.Cost*3"
+Advanced Weaponry,Research.  Deals damage to the enemy morphid.,Vanguard Labs,10,Head,Card.Cost
+Auto Turret,Summon a 10/1 who only attacks minions.,Vanguard Labs,5,Chest,
+Regenerative Suspension,Repair 4 damage whenever you upgrade your engine.  Engine -1.,Vanguard Labs,7,Chest,
+Morphium Laser,Deals * damage depending on your engine.,Vanguard Labs,8,Arm,"pow(pow(30,1/9),Morphid.Engine-1)"
+Morphium Bomb,Destroy all enemy minions.  Engine -4.,Vanguard Labs,8,Arm,
+Bladed Appendage,Deals 3.,Vanguard Labs,2,Leg,
