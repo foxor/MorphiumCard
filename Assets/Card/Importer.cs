@@ -63,8 +63,10 @@ public class Importer {
             c.Slot = slot;
 
             c.Effect = CardEffectTable.Map(data.Name, data.Text);
-            c.Template();
-            yield return c;
+            if (c.Effect != null) {
+                c.Template();
+                yield return c;
+            }
         }
     }
 }
