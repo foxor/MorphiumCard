@@ -157,7 +157,7 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    public static Minion SummonMinion(string laneGuid, int attack, int defense, bool defensive)
+    public static Minion SummonMinion(string laneGuid, int attack, int defense, bool defensive, bool protect)
     {
         Lane lane = GameState.GetLane(laneGuid);
         if (lane != null)
@@ -166,7 +166,8 @@ public class GameState : MonoBehaviour {
             {
                 Attack = attack,
                 Defense = defense,
-                Defensive = defensive
+                Defensive = defensive,
+                Protect = protect
             };
             lane.SpawnFriendly(m);
             return m;
@@ -202,5 +203,26 @@ public class GameState : MonoBehaviour {
                 };
             }
         }
+    }
+
+    public static Minion GetLaneDefender(int lane)
+    {
+        Minion center = GetLane(lane).EnemyMinion(ActiveMorphid.GUID);
+        Minion left = lane > 0 ? GetLane(lane - 1).EnemyMinion(ActiveMorphid.GUID)  : null;
+        Minion right = lane < 2 ? GetLane(lane + 1).EnemyMinion(ActiveMorphid.GUID) : null;
+
+        if (center != null && center.Protect)
+        {
+            return center;
+        }
+        else if (left != null && left.Protect)
+        {
+            return left;
+        }
+        else if (right != null && right.Protect)
+        {
+            return right;
+        }
+        return center;
     }
 }

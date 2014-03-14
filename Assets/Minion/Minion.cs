@@ -30,6 +30,10 @@ public class Minion {
     [ProtoMember(5)]
     public bool Defensive;
 
+    [SerializeField]
+    [ProtoMember(6)]
+    public bool Protect;
+
     public GameObject GameObject;
     
     public bool IsFriendly (string morphidGuid) {

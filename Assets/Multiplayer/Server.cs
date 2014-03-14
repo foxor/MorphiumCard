@@ -45,10 +45,12 @@ public class Server : MonoBehaviour {
         if (GameState.ActiveMorphid.Research != null) {
             GameState.ActiveMorphid.Research();
         }
-        foreach (Lane l in GameState.Lanes) {
+        for (int laneId = 0; laneId < GameState.Lanes.Length; laneId++) {
+            Lane l = GameState.Lanes[laneId];
             Minion attacker = l.EnemyMinion(GameState.ActiveMorphid.GUID);
-            Minion defender = l.FriendlyMinion(GameState.ActiveMorphid.GUID);
-            if (attacker != null) {
+            if (attacker != null)
+            {
+                Minion defender = GameState.GetLaneDefender(laneId);
                 if (defender != null) {
                     networkView.RPC("QueueMinionAnimation", RPCMode.Others,
                         new MinionAnimation () {
