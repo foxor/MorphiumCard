@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+[Serializable]
 public class CardData {
     public string Name;
     public string Text;
@@ -14,11 +15,14 @@ public class CardData {
     public string Slot;
 }
 
-public class Importer {
+public class Importer : MonoBehaviour {
     public const string CARD_FILE_NAME = "Cards";
+
+    public static Importer Singleton;
+
     protected Card[] cards;
 
-    protected Card[] Cards {
+    public Card[] Cards {
         get {
             if (cards == null) {
                 cards = ReadCards().ToArray();
@@ -26,9 +30,18 @@ public class Importer {
             return cards;
         }
     }
+
+    [SerializeField]
+    public List<CardData> MissingEffects = new List<CardData>();
+
+    public void Awake()
+    {
+        Singleton = this;
+        // Force accessor to run
+        cards = Cards;
+    }
     
     public IEnumerable<Card> CardsBySlot (Slot slot) {
-        ReadCards();
         foreach (Card c in Cards) {
             if (c.Slot == slot) {
                 for (int i = 0; i < 1; i++) {
@@ -64,12 +77,11 @@ public class Importer {
 
             c.Effect = CardEffectTable.Map(data.Name, data.Text);
             if (c.Effect != null) {
-                c.Template();
                 yield return c;
             }
             else
             {
-                Debug.Log("Ignored card: " + data.Name + " with text: " + data.Text);
+                MissingEffects.Add(data);
             }
         }
     }

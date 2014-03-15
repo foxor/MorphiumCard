@@ -10,7 +10,6 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public class Deck {
     public const int MAX_CARDS = 15;
-    protected static Importer Importer = new Importer ();
     [SerializeField]
     [ProtoMember(1)]
     public Card[]
@@ -25,7 +24,7 @@ public class Deck {
         Slot;
     
 	public void Shuffle () {
-		Cards = Importer.CardsBySlot(Slot).ToArray();
+		Cards = Importer.Singleton.CardsBySlot(Slot).ToArray();
 		//Cards = Importer.CardsBySlot(Slot).OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
     }
     
