@@ -63,6 +63,10 @@ public class Morphid {
     [ProtoMember(7)]
     public int Weight;
 
+	[SerializeField]
+	[ProtoMember(8)]
+	public int Parts;
+
     public Action Research;
     public Action EngineSequence;
     
