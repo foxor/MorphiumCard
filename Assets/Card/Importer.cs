@@ -13,6 +13,7 @@ public class CardData {
     public string Manufacturer;
     public string Cost;
     public string Slot;
+    public string Notes;
 }
 
 public class Importer : MonoBehaviour {
@@ -63,6 +64,7 @@ public class Importer : MonoBehaviour {
             data.Manufacturer = reader.GetField<string>("Manufacturer");
             data.Cost = reader.GetField<string>("Cost");
             data.Slot = reader.GetField<string>("Slot");
+            data.Notes = reader.GetField<string>("Notes");
             yield return data;
         }
     }
