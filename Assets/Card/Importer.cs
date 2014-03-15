@@ -67,6 +67,10 @@ public class Importer {
                 c.Template();
                 yield return c;
             }
+            else
+            {
+                Debug.Log("Ignored card: " + data.Name + " with text: " + data.Text);
+            }
         }
     }
 }

@@ -14,7 +14,6 @@ public class CardEffectTable {
         name = name.Replace(" ", "");
 		Type t = Type.GetType(TemplateAssemblyName.Replace("*", name));
         if (t == null) {
-            Debug.Log("Can't find card class: " + name);
             return null;
         }
         else {
