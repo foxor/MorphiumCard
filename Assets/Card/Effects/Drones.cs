@@ -32,7 +32,7 @@ namespace Assets.Card.Effects
                 );
                 foreach (string lane in req.ChosenTargets(null))
                 {
-                    GameState.SummonMinion(lane, AttackMag(), DefenseMag(), false, false);
+                    GameState.SummonMinion(lane, AttackMag(), DefenseMag(), new MinionBuilder());
                 }
                 GameState.ActiveMorphid.Morphium = 0;
             });

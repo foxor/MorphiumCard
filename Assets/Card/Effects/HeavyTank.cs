@@ -21,7 +21,7 @@ public class HeavyTank : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), false, true);
+        GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder(){Protect = true});
     }
 
     public override int Cost ()

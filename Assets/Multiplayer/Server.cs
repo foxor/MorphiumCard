@@ -72,7 +72,10 @@ public class Server : MonoBehaviour {
                     );
                     GameState.DamageGuid(defender.GUID, attacker.Attack);
                 } else {
-                    if (!attacker.Defensive) {
+                    if (attacker.Scrounge) {
+                        GameState.ActiveMorphid.Parts += attacker.Attack;
+                    }
+                    else if (!attacker.Defensive) {
                         GameState.DamageGuid(GameState.ActiveMorphid.GUID, attacker.Attack);
                     }
                 }

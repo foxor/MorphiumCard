@@ -26,7 +26,7 @@ namespace Assets.Card.Effects
 
         public override void Apply(string guid)
         {
-            GameState.SummonMinion(guid, AttackMag(), DefenseMag(), true, false);
+            GameState.SummonMinion(guid, AttackMag(), DefenseMag(), new MinionBuilder(){Defensive = true});
         }
 
         public override int Cost()
