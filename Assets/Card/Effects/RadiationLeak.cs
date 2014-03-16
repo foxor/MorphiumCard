@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InfusedNanobots : Effect {
-    public static DynamicProvider Repair = () => GameState.ActiveMorphid.Engine * 2;
+public class RadiationLeak : Effect {
+    public static DynamicProvider Damage = () => GameState.ActiveMorphid.Engine * 2;
 
-    public InfusedNanobots(string text) : base(text) {}
+    public RadiationLeak(string text) : base(text) {}
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Repair;
+        yield return Damage;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -16,21 +16,20 @@ public class InfusedNanobots : Effect {
         yield return TargetTypeFlag.Enemy;
         yield return TargetTypeFlag.Friendly;
         yield return TargetTypeFlag.Minion;
-        yield return TargetTypeFlag.Morphid;
     }
 
     public override void Apply (string guid)
     {
-        GameState.RepairGuid(guid, Repair());
+        GameState.DamageGuid(guid, Damage());
     }
 
     public override int Cost ()
     {
-        return 4;
+        return 7;
     }
 
     public override TargetingType TargetingType ()
     {
-        return global::TargetingType.Single;
+        return global::TargetingType.All;
     }
 }
