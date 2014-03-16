@@ -6,6 +6,12 @@ using System.Linq;
 using ProtoBuf;
 using ProtoBuf.Meta;
 
+public class MinionBuilder {
+    public bool Defensive = false;
+    public bool Protect = false;
+    public bool Scrounge = false;
+}
+
 [Serializable]
 [ProtoContract]
 public class Minion {
@@ -29,10 +35,14 @@ public class Minion {
     [SerializeField]
     [ProtoMember(5)]
     public bool Defensive;
-
+    
     [SerializeField]
     [ProtoMember(6)]
     public bool Protect;
+    
+    [SerializeField]
+    [ProtoMember(7)]
+    public bool Scrounge;
 
     public GameObject GameObject;
     

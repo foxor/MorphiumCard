@@ -104,6 +104,27 @@ public class GameState : MonoBehaviour {
         }
     }
     
+    public static Minion GetLaneDefender(int lane)
+    {
+        Minion center = GetLane(lane).FriendlyMinion(ActiveMorphid.GUID);
+        Minion left = lane > 0 ? GetLane(lane - 1).FriendlyMinion(ActiveMorphid.GUID)  : null;
+        Minion right = lane < 2 ? GetLane(lane + 1).FriendlyMinion(ActiveMorphid.GUID) : null;
+        
+        if (center != null && center.Protect)
+        {
+            return center;
+        }
+        else if (left != null && left.Protect)
+        {
+            return left;
+        }
+        else if (right != null && right.Protect)
+        {
+            return right;
+        }
+        return center;
+    }
+    
     public static void DestroyMinion (string guid) {
         Lane owner = Singleton.Lanes.Where(x => x.Minions.Any(y => y.GUID == guid)).SingleOrDefault();
         if (owner != null) {
@@ -166,17 +187,22 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    public static Minion SummonMinion(string laneGuid, int attack, int defense, bool defensive, bool protect)
+    public static Minion SummonMinion(string laneGuid, int attack, int defense, MinionBuilder builder)
     {
         Lane lane = GameState.GetLane(laneGuid);
         if (lane != null)
         {
+            if (builder == null) {
+                builder = new MinionBuilder();
+            }
+
             Minion m = new Minion()
             {
                 Attack = attack,
                 Defense = defense,
-                Defensive = defensive,
-                Protect = protect
+                Defensive = builder.Defensive,
+                Protect = builder.Protect,
+                Scrounge = builder.Scrounge
             };
             lane.SpawnFriendly(m);
             return m;
@@ -214,24 +240,11 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    public static Minion GetLaneDefender(int lane)
-    {
-        Minion center = GetLane(lane).EnemyMinion(ActiveMorphid.GUID);
-        Minion left = lane > 0 ? GetLane(lane - 1).EnemyMinion(ActiveMorphid.GUID)  : null;
-        Minion right = lane < 2 ? GetLane(lane + 1).EnemyMinion(ActiveMorphid.GUID) : null;
-
-        if (center != null && center.Protect)
-        {
-            return center;
+    public static void BuffMinion(string guid, int attackBuff, int defenseBuff) {
+        Minion minion = GetMinion(guid);
+        if (minion != null) {
+            minion.Attack += attackBuff;
+            minion.Defense += defenseBuff;
         }
-        else if (left != null && left.Protect)
-        {
-            return left;
-        }
-        else if (right != null && right.Protect)
-        {
-            return right;
-        }
-        return center;
     }
 }
