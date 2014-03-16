@@ -178,6 +178,15 @@ public class GameState : MonoBehaviour {
 		}
 	}
 
+    public static void ConsumeParts(string guid)
+    {
+        Morphid morphid = GetMorphid(guid);
+        if (morphid != null)
+        {
+            morphid.Parts = 0;
+        }
+    }
+
     public static void AddEngine(string guid, int engine)
     {
         Morphid morphid = GetMorphid(guid);
