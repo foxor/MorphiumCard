@@ -83,7 +83,7 @@ public class Importer : MonoBehaviour {
             }
             else
             {
-                data.Name.Replace(" ", "");
+                data.Name = data.Name.Replace(" ", "");
                 MissingEffects.Add(data);
             }
         }
