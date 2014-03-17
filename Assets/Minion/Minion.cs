@@ -10,6 +10,7 @@ public class MinionBuilder {
     public bool Defensive = false;
     public bool Protect = false;
     public bool Scrounge = false;
+    public bool OnFire = false;
 }
 
 [Serializable]

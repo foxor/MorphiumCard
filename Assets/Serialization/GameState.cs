@@ -245,7 +245,8 @@ public class GameState : MonoBehaviour {
                 Defense = defense,
                 Defensive = builder.Defensive,
                 Protect = builder.Protect,
-                Scrounge = builder.Scrounge
+                Scrounge = builder.Scrounge,
+                OnFire = builder.OnFire
             };
             lane.SpawnFriendly(m);
             return m;
