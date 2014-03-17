@@ -4,16 +4,16 @@ using System.Collections;
 using System.Reflection;
 
 public enum Slot {
-    [SlotOrder(1)]
+    [SlotOrder(0)]
     Head,
     
-    [SlotOrder(2)]
+    [SlotOrder(1)]
     Chest,
     
-    [SlotOrder(3)]
+    [SlotOrder(2)]
     Arm,
     
-    [SlotOrder(4)]
+    [SlotOrder(3)]
     Leg
 }
 

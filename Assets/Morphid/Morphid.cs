@@ -32,6 +32,11 @@ public class Morphid {
     public CardContainer
         CardContainer = new CardContainer ();
     
+    [SerializeField]
+    [ProtoMember(2)]
+    public AttachmentContainer
+        AttachmentContainer = new AttachmentContainer ();
+    
     public static Card[] Cards {
         get {
             return LocalPlayer.CardContainer.Cards;
@@ -40,31 +45,31 @@ public class Morphid {
     
     [HideInInspector]
     [SerializeField]
-    [ProtoMember(2)]
+    [ProtoMember(3)]
     public string GUID;
 
     [SerializeField]
-    [ProtoMember(3)]
+    [ProtoMember(4)]
     public int Health;
 
     [SerializeField]
-    [ProtoMember(4)]
+    [ProtoMember(5)]
     public int Morphium;
 
     [SerializeField]
-    [ProtoMember(5)]
+    [ProtoMember(6)]
     public int Engine;
 
     [SerializeField]
-    [ProtoMember(6)]
+    [ProtoMember(7)]
     public int Reflect;
 
     [SerializeField]
-    [ProtoMember(7)]
+    [ProtoMember(8)]
     public int Weight;
 
 	[SerializeField]
-	[ProtoMember(8)]
+	[ProtoMember(9)]
 	public int Parts;
 
     public Action Research;
@@ -96,12 +101,13 @@ public class Morphid {
         CardContainer.ComboSlot(c.Slot);
     }
 
-	public void RetemplateCards() {
+	public void Retemplate() {
         if (CardContainer.Cards == null) {
             return;
         }
 		foreach (Card c in CardContainer.Cards) {
             c.Template();
 		}
+        AttachmentContainer.Retemplate();
 	}
 }

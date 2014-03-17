@@ -92,9 +92,9 @@ public class GameState : MonoBehaviour {
         return Singleton == null || guid == null ? null : Singleton.Lanes.SelectMany(x => x.Minions).Where(x => x != null && x.GUID == guid).SingleOrDefault();
     }
     
-    public static void RetemplateCards() {
+    public static void Retemplate() {
         foreach (Morphid m in Singleton.Morphids) {
-            m.RetemplateCards();
+            m.Retemplate();
         }
     }
     
@@ -126,6 +126,11 @@ public class GameState : MonoBehaviour {
     }
     
     public static void DestroyMinion (string guid) {
+        Minion minion = GetMinion(guid);
+        if (minion != null) {
+            GameStateWatcher.OnMinionDeath(minion);
+        }
+
         Lane owner = Singleton.Lanes.Where(x => x.Minions.Any(y => y.GUID == guid)).SingleOrDefault();
         if (owner != null) {
             owner.Minions = owner.Minions.Where(x => x.GUID != guid).ToArray();
@@ -137,6 +142,7 @@ public class GameState : MonoBehaviour {
         Minion minion = GetMinion(guid);
         if (morphid != null) {
             morphid.Health -= damage;
+            morphid.AttachmentContainer.Damage(damage);
         }
         if (minion != null) {
             minion.Defense -= damage;
@@ -245,6 +251,14 @@ public class GameState : MonoBehaviour {
         if (minion != null) {
             minion.Attack += attackBuff;
             minion.Defense += defenseBuff;
+        }
+    }
+
+    public static void Attach(string morphidGuid, Attachment attachment, Slot slot) {
+        Morphid m = GameState.GetMorphid(morphidGuid);
+        if (m != null)
+        {
+            m.AttachmentContainer.Attach(slot, attachment);
         }
     }
 }
