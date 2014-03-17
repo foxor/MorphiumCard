@@ -24,6 +24,7 @@ public class GameState : MonoBehaviour {
     public void AddMorphid (string guid) {
         Morphids[PlayerCount].GUID = guid;
         Morphids[PlayerCount].CardContainer.Setup();
+        Morphids[PlayerCount].AttachmentContainer.Setup();
         
         if (++PlayerCount >= NUM_PLAYERS) {
             ActivePlayer = UnityEngine.Random.Range(0, 1);

@@ -32,7 +32,8 @@ public class RecyclingStation: Effect {
             OnDestroy = () => {
                 GameStateWatcher.OnMinionDeath -= OnMinionDeath;
             },
-            RemainingHealth = 8
+            RemainingHealth = 8,
+            Effect = this
         };
         GameState.Attach(guid, recyclingStation, Slot.Chest);
     }
