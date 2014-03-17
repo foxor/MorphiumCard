@@ -38,52 +38,20 @@ public class Server : MonoBehaviour {
     protected void SubmitPlayer (string guid) {
         Players.Add(guid);
         GameState.AddMorphid(guid);
-        GameState.Retemplate();
+        GameState.GetMorphid(guid).Retemplate();
     }
     
     private void EndTurn (Morphid enemy) {
         if (GameState.ActiveMorphid.Research != null) {
             GameState.ActiveMorphid.Research();
         }
-        for (int laneId = 0; laneId < GameState.Lanes.Length; laneId++) {
-            Lane l = GameState.Lanes[laneId];
-            Minion attacker = l.EnemyMinion(GameState.ActiveMorphid.GUID);
-            if (attacker != null)
-            {
-                Minion defender = GameState.GetLaneDefender(laneId);
-                if (defender != null) {
-                    networkView.RPC("QueueMinionAnimation", RPCMode.Others,
-                        new MinionAnimation () {
-                            AnimationType = AnimationType.AttackMinion,
-                            GUID = attacker.GUID
-                        }.SerializeProtoString()
-                    );
-                    networkView.RPC("QueueMinionHealthLie", RPCMode.Others,
-                        new MinionHealthLie () {
-                            GUID = defender.GUID,
-                            Health = defender.Defense
-                        }.SerializeProtoString()
-                    );
-                    networkView.RPC("QueueMinionAliveLie", RPCMode.Others,
-                        new MinionAliveLie () {
-                            GUID = defender.GUID,
-                            Alive = true
-                        }.SerializeProtoString()
-                    );
-                    GameState.DamageGuid(defender.GUID, attacker.Attack);
-                } else {
-                    if (attacker.Scrounge) {
-                        GameState.ActiveMorphid.Parts += attacker.Attack;
-                    }
-                    else if (!attacker.Defensive) {
-                        GameState.DamageGuid(GameState.ActiveMorphid.GUID, attacker.Attack);
-                    }
-                }
-            }
-        }
         GameState.SwapTurn();
-        GameState.Retemplate();
-        enemy.Morphium = Mathf.Min(Morphid.MAX_MORPHIUM, enemy.Morphium + enemy.Engine);
+        foreach (Minion minion in GameState.GetMinions()) {
+            minion.OnTurnBegin();
+        }
+        foreach (Morphid morphid in GameState.Singleton.Morphids) {
+            morphid.OnTurnBegin();
+        }
     }
     
     [RPC]

@@ -43,6 +43,10 @@ public class Minion {
     [SerializeField]
     [ProtoMember(7)]
     public bool Scrounge;
+    
+    [SerializeField]
+    [ProtoMember(8)]
+    public bool OnFire;
 
     public GameObject GameObject;
     
@@ -60,5 +64,52 @@ public class Minion {
     
     public Minion () {
         GUID = Guid.NewGuid().ToString();
+    }
+
+    public void OnTurnBegin () {
+        if (OnFire) {
+            GameState.DamageGuid(GUID, 1);
+        }
+
+        bool attack = MorphidGUID == GameState.ActiveMorphid.GUID;
+        if (attack) {
+            if (Scrounge) {
+                GameState.AddParts(GameState.ActiveMorphid.GUID, 1);
+            }
+
+            Lane myLane = GameState.GetLane(this);
+            int laneIndex = GameState.GetLaneIndex(myLane);
+            Minion defender = GameState.GetLaneDefender(laneIndex);
+            if (defender != null) {
+                AnimationSignalManager.SendRPC(
+                    AnimationSignalManager.Singleton.QueueMinionAnimation,
+                    new MinionAnimation() {
+                        AnimationType = AnimationType.AttackMinion,
+                        GUID = GUID
+                    }
+                );
+                AnimationSignalManager.SendRPC(
+                    AnimationSignalManager.Singleton.QueueMinionHealthLie,
+                    new MinionHealthLie() {
+                        GUID = defender.GUID,
+                        Health = defender.Defense
+                    }
+                );
+                AnimationSignalManager.SendRPC(
+                    AnimationSignalManager.Singleton.QueueMinionAliveLie,
+                    new MinionAliveLie() {
+                        GUID = defender.GUID,
+                        Alive = true
+                    }
+                );
+
+                GameState.DamageGuid(defender.GUID, Attack);
+            }
+            else {
+                if (!Defensive) {
+                    GameState.DamageGuid(GameState.InactiveMorphid.GUID, Attack);
+                }
+            }
+        }
     }
 }

@@ -29,6 +29,8 @@ public abstract class SignalData {
 public class AnimationSignalManager : MonoBehaviour {
 
     protected Queue<SignalData> Signals = new Queue<SignalData> ();
+
+    public static AnimationSignalManager Singleton;
     
     [RPC]
     public void QueueMinionAnimation (string data) {
@@ -53,6 +55,10 @@ public class AnimationSignalManager : MonoBehaviour {
         }
         Signals.Enqueue(signal);
     }
+
+    public void Awake () {
+        Singleton = this;
+    }
     
     public void Update () {
         while (Signals.Any() && !Signals.Peek().IsActive()) {
@@ -61,5 +67,9 @@ public class AnimationSignalManager : MonoBehaviour {
                 Signals.Peek().OnActivate();
             }
         }
+    }
+
+    public static void SendRPC(Action<string> targetFunction, SignalData data) {
+        Singleton.networkView.RPC(targetFunction.Method.Name, RPCMode.Others, data.SerializeProtoString());
     }
 }

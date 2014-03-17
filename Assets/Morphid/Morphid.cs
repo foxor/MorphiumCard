@@ -67,10 +67,14 @@ public class Morphid {
     [SerializeField]
     [ProtoMember(8)]
     public int Weight;
-
-	[SerializeField]
-	[ProtoMember(9)]
-	public int Parts;
+    
+    [SerializeField]
+    [ProtoMember(9)]
+    public int Parts;
+    
+    [SerializeField]
+    [ProtoMember(10)]
+    public bool OnFire;
 
     public Action Research;
     public Action EngineSequence;
@@ -110,4 +114,15 @@ public class Morphid {
 		}
         AttachmentContainer.Retemplate();
 	}
+
+    public void OnTurnBegin() {
+        if (OnFire) {
+            GameState.DamageGuid(GUID, 1);
+        }
+
+        if (GUID == GameState.ActiveMorphid.GUID) {
+            Retemplate();
+            GameState.AddMorphium(GUID, Engine);
+        }
+    }
 }

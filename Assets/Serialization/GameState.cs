@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public class GameState : MonoBehaviour {
@@ -89,14 +90,25 @@ public class GameState : MonoBehaviour {
         return Singleton == null ? null : Singleton.Lanes[lane];
     }
     
+    public static Lane GetLane (Minion minion) {
+        return Singleton == null ? null : Singleton.Lanes.Where(x => x.Minions.Any(y => y.GUID == minion.GUID)).SingleOrDefault();
+    }
+
+    public static int GetLaneIndex (Lane lane) {
+        for (int index = 0; index < Singleton.Lanes.Length; index++) {
+            if (Singleton.Lanes[index].GUID == lane.GUID) {
+                return index;
+            }
+        }
+        throw new ArgumentException("No such lane exists");
+    }
+    
     public static Minion GetMinion (string guid) {
         return Singleton == null || guid == null ? null : Singleton.Lanes.SelectMany(x => x.Minions).Where(x => x != null && x.GUID == guid).SingleOrDefault();
     }
     
-    public static void Retemplate() {
-        foreach (Morphid m in Singleton.Morphids) {
-            m.Retemplate();
-        }
+    public static IEnumerable<Minion> GetMinions () {
+        return Singleton == null ? null : Singleton.Lanes.SelectMany(x => x.Minions).Where(x => x != null);
     }
     
     public static Morphid ActiveMorphid {
@@ -105,11 +117,17 @@ public class GameState : MonoBehaviour {
         }
     }
     
+    public static Morphid InactiveMorphid {
+        get {
+            return Singleton.Morphids[(Singleton.ActivePlayer + 1) % 2];
+        }
+    }
+    
     public static Minion GetLaneDefender(int lane)
     {
-        Minion center = GetLane(lane).FriendlyMinion(ActiveMorphid.GUID);
-        Minion left = lane > 0 ? GetLane(lane - 1).FriendlyMinion(ActiveMorphid.GUID)  : null;
-        Minion right = lane < 2 ? GetLane(lane + 1).FriendlyMinion(ActiveMorphid.GUID) : null;
+        Minion center = GetLane(lane).EnemyMinion(ActiveMorphid.GUID);
+        Minion left = lane > 0 ? GetLane(lane - 1).EnemyMinion(ActiveMorphid.GUID)  : null;
+        Minion right = lane < 2 ? GetLane(lane + 1).EnemyMinion(ActiveMorphid.GUID) : null;
         
         if (center != null && center.Protect)
         {
@@ -164,6 +182,15 @@ public class GameState : MonoBehaviour {
         if (minion != null)
         {
             minion.Defense += healing;
+        }
+    }
+    
+    public static void AddMorphium(string guid, int morphium)
+    {
+        Morphid morphid = GetMorphid(guid);
+        if (morphid != null)
+        {
+            morphid.Morphium = Math.Min(morphid.Morphium + morphium, Morphid.MAX_MORPHIUM);
         }
     }
 
@@ -269,6 +296,20 @@ public class GameState : MonoBehaviour {
         if (m != null)
         {
             m.AttachmentContainer.Attach(slot, attachment);
+        }
+    }
+    
+    public static void FireSetGuid(string guid)
+    {
+        Morphid morphid = GetMorphid(guid);
+        Minion minion = GetMinion(guid);
+        if (morphid != null)
+        {
+            morphid.OnFire = true;
+        }
+        if (minion != null)
+        {
+            minion.OnFire = true;
         }
     }
 }
