@@ -226,7 +226,7 @@ public class GameState : MonoBehaviour {
         Morphid morphid = GetMorphid(guid);
         if (morphid != null)
         {
-            morphid.Engine += engine;
+            morphid.Engine = Math.Min(morphid.Engine + engine, Morphid.MAX_ENGINE);
         }
     }
 

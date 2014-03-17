@@ -62,7 +62,7 @@ public class Server : MonoBehaviour {
     
     [RPC]
     public void ServerBoostEngine (string morphidGuid) {
-        GameState.GetMorphid(morphidGuid).Engine += 1;
+        GameState.AddEngine(morphidGuid, 1);
 		if (GameState.ActiveMorphid.EngineSequence != null) {
         	GameState.ActiveMorphid.EngineSequence();
 		}
