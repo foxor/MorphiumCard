@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
-public class SpreadingFires: Effect {
+public class FlameTornado: Effect {
+    public static DynamicProvider Damage = () => 3;
     public static DynamicProvider NumTargets = () => 3;
 
     protected bool used = false;
 
-    public SpreadingFires(string text) : base(text) {}
+    public FlameTornado(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
@@ -28,14 +28,14 @@ public class SpreadingFires: Effect {
             used = true;
             TargetingRequirements req = new TargetingRequirements(this);
             foreach (string randomGuid in req.AllowedTargets().OrderBy(x => Random.Range(0f, 1f)).Take(3)) {
-                GameState.FireSetGuid(randomGuid);
+                GameState.DamageGuid(randomGuid, Damage());
             }
         }
     }
 
     public override int Cost ()
     {
-        return 2;
+        return 4;
     }
 
     public override TargetingType TargetingType ()
