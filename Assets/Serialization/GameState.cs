@@ -300,17 +300,17 @@ public class GameState : MonoBehaviour {
         }
     }
     
-    public static void FireSetGuid(string guid)
+    public static void FireSetGuid(string guid, bool onFire = true)
     {
         Morphid morphid = GetMorphid(guid);
         Minion minion = GetMinion(guid);
         if (morphid != null)
         {
-            morphid.OnFire = true;
+            morphid.OnFire = onFire;
         }
         if (minion != null)
         {
-            minion.OnFire = true;
+            minion.OnFire = onFire;
         }
     }
 }
