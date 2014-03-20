@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Server : MonoBehaviour {
-    protected static GameObject gameStatePrefab = (GameObject)Resources.Load("GameState");
+    protected static GameObject gameStatePrefab;
     protected static Server singleton;
     protected const int CONNECTIONS = 20;
     public const string MASTER_SERVER_NAME = "MorphiumCard";
@@ -15,6 +15,7 @@ public class Server : MonoBehaviour {
     protected string GameName;
     
     public void Awake () {
+        gameStatePrefab = (GameObject)Resources.Load("GameState");
         singleton = this;
         ModeSelectionListener.Singleton.AddCallback(ModeSelection.Server, Serve);
         Players = new List<string> ();
