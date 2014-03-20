@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 
 public class DecentralizedUpgrade: Effect {
-    public static DynamicProvider Attack = () => GameState.ActiveMorphid.Parts;
-    public static DynamicProvider Defense = () => GameState.ActiveMorphid.Parts;
+    public DynamicProvider Attack;
+    public DynamicProvider Defense;
 
     protected int ConsumedParts = -1;
 
-    public DecentralizedUpgrade(string text) : base(text) {}
+    public DecentralizedUpgrade(string text) : base(text) {
+        Attack = () => ConsumedParts / 3;
+        Defense = () => ConsumedParts;
+    }
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
