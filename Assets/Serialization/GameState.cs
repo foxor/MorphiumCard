@@ -336,7 +336,7 @@ public class GameState : MonoBehaviour {
     public static void ChargeSet(string morphidGuid, Slot toAlter, bool newCharged) {
         Morphid morphid = GetMorphid(morphidGuid);
         if (morphid != null) {
-            morphid.CardContainer.ComboSlot(toAlter, charged);
+            morphid.CardContainer.ComboSlot(toAlter, newCharged);
         }
     }
 }
