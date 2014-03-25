@@ -99,11 +99,11 @@ public class Morphid {
     
     public void PlayCard (string cardGuid, string pickedGuid) {
         Card c = CardContainer.FromGuid(cardGuid);
-        c.Process(pickedGuid);
         CardContainer.ReplaceCard(c);
         CardContainer.Uncharge();
         CardContainer.ComboManufacturer(c.Manufacturer);
         CardContainer.ComboSlot(c.Slot);
+        c.Process(pickedGuid);
     }
 
 	public void Retemplate() {

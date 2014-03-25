@@ -170,6 +170,21 @@ public class GameState : MonoBehaviour {
             }
         }
     }
+    
+    public static void LaneDamage (string laneGuid, string morphidGuid, int damage) {
+        Lane lane = GetLane(laneGuid);
+        if (lane != null) {
+            Minion minion = lane.FriendlyMinion(morphidGuid);
+            if (minion != null) {
+                int minionDamage = Mathf.Min(damage, minion.Defense);
+                DamageGuid(minion.GUID, minionDamage);
+                damage -= minionDamage;
+            }
+        }
+        if (damage > 0) {
+            DamageGuid(morphidGuid, damage);
+        }
+    }
 
     public static void RepairGuid(string guid, int healing)
     {
@@ -315,6 +330,13 @@ public class GameState : MonoBehaviour {
         if (minion != null)
         {
             minion.OnFire = onFire;
+        }
+    }
+
+    public static void ChargeSet(string morphidGuid, Slot toAlter, bool newCharged) {
+        Morphid morphid = GetMorphid(morphidGuid);
+        if (morphid != null) {
+            morphid.CardContainer.ComboSlot(toAlter, charged);
         }
     }
 }

@@ -42,10 +42,10 @@ public class CardContainer {
         }
     }
     
-    public void ComboSlot (Slot slot) {
+    public void ComboSlot (Slot slot, bool charge = true) {
         foreach (Card c in Cards) {
             if (c != null && c.Slot == slot) {
-                c.Charged = true;
+                c.Charged = charge;
             }
         }
     }
