@@ -65,7 +65,7 @@ public class Minion {
     }
     
     public static bool IsDead (Minion minion) {
-        return minion == null || minion.Defense == 0;
+        return minion == null || minion.Defense <= 0;
     }
     
     public Minion () {

@@ -165,7 +165,7 @@ public class GameState : MonoBehaviour {
         }
         if (minion != null) {
             minion.Defense -= damage;
-            if (minion.Defense <= 0) {
+            if (Minion.IsDead(minion)) {
                 DestroyMinion(guid);
             }
         }
