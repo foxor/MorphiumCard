@@ -162,6 +162,7 @@ public class GameState : MonoBehaviour {
         if (morphid != null) {
             morphid.Health -= damage;
             morphid.AttachmentContainer.Damage(damage);
+            GameStateWatcher.OnMorphidDamage(morphid, damage);
         }
         if (minion != null) {
             minion.Defense -= damage;
