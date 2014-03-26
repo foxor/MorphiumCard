@@ -40,4 +40,8 @@ public abstract class Effect {
     public abstract void Apply(string guid);
     public abstract int Cost();
     public abstract TargetingType TargetingType();
+
+    public virtual bool TargetScanner(string guid) {
+        return true;
+    }
 }

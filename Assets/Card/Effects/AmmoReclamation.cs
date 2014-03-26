@@ -19,7 +19,8 @@ public class AmmoReclamation: Effect {
     public override void Apply (string guid)
     {
         Morphid opponent = GameState.InactiveMorphid;
-        Action<Morphid, int> trigger = (Morphid morphid, int damage) => {
+        Action<Morphid, int> trigger;
+        trigger = (Morphid morphid, int damage) => {
             if (morphid == opponent) {
                 GameStateWatcher.OnMorphidDamage -= trigger;
                 GameState.AddParts(guid, damage);
