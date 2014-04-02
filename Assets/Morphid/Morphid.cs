@@ -76,6 +76,10 @@ public class Morphid {
     [SerializeField]
     [ProtoMember(10)]
     public bool OnFire;
+    
+    [SerializeField]
+    [ProtoMember(11)]
+    public bool IgnoreTerrain;
 
     public Action Research;
     public Action EngineSequence;

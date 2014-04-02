@@ -257,7 +257,7 @@ public class GameState : MonoBehaviour {
 
             Minion m = new Minion()
             {
-                Attack = attack,
+                InitialAttack = attack,
                 Defense = defense,
                 Defensive = builder.Defensive,
                 Protect = builder.Protect,
@@ -307,7 +307,7 @@ public class GameState : MonoBehaviour {
     public static void BuffMinion(string guid, int attackBuff, int defenseBuff) {
         Minion minion = GetMinion(guid);
         if (minion != null) {
-            minion.Attack += attackBuff;
+            minion.InitialAttack += attackBuff;
             minion.Defense += defenseBuff;
         }
     }
@@ -338,6 +338,13 @@ public class GameState : MonoBehaviour {
         Morphid morphid = GetMorphid(morphidGuid);
         if (morphid != null) {
             morphid.CardContainer.ComboSlot(toAlter, newCharged);
+        }
+    }
+
+    public static void IgnoreTerrainSet(string morphidGuid, bool ignoreTerrain) {
+        Morphid morphid = GetMorphid(morphidGuid);
+        if (morphid != null) {
+            morphid.IgnoreTerrain = ignoreTerrain;
         }
     }
 }

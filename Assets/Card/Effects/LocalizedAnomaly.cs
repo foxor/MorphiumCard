@@ -21,9 +21,10 @@ public class LocalizedAnomaly : Effect {
     {
         Minion m = GameState.GetMinion(guid);
         if (m != null) {
-            m.Attack ^= m.Defense;
-            m.Defense ^= m.Attack;
-            m.Attack ^= m.Defense;
+            m.InitialAttack = m.Attack;
+            m.InitialAttack ^= m.Defense;
+            m.Defense ^= m.InitialAttack;
+            m.InitialAttack ^= m.Defense;
         }
     }
 

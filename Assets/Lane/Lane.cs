@@ -12,12 +12,15 @@ public class Lane {
     
     [SerializeField]
     [ProtoMember(1)]
-    public string
-        GUID;
+    public string GUID;
+
     [SerializeField]
     [ProtoMember(2)]
-    public Minion[]
-        Minions;
+    public Minion[] Minions;
+
+    [SerializeField]
+    [ProtoMember(3)]
+    public int TerrainType;
     
     static Lane () {
         RuntimeTypeModel.Default.Add(typeof(Lane), true)[2].SupportNull = true;
@@ -59,5 +62,9 @@ public class Lane {
     public bool isEmpty(string morphidGuid)
     {
         return Minion.IsDead(FriendlyMinion(GameState.ActiveMorphid.GUID));
+    }
+
+    public bool isTerrainType(TerrainType terrainType) {
+        return TerrainType == (int)terrainType;
     }
 }

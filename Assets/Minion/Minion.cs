@@ -24,35 +24,43 @@ public class Minion {
 
     [SerializeField]
     [ProtoMember(2)]
-    public int Attack;
-
+    public int InitialAttack;
+    
     [SerializeField]
     [ProtoMember(3)]
     public int Defense;
 
     [SerializeField]
     [ProtoMember(4)]
-    public string MorphidGUID;
+    public bool HasTriedToAttack;
 
     [SerializeField]
     [ProtoMember(5)]
+    public string MorphidGUID;
+
+    [SerializeField]
+    [ProtoMember(6)]
     public bool Defensive;
     
     [SerializeField]
-    [ProtoMember(6)]
+    [ProtoMember(7)]
     public bool Protect;
     
     [SerializeField]
-    [ProtoMember(7)]
+    [ProtoMember(8)]
     public bool Scrounge;
     
     [SerializeField]
-    [ProtoMember(8)]
+    [ProtoMember(9)]
     public bool OnFire;
     
     [SerializeField]
-    [ProtoMember(9)]
+    [ProtoMember(10)]
     public bool Blitz;
+    
+    [SerializeField]
+    [ProtoMember(11)]
+    public bool Hazmat;
 
     public GameObject GameObject;
     
@@ -67,12 +75,29 @@ public class Minion {
     public static bool IsDead (Minion minion) {
         return minion == null || minion.Defense <= 0;
     }
+
+    public bool AffectedByTerrain(TerrainType terrainType) {
+        return GameState.GetLane(this).isTerrainType(terrainType) && !Hazmat && !GameState.GetMorphid(MorphidGUID).IgnoreTerrain;
+    }
+
+    public int Attack {
+        get {
+            return InitialAttack - (AffectedByTerrain(TerrainType.Flooded) ? 2 : 0);
+        }
+    }
     
     public Minion () {
         GUID = Guid.NewGuid().ToString();
     }
 
     public void DoAttack () {
+        if (!HasTriedToAttack) {
+            HasTriedToAttack = true;
+            if (AffectedByTerrain(TerrainType.Sticky)) {
+                return;
+            }
+        }
+
         if (Scrounge) {
             GameState.AddParts(GameState.ActiveMorphid.GUID, 1);
         }
@@ -120,11 +145,14 @@ public class Minion {
         bool attack = MorphidGUID == GameState.ActiveMorphid.GUID;
         if (attack) {
             DoAttack();
+            if (AffectedByTerrain(TerrainType.Acid)) {
+                GameState.DamageGuid(GUID, 2);
+            }
         }
     }
 
     public void OnSpawn () {
-        if (Blitz) {
+        if (Blitz || AffectedByTerrain(TerrainType.Slick)) {
             DoAttack();
         }
     }
