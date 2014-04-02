@@ -57,6 +57,15 @@ public class CardContainer {
             }
         }
     }
+
+    public Card GetCard(Slot slot) {
+        foreach (Card c in Cards) {
+            if (c != null && c.Slot == slot) {
+                return c;
+            }
+        }
+        return null;
+    }
     
     public void Setup () {
         Slot[] Slots = Enum.GetValues(typeof(Slot)).Cast<Slot>().OrderBy(x => x.Order()).ToArray();

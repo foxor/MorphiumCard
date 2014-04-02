@@ -347,4 +347,24 @@ public class GameState : MonoBehaviour {
             morphid.IgnoreTerrain = ignoreTerrain;
         }
     }
+
+    public static void TerrainChange(string laneGuid, TerrainType terrainType) {
+        Lane lane = GetLane(laneGuid);
+        if (lane != null) {
+            lane.TerrainType = (int)terrainType;
+        }
+    }
+
+    public static void Reload(string morphidGuid, Slot slot) {
+        Morphid morphid = GetMorphid(morphidGuid);
+        if (morphid != null) {
+            Card comboCard = morphid.CardContainer.GetCard(slot);
+            TargetingRequirements req = new TargetingRequirements(comboCard.Effect);
+            string target = req.AllowedTargets().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).FirstOrDefault();
+            if (target == null || comboCard.Cost > morphid.Morphium) {
+                return;
+            }
+            morphid.PlayCard(comboCard.GUID, target);
+        }
+    }
 }

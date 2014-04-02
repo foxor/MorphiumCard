@@ -44,4 +44,5 @@ public abstract class Effect {
     public virtual bool TargetScanner(string guid) {
         return true;
     }
+    public virtual void GlobalApply() {}
 }
