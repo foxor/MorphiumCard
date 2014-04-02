@@ -18,7 +18,7 @@ public class EradicatorLaser: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.LaneDamage(guid, GameState.InactiveMorphid.GUID, Damage());
+        GameState.LaneDamage(guid, GameState.InactiveMorphid.GUID, GameState.ActiveMorphid.GUID, Damage());
         GameState.ChargeSet(GameState.ActiveMorphid.GUID, Slot.Chest, false);
     }
 

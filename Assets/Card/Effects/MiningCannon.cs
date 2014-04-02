@@ -24,7 +24,7 @@ public class MiningCannon: Effect {
     public override void Apply (string guid)
     {
         bool before = Minion.IsDead(GameState.GetMinion(guid));
-        GameState.DamageGuid(guid, Damage());
+        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
         bool after = Minion.IsDead(GameState.GetMinion(guid));
         if (before != after) {
             GameState.AddEngine(GameState.ActiveMorphid.GUID, Engine());

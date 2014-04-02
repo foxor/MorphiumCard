@@ -21,7 +21,7 @@ public class Fireblast: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(guid, Damage());
+        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
         GameState.FireSetGuid(GameState.ActiveMorphid.GUID);
     }
 

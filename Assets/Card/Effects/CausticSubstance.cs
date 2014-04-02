@@ -27,7 +27,7 @@ public class CausticSubstance : Effect {
                 global::TargetingType.All
             );
             foreach (string minionGuid in allMinions.AllowedTargets()) {
-                GameState.DamageGuid(minionGuid, damage);
+                GameState.DamageGuid(minionGuid, GameState.ActiveMorphid.GUID, damage);
             }
         }
     }

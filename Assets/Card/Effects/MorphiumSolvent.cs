@@ -21,8 +21,8 @@ public class MorphiumSolvent : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(GameState.ActiveMorphid.GUID, SelfDamage());
-        GameState.DamageGuid(guid, OtherDamage());
+        GameState.DamageGuid(GameState.ActiveMorphid.GUID, GameState.ActiveMorphid.GUID, SelfDamage());
+        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, OtherDamage());
     }
 
     public override int Cost ()

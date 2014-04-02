@@ -32,7 +32,7 @@ namespace Assets.Card.Effects
                 );
                 foreach (string morphid in req.ChosenTargets(null))
                 {
-                    GameState.DamageGuid(morphid, DamageMag());
+                    GameState.DamageGuid(morphid, guid, DamageMag());
                 }
                 GameState.ActiveMorphid.Morphium = 0;
             });

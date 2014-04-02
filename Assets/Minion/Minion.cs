@@ -82,7 +82,7 @@ public class Minion {
 
     public int Attack {
         get {
-            return InitialAttack - (AffectedByTerrain(TerrainType.Flooded) ? 2 : 0);
+            return Mathf.Max(InitialAttack - (AffectedByTerrain(TerrainType.Flooded) ? 2 : 0), 0);
         }
     }
     
@@ -128,25 +128,25 @@ public class Minion {
             }
             );
             
-            GameState.DamageGuid(defender.GUID, Attack);
+            GameState.DamageGuid(defender.GUID, GUID, Attack);
         }
         else {
             if (!Defensive) {
-                GameState.DamageGuid(GameState.InactiveMorphid.GUID, Attack);
+                GameState.DamageGuid(GameState.InactiveMorphid.GUID, GUID, Attack);
             }
         }
     }
 
     public void OnTurnBegin () {
         if (OnFire) {
-            GameState.DamageGuid(GUID, 1);
+            GameState.DamageGuid(GUID, GUID, 1);
         }
 
         bool attack = MorphidGUID == GameState.ActiveMorphid.GUID;
         if (attack) {
             DoAttack();
             if (AffectedByTerrain(TerrainType.Acid)) {
-                GameState.DamageGuid(GUID, 2);
+                GameState.DamageGuid(GUID, GUID, 2);
             }
         }
     }

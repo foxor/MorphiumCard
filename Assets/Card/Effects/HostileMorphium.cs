@@ -22,7 +22,7 @@ public class HostileMorphium : Effect {
         Morphid enemy = GameState.GetMorphid(guid);
         if (enemy != null) {
             GameState.AddMorphium(guid, MorphiumPenalty());
-            GameState.DamageGuid(guid, enemy.Morphium);
+            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, enemy.Morphium);
         }
     }
 

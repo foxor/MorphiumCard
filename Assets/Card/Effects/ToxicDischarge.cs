@@ -24,7 +24,7 @@ public class ToxicDischarge : Effect {
         Morphid morphid = GameState.GetMorphid(guid);
         Minion minion = GameState.GetMinion(guid);
         if (morphid != null) {
-            GameState.DamageGuid(guid, Damage());
+            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
         }
         if (minion != null) {
             GameState.DestroyMinion(guid);

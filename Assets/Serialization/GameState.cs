@@ -156,13 +156,13 @@ public class GameState : MonoBehaviour {
         }
     }
     
-    public static void DamageGuid (string guid, int damage) {
+    public static void DamageGuid (string guid, string damagerGuid, int damage) {
         Morphid morphid = GetMorphid(guid);
         Minion minion = GetMinion(guid);
         if (morphid != null) {
             morphid.Health -= damage;
             morphid.AttachmentContainer.Damage(damage);
-            GameStateWatcher.OnMorphidDamage(morphid, damage);
+            GameStateWatcher.OnMorphidDamage(morphid, damagerGuid, damage);
         }
         if (minion != null) {
             minion.Defense -= damage;
@@ -172,18 +172,18 @@ public class GameState : MonoBehaviour {
         }
     }
     
-    public static void LaneDamage (string laneGuid, string morphidGuid, int damage) {
+    public static void LaneDamage (string laneGuid, string morphidGuid, string damagerGuid, int damage) {
         Lane lane = GetLane(laneGuid);
         if (lane != null) {
             Minion minion = lane.FriendlyMinion(morphidGuid);
             if (minion != null) {
                 int minionDamage = Mathf.Min(damage, minion.Defense);
-                DamageGuid(minion.GUID, minionDamage);
+                DamageGuid(minion.GUID, damagerGuid, minionDamage);
                 damage -= minionDamage;
             }
         }
         if (damage > 0) {
-            DamageGuid(morphidGuid, damage);
+            DamageGuid(morphidGuid, damagerGuid, damage);
         }
     }
 
@@ -365,6 +365,13 @@ public class GameState : MonoBehaviour {
                 return;
             }
             morphid.PlayCard(comboCard.GUID, target);
+        }
+    }
+
+    public static void ReduceAttack(string minionGuid, int redution) {
+        Minion minion = GetMinion(minionGuid);
+        if (minion != null) {
+            minion.InitialAttack -= redution;
         }
     }
 }

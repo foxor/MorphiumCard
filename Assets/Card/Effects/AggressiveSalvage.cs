@@ -23,7 +23,7 @@ public class AggressiveSalvage : Effect {
 
 	public override void Apply (string guid)
 	{
-		GameState.DamageGuid(guid, damageMag());
+		GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, damageMag());
 		GameState.AddParts(GameState.ActiveMorphid.GUID, parts());
 	}
 

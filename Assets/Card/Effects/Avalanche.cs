@@ -24,7 +24,7 @@ namespace Assets.Card.Effects
 
         public override void Apply(string guid)
         {
-            GameState.DamageGuid(guid, DamageMag());
+            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, DamageMag());
         }
 
         public override int Cost()

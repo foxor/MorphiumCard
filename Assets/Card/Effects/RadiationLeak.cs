@@ -20,7 +20,7 @@ public class RadiationLeak : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(guid, Damage());
+        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
     }
 
     public override int Cost ()

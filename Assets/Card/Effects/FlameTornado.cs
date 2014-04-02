@@ -29,7 +29,7 @@ public class FlameTornado: Effect {
             used = true;
             TargetingRequirements req = new TargetingRequirements(this);
             foreach (string randomGuid in req.AllowedTargets().OrderBy(x => Random.Range(0f, 1f)).Take(3)) {
-                GameState.DamageGuid(randomGuid, Damage());
+                GameState.DamageGuid(randomGuid, GameState.ActiveMorphid.GUID, Damage());
             }
         }
     }
