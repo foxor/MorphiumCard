@@ -22,20 +22,20 @@ public class HissingToxins: Effect {
 
     public override void Apply (string guid)
     {
-        Action<Morphid, string, int> onDamage = (Morphid morphid, string damagerGuid, int damage) => {
-            if (GameState.GetMinion(damagerGuid) != null) {
+        Action<string, string, int> onDamage = (string morphid, string damagerGuid, int damage) => {
+            if (morphid == guid && GameState.GetMinion(damagerGuid) != null) {
                 GameState.DamageGuid(damagerGuid, guid, Damage());
                 GameState.ReduceAttack(damagerGuid, AttackDrain());
             }
         };
 
-        GameStateWatcher.OnMorphidDamage += onDamage;
+        GameStateWatcher.OnDamage += onDamage;
 
         GameState.Attach(guid, new Attachment() {
             Effect = this,
             RemainingHealth = 10,
             OnDestroy = () => {
-                GameStateWatcher.OnMorphidDamage -= onDamage;
+                GameStateWatcher.OnDamage -= onDamage;
             }
         }, Slot.Head);
     }

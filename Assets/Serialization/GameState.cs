@@ -162,10 +162,11 @@ public class GameState : MonoBehaviour {
         if (morphid != null) {
             morphid.Health -= damage;
             morphid.AttachmentContainer.Damage(damage);
-            GameStateWatcher.OnMorphidDamage(morphid, damagerGuid, damage);
+            GameStateWatcher.OnDamage(guid, damagerGuid, damage);
         }
         if (minion != null) {
             minion.Defense -= damage;
+            GameStateWatcher.OnDamage(guid, damagerGuid, damage);
             if (Minion.IsDead(minion)) {
                 DestroyMinion(guid);
             }
@@ -263,7 +264,8 @@ public class GameState : MonoBehaviour {
                 Protect = builder.Protect,
                 Scrounge = builder.Scrounge,
                 OnFire = builder.OnFire,
-                Blitz = builder.Blitz
+                Blitz = builder.Blitz,
+                Hazmat = builder.Hazmat
             };
             lane.SpawnFriendly(m);
 

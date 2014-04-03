@@ -12,6 +12,7 @@ public class MinionBuilder {
     public bool Scrounge = false;
     public bool OnFire = false;
     public bool Blitz = false;
+    public bool Hazmat = false;
 }
 
 [Serializable]
