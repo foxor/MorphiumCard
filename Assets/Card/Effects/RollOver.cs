@@ -31,7 +31,7 @@ namespace Assets.Card.Effects
 
         public override int Cost()
         {
-            return 2;
+            return 5;
         }
 
         public override TargetingType TargetingType()

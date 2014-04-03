@@ -1,6 +1,6 @@
 Name,Text,Manufacturer,Cost,Slot,Notes,Design Credit
 Rugged Suspension,Repair 4 damage.  Gain 4 weight.,Goliath,6,Leg,,Isaac
-Roll Over,Deals * damage.,Goliath,2,Leg,3+Morphid.Weight,Isaac
+Roll Over,Deals * damage.,Goliath,5,Leg,3+Morphid.Weight,Isaac
 All Terrain Tires,Your minions gain Protect.,Goliath,4,Leg,,Isaac
 Pulverize,Deals * damage.,Goliath,7,Arm,2+Morphid.Weight*2,Isaac
 Quake,7 damage to all minions.,Goliath,9,Arm,,Isaac
@@ -28,10 +28,10 @@ Wasp,Summon a 2/6 with Scrounge.,Cerberus,2,Head,,Isaac
 Protocol Violation,Destroy a minion.,Cerberus,6,Head,,Isaac
 Scavenge Operation,Gain 6 spare parts.,Cerberus,4,Chest,,Isaac
 Patch Up,Repair * damage from spare parts.,Cerberus,2,Chest,-Morphid.Parts,Isaac
-Recycling Station,Upgrade.  Gain 2 spare parts when a minion dies.,Cerberus,7,Chest,"MinionDeath,2",Isaac
+Recycling Station,Attach: 8 durability.  Gain 2 spare parts when a minion dies.,Cerberus,7,Chest,"MinionDeath,2",Isaac
 Scrap Cannon,Deals * damage from spare parts.,Cerberus,6,Arm,"Morphid.Parts*2,-Morphid.Parts",Isaac
 Aggressive Salvage,Deals 4 damage.  Gain 6 parts.,Cerberus,8,Arm,,Isaac
-Ammo Reclamation,"The next time you damage the enemy morphid, you gain that many spare parts.",Cerberus,5,Arm,"EnemyMorphidDamage,Enemy.Damage",Isaac
+Ammo Reclamation,"The next time the enemy morphid is damaged, you gain that many spare parts.",Cerberus,5,Arm,"EnemyMorphidDamage,Enemy.Damage",Isaac
 Monstrosity,Summon a */* out of spare parts.,Cerberus,6,Leg,"Morphid.Parts,Morphid.Parts*3,-Morphid.Parts",Isaac
 Decentralized Upgrade,All of your minions get +*/+* from spare parts.,Cerberus,3,Leg,"Morphid.Parts/3,Morphid.Parts,-Morphid.Parts",Isaac
 Reconfigured Tank,Summon a 6/18.,Cerberus,6,Leg,,Isaac
@@ -50,24 +50,20 @@ Fire Drill,Extinguish all fires.,Pyrotech,7,Leg,,Isaac
 Structural Lattice,Your minions get +1/+5.,Central Chemical,5,Head,,Isaac
 Localized Anomaly,Swap the attack and defense of a minion.,Central Chemical,3,Head,,Isaac
 Reconstitute ,Repair * damage.,Central Chemical,{Morphid.Morphium},Head,Card.Cost*3,Hunter
-Navigation Augment,Upgrade. Friendly minions ignore terrain.,Central Chemical,2,Head,,Hunter
+Navigation Augment,Attach: 8 durability. Friendly minions ignore terrain.,Central Chemical,2,Head,,Hunter
 Deadly Experiment,Convert each lane into a random terrain type. Reload.,Central Chemical,3,Head,,Hunter
-Hissing Toxins,"Upgrade. Whenever an enemy minion deals damage to you, it takes 2 damage and loses 1 attack.",Central Chemical,5,Head,,Hunter
+Hissing Toxins,"Attach: 10 durability. Whenever an enemy minion deals damage to you, it takes 2 damage and loses 1 attack.",Central Chemical,5,Head,,Hunter
 Catalyst,Engine 2.,Central Chemical,5,Chest,,Isaac
 Progressive Brew,Your minions get +2/+3 whenever you upgrade your engine.,Central Chemical,7,Chest,,Isaac
 Caustic Substance,Deals damage to all minions equal to the health of a minion.,Central Chemical,7,Arm,,Isaac
 Morphium Solvent,Deals 3 to you and 10 to the enemy morphid.,Central Chemical,3,Arm,,Isaac
 Hostile Morphium,The enemy morphid gets 4 Morphium.  Deal 1 damage to them for every morphium they have.,Central Chemical,4,Arm,,Isaac
 Dissolving Grasp,Deal 10 damage to the enemy morphid.  They lose 2 Morphium.,Central Chemical,7,Arm,,Hunter
-Toxin Injector,Build a 1/1 Toxic minion. On hit morphid: -1 engine.,Central Chemical,6,Arm,,Hunter
+Toxin Injector,Build a 1/1 Hazmat minion. On hit morphid: -1 engine.,Central Chemical,6,Arm,,Hunter
 Acid Implant,"Give a minion ""Self-Destruct: Deal 5 lane damage.""",Central Chemical,5,Arm,,Hunter
-Hydrocloric Ammo,Upgrade.  Increase damage by 2.  Reload.,Central Chemical,5,Arm,,Hunter
-Efficient Oil,Upgrade.  Minions you control have Blitz.,Central Chemical,6,Leg,,Isaac
+Hydrocloric Ammo,Attach: 3 charges.  Increase damage by 2.  Reload.,Central Chemical,5,Arm,,Hunter
+Efficient Oil,Attach: 5 health.  Minions you control have Blitz.,Central Chemical,6,Leg,,Isaac
 Toxic Discharge,Destroy all minions. Deal 6 damage to all morphids.,Central Chemical,7,Leg,,Hunter
-Corrosive Flood,Converts a lane to Acid.,Central Chemical,3,Leg,,Hunter
-Immovable Adhesive,Converts each lane to Sticky.,Central Chemical,5,Leg,,Hunter
-Dissolver Drone,Convert a lane to acid and summon a 3/9 Toxic minion there.,Central Chemical,3,Leg,,Hunter
-Oil Slick,Converts a lane to Slick. Reload.,Central Chemical,1,Leg,,Hunter
 Call Reinforcements,Summon a 2/1 in each empty lane.,Starpower Industries,4,Head,,Hunter
 Landing Zone,Summon a 4/12 with Blitz.,Starpower Industries,5,Head,,Hunter
 Endless Bombardment,Your minions get +1 attack whenever you upgrade your engine.,Starpower Industries,1,Chest,,Hunter
@@ -75,4 +71,4 @@ Eradicator Laser,Deal 10 damage to opponents in a lane.  Uncharge your chest.,St
 Mining Cannon,"Deal 5 damage.  If a minion is destroyed this way, +1 Engine.",Starpower Industries,4,Arm,,Hunter
 Disposable Worker,Target friendly minion attacks.  Destroy that minion.,Starpower Industries,3,Arm,,Hunter
 Mortar Stance,Charge Arms and Chest. Double the attack of your minions until next turn. Uncharge Legs.,Starpower Industries,2,Leg,,Hunter
-Destructive Rush,"Deals 5 damage to you. Destroy a minion, or deal 10 damage to the enemy Morhpid.",Starpower Industries,4,Leg,,Hunter
+Destructive Rush,"Deals 5 damage to you. Destroy a minion, or deal 10 damage to a Morhpid.",Starpower Industries,4,Leg,,Hunter
