@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 
 public class NavigationAugment: Effect {
+    public static DynamicProvider Durability = () => 8;
+
     public NavigationAugment(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield break;
+        yield return Durability;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -22,7 +24,7 @@ public class NavigationAugment: Effect {
             OnDestroy = () => {
                 GameState.IgnoreTerrainSet(guid, false);
             },
-            RemainingHealth = 8,
+            RemainingHealth = Durability(),
             Effect = this
         }, Slot.Head);
     }

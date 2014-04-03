@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public class HissingToxins: Effect {
+    public static DynamicProvider Durability = () => 10;
     public static DynamicProvider Damage = () => 2 + GameState.ActiveMorphid.DamageBonus;
     public static DynamicProvider AttackDrain = () => 1;
 
@@ -10,6 +11,7 @@ public class HissingToxins: Effect {
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
+        yield return Durability;
         yield return Damage;
         yield return AttackDrain;
     }
@@ -33,7 +35,7 @@ public class HissingToxins: Effect {
 
         GameState.Attach(guid, new Attachment() {
             Effect = this,
-            RemainingHealth = 10,
+            RemainingHealth = Durability(),
             OnDestroy = () => {
                 GameStateWatcher.OnDamage -= onDamage;
             }

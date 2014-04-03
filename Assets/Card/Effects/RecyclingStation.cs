@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public class RecyclingStation: Effect {
+    public static DynamicProvider Durability = () => 8;
     public static DynamicProvider Parts = () => 2;
 
     protected string attachedMorphidGuid;
@@ -11,6 +12,7 @@ public class RecyclingStation: Effect {
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
+        yield return Durability;
         yield return Parts;
     }
 
@@ -32,7 +34,7 @@ public class RecyclingStation: Effect {
             OnDestroy = () => {
                 GameStateWatcher.OnMinionDeath -= OnMinionDeath;
             },
-            RemainingHealth = 8,
+            RemainingHealth = Durability(),
             Effect = this
         };
         GameState.Attach(guid, recyclingStation, Slot.Chest);

@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 
 public class EfficientOil: Effect {
+    public static DynamicProvider Durability = () => 5;
+
     public EfficientOil(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield break;
+        yield return Durability;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -27,7 +29,7 @@ public class EfficientOil: Effect {
         GameStateWatcher.OnMinionSpawn += onSpawn;
         GameState.Attach(guid, new Attachment() {
             Effect = this,
-            RemainingHealth = 5,
+            RemainingHealth = Durability(),
             OnDestroy = () => {
                 GameStateWatcher.OnMinionSpawn -= onSpawn;
             }
