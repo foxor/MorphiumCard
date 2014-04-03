@@ -7,7 +7,7 @@ namespace Assets.Card.Effects
 {
     class Pulverize : Effect
     {
-        public static DynamicProvider DamageMag = () => 2 + GameState.ActiveMorphid.Weight * 2;
+        public static DynamicProvider DamageMag = () => 2 + GameState.ActiveMorphid.Weight * 2 + GameState.ActiveMorphid.DamageBonus;
 
         public Pulverize(string text) : base(text) { }
 

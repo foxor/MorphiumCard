@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public class HissingToxins: Effect {
-    public static DynamicProvider Damage = () => 2;
+    public static DynamicProvider Damage = () => 2 + GameState.ActiveMorphid.DamageBonus;
     public static DynamicProvider AttackDrain = () => 1;
 
     public HissingToxins(string text) : base(text) {}

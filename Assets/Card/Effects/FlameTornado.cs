@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class FlameTornado: Effect {
-    public static DynamicProvider Damage = () => 3;
+    public static DynamicProvider Damage = () => 3 + GameState.ActiveMorphid.DamageBonus;
     public static DynamicProvider NumTargets = () => 3;
 
     protected bool used = false;

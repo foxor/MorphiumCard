@@ -7,7 +7,7 @@ namespace Assets.Card.Effects
 {
     class AdvancedWeaponry : Effect
     {
-        protected static DynamicProvider DamageMag = () => GameState.ActiveMorphid.Morphium;
+        protected static DynamicProvider DamageMag = () => GameState.ActiveMorphid.Morphium + GameState.ActiveMorphid.DamageBonus;
 
         public AdvancedWeaponry(string text) : base(text) { }
 

@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class MorphiumSolvent : Effect {
-    public static DynamicProvider SelfDamage = () => 3;
-    public static DynamicProvider OtherDamage = () => 10;
+    public static DynamicProvider SelfDamage = () => 3 + GameState.ActiveMorphid.DamageBonus;
+    public static DynamicProvider OtherDamage = () => 10 + GameState.ActiveMorphid.DamageBonus;
 
     public MorphiumSolvent(string text) : base(text) {}
 

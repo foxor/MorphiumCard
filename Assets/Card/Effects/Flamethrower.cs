@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class Flamethrower: Effect {
-    public static DynamicProvider Damage = () => 6;
+    public static DynamicProvider Damage = () => 6 + GameState.ActiveMorphid.DamageBonus;
 
     public Flamethrower(string text) : base(text) {}
 

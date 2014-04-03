@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ScrapCannon : Effect {
-    public static DynamicProvider damageMag = () => GameState.ActiveMorphid.Parts * 2;
+    public static DynamicProvider damageMag = () => GameState.ActiveMorphid.Parts * 2 + GameState.ActiveMorphid.DamageBonus;
     public ScrapCannon (string text) : base (text){}
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments () {
         yield return damageMag;

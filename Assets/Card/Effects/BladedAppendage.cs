@@ -7,7 +7,7 @@ namespace Assets.Card.Effects
 {
     class BladedAppendage : Effect
     {
-        protected static DynamicProvider DamageMag = () => 3;
+        protected static DynamicProvider DamageMag = () => 3 + GameState.ActiveMorphid.DamageBonus;
 
         public BladedAppendage(string text) : base(text) { }
 

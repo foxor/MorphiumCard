@@ -7,7 +7,7 @@ namespace Assets.Card.Effects
 {
     class RollOver : Effect
     {
-        protected static DynamicProvider DamageMag = () => 3 + GameState.ActiveMorphid.Weight;
+        protected static DynamicProvider DamageMag = () => 3 + GameState.ActiveMorphid.Weight + GameState.ActiveMorphid.DamageBonus;
 
         public RollOver(string text) : base(text) { }
 

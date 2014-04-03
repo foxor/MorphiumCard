@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class MiningCannon: Effect {
-    public static DynamicProvider Damage = () => 5;
+    public static DynamicProvider Damage = () => 5 + GameState.ActiveMorphid.DamageBonus;
     public static DynamicProvider Engine = () => 1;
 
     public MiningCannon(string text) : base(text) {}

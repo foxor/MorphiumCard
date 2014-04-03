@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class Fireblast: Effect {
-    public static DynamicProvider Damage = () => 10;
+    public static DynamicProvider Damage = () => 10 + GameState.ActiveMorphid.DamageBonus;
 
     public Fireblast(string text) : base(text) {}
 

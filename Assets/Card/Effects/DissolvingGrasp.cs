@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class DissolvingGrasp : Effect {
-    public static DynamicProvider Damage = () => 10;
+    public static DynamicProvider Damage = () => 10 + GameState.ActiveMorphid.DamageBonus;
     public static DynamicProvider MorphiumDamage = () => 2;
 
     public DissolvingGrasp(string text) : base(text) {}

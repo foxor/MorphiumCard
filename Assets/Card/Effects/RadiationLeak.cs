@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class RadiationLeak : Effect {
-    public static DynamicProvider Damage = () => GameState.ActiveMorphid.Engine * 2;
+    public static DynamicProvider Damage = () => GameState.ActiveMorphid.Engine * 2 + GameState.ActiveMorphid.DamageBonus;
 
     public RadiationLeak(string text) : base(text) {}
 

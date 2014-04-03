@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class AggressiveSalvage : Effect {
-	public static DynamicProvider damageMag = () => 4;
+    public static DynamicProvider damageMag = () => 4 + GameState.ActiveMorphid.DamageBonus;
 	public static DynamicProvider parts = () => 6;
 
 	public AggressiveSalvage (string text) : base (text){}

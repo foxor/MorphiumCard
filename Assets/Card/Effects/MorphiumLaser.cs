@@ -7,7 +7,7 @@ namespace Assets.Card.Effects
 {
     class MorphiumLaser : Effect
     {
-        protected static DynamicProvider DamageMag = () => (int)Math.Round(Math.Pow(Math.Pow(30.0, 1.0 / 9.0), (double)GameState.ActiveMorphid.Engine - 1.0));
+        protected static DynamicProvider DamageMag = () => (int)Math.Round(Math.Pow(Math.Pow(30.0, 1.0 / 9.0), (double)GameState.ActiveMorphid.Engine - 1.0)) + GameState.ActiveMorphid.DamageBonus;
 
         public MorphiumLaser(string text) : base(text) { }
 

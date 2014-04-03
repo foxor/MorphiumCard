@@ -7,7 +7,7 @@ namespace Assets.Card.Effects
 {
     class Avalanche : Effect
     {
-        public static DynamicProvider DamageMag = () => 7;
+        public static DynamicProvider DamageMag = () => 7 + GameState.ActiveMorphid.DamageBonus;
 
         public Avalanche(string text) : base(text) { }
 

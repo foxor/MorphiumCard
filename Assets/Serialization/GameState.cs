@@ -376,4 +376,11 @@ public class GameState : MonoBehaviour {
             minion.InitialAttack -= redution;
         }
     }
+
+    public static void AddDamageBonus(string morphidGuid, int damageBonus) {
+        Morphid morphid = GetMorphid(morphidGuid);
+        if (morphid != null) {
+            morphid.DamageBonus += damageBonus;
+        }
+    }
 }

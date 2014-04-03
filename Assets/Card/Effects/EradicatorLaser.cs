@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class EradicatorLaser: Effect {
-    public static DynamicProvider Damage = () => 10;
+    public static DynamicProvider Damage = () => 10 + GameState.ActiveMorphid.DamageBonus;
 
     public EradicatorLaser(string text) : base(text) {}
 

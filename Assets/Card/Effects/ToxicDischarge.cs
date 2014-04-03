@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ToxicDischarge : Effect {
-    public static DynamicProvider Damage = () => 6;
+    public static DynamicProvider Damage = () => 6 + GameState.ActiveMorphid.DamageBonus;
 
     public ToxicDischarge(string text) : base(text) {}
 

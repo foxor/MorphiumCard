@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public class AcidImplant: Effect {
-    public static DynamicProvider LaneDamage = () => 5;
+    public static DynamicProvider LaneDamage = () => 5 + GameState.ActiveMorphid.DamageBonus;
 
     public AcidImplant(string text) : base(text) {}
 

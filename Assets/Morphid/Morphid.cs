@@ -81,6 +81,10 @@ public class Morphid {
     [ProtoMember(11)]
     public bool IgnoreTerrain;
 
+    [SerializeField]
+    [ProtoMember(12)]
+    public int DamageBonus;
+
     public Action Research;
     public Action EngineSequence;
     
