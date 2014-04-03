@@ -50,6 +50,7 @@ public class Server : MonoBehaviour {
         foreach (Minion minion in GameState.GetMinions()) {
             minion.OnTurnBegin();
         }
+        GameStateWatcher.OnPostAttack(GameState.ActiveMorphid.GUID);
         foreach (Morphid morphid in GameState.Singleton.Morphids) {
             morphid.OnTurnBegin();
         }
