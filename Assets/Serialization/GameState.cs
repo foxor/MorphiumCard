@@ -269,6 +269,7 @@ public class GameState : MonoBehaviour {
             };
             lane.SpawnFriendly(m);
 
+            GameStateWatcher.OnMinionSpawn(m);
             m.OnSpawn();
 
             return m;
