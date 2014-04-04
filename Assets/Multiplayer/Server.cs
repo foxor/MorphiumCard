@@ -17,11 +17,17 @@ public class Server : MonoBehaviour {
     public void Awake () {
         gameStatePrefab = (GameObject)Resources.Load("GameState");
         singleton = this;
-        ModeSelectionListener.Singleton.AddCallback(ModeSelection.Server, Serve);
         Players = new List<string> ();
+        Chooser.ChooseMode += OnChooseMode;
     }
     
-    protected void Serve (object data) {
+    protected void OnChooseMode(ModeSelection modeSelection, string ip) {
+        if (modeSelection == ModeSelection.Server) {
+            Serve();
+        }
+    }
+    
+    protected void Serve () {
         Network.InitializeServer(CONNECTIONS, PORT, true);
         MasterServer.RegisterHost(MASTER_SERVER_NAME, GameName = Guid.NewGuid().ToString());
         GameState = ((GameObject)Network.Instantiate(gameStatePrefab, Vector3.zero, Quaternion.identity, 0)).GetComponent<GameState>();

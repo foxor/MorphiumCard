@@ -9,7 +9,13 @@ public class Client : MonoBehaviour {
     
     public void Awake () {
         Singleton = this;
-        ModeSelectionListener.Singleton.AddCallback(ModeSelection.Client, Connect);
+        Chooser.ChooseMode += OnChooseMode;
+    }
+
+    protected void OnChooseMode(ModeSelection modeSelection, string ip) {
+        if (modeSelection == ModeSelection.Client) {
+            Connect(ip);
+        }
     }
     
     protected void Connect (object ip) {
