@@ -119,7 +119,9 @@ public class Morphid {
             return;
         }
 		foreach (Card c in CardContainer.Cards) {
-            c.Template();
+            if (c != null) {
+                c.Template();
+            }
 		}
         AttachmentContainer.Retemplate();
 	}
