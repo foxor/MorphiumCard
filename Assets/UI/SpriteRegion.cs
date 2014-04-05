@@ -1,27 +1,31 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Linq;
 
-public abstract class SpriteRegion {
+[Serializable]
+public class SpriteRegion {
     protected static Color EnabledColor = Color.white;
     protected static Color DisabledColor = new Color (1f, 1f, 1f, 0.1f);
-    protected GameObject sprite;
-    protected TextMesh TextArea;
-    public string Text;
-    public bool Enabled;
-    public bool Visible;
 
-    public GameObject Sprite {
+    public GameObject Sprite;
+    public TextMeshController TextArea;
+
+    [NonSerialized]
+    public bool Enabled = true;
+
+    [NonSerialized]
+    public bool Visible = true;
+    
+    protected string text;
+    public string Text {
         get {
-            return sprite;
+            return text;
         }
-    }
-
-    public SpriteRegion (GameObject Sprite) {
-        this.sprite = Sprite;
-        TextArea = Sprite.GetComponentInChildren<TextMesh>();
-        Enabled = true;
-        Visible = true;
+        set {
+            text = value;
+            ManageText();
+        }
     }
 
     public bool ContainsMouse () {
@@ -36,7 +40,7 @@ public abstract class SpriteRegion {
 
     protected virtual void ManageText() {
         if (TextArea != null) {
-            TextArea.text = Text;
+            TextArea.Text = Text;
             TextArea.renderer.material.color = Sprite.renderer.material.color;
             TextArea.renderer.enabled = Sprite.renderer.enabled;
         }

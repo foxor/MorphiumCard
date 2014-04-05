@@ -11,15 +11,17 @@ public enum TargetingMode {
     DragTargeting,
 }
 
+[Serializable]
 public class Target {
-    public Morphid Morphid;
-    public Lane Lane;
-    public Minion Minion;
-    protected SelectionRegion EnemyMorphid;
-    protected SelectionRegion FriendlyMorphid;
-    protected SelectionRegion[] Lanes;
+    public SelectionRegion EnemyMorphid;
+    public SelectionRegion FriendlyMorphid;
+    public SelectionRegion[] Lanes;
     public SelectionRegion[] FriendlyMinions;
     public SelectionRegion[] EnemyMinions;
+    
+    protected Morphid Morphid;
+    protected Lane Lane;
+    protected Minion Minion;
     
     public bool HasSelected {
         get {
@@ -45,53 +47,19 @@ public class Target {
         }
     }
     
-    public void Draw (List<SpriteRegion> Sprites) {
-        EnemyMorphid = new SelectionRegion (GameObject.FindObjectOfType<EnemyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
-            Morphid = GameState.GetEnemy(Client.GUID)
-        };
-        Sprites.Add(EnemyMorphid);
+    public void Prepare (List<SpriteRegion> Sprites) {
+        EnemyMorphid.Morphid = GameState.GetEnemy(Client.GUID);
+        FriendlyMorphid.Morphid = GameState.GetMorphid (Client.GUID);
 
-        FriendlyMorphid = new SelectionRegion (GameObject.FindObjectOfType<FriendlyMarker>().GetComponentInChildren<MorphidMarker>().gameObject) {
-            Morphid = GameState.GetMorphid (Client.GUID)
-        };
+        for (int i = 0; i < 3; i++) {
+            Lanes[i].Lane = GameState.GetLane(i);
+        }
+        
+        Sprites.Add(EnemyMorphid);
         Sprites.Add(FriendlyMorphid);
-        
-        Lanes = new SelectionRegion[3];
-        GameObject[] Factories = GameObject.FindObjectOfType<FriendlyMarker>()
-            .GetComponentsInChildren<FactoryMarker>()
-            .Select(x => x.gameObject)
-            .OrderBy(x => x.transform.position.x)
-            .ToArray();
-        for (int i = 0; i < 3; i++) {
-            Lanes[i] = new SelectionRegion (Factories[i]) {
-                Lane = GameState.GetLane(i)
-            };
-        }
         Sprites.AddRange(Lanes);
-        
-        FriendlyMinions = new SelectionRegion[3];
-        GameObject[] FriendlySprites = GameObject.FindObjectOfType<FriendlyMarker>()
-            .GetComponentsInChildren<MinionMarker>()
-            .Select(x => x.gameObject)
-            .OrderBy(x => x.transform.position.x)
-            .ToArray();
-        for (int i = 0; i < 3; i++) {
-            FriendlyMinions[i] = new SelectionRegion (FriendlySprites[i]) {
-            };
-        }
-        Sprites.AddRange(FriendlyMinions);
-        
-        EnemyMinions = new SelectionRegion[3];
-        GameObject[] EnemySprites = GameObject.FindObjectOfType<EnemyMarker>()
-            .GetComponentsInChildren<MinionMarker>()
-            .Select(x => x.gameObject)
-            .OrderBy(x => x.transform.position.x)
-            .ToArray();
-        for (int i = 0; i < 3; i++) {
-            EnemyMinions[i] = new SelectionRegion (EnemySprites[i]) {
-            };
-        }
         Sprites.AddRange(EnemyMinions);
+        Sprites.AddRange(FriendlyMinions);
     }
     
     public void Update (string[] guids) {

@@ -7,14 +7,19 @@ using System.Linq;
 public class UI : MonoBehaviour {
     protected const int DRAG_SIZE = 5;
     protected const float DRAG_TIMER = 0.3f;
+
     public static UI Singleton;
+
     public GameObject LeftSide;
-    public GameObject EngineButton;
-    protected CardButton[] Cards;
-    protected CardButton Selected;
-    protected SpriteButton EngineSprite;
+
+    public CardButton[] Cards;
     public Target Target;
-	protected Card ActiveCard;
+    public SpriteButton Engine;
+
+    [NonSerialized]
+    public CardButton Selected;
+	
+    protected Card ActiveCard;
     protected TargetingMode TargetingMode;
     protected List<SpriteRegion> Sprites;
     
@@ -23,26 +28,17 @@ public class UI : MonoBehaviour {
 
         Sprites = new List<SpriteRegion> ();
 
-        Cards = new CardButton[4];
-
-        CardMarker[] CardComponents = FindObjectsOfType<CardMarker>().OrderBy(
-            x => x.transform.position.x * 4000 + x.transform.position.y
-        ).ToArray();
-        Cards[0] = new CardButton (0, CardComponents[0]);
-        Cards[1] = new CardButton (1, CardComponents[1]);
-        Cards[2] = new CardButton (2, CardComponents[2]);
-        Cards[3] = new CardButton (3, CardComponents[3]);
+        foreach (CardButton cardButton in Cards) {
+            cardButton.Action = PickupCard(cardButton.CardIndex);
+        }
         Sprites.AddRange(Cards);
 
-        EngineSprite = new SpriteButton (EngineButton) {
-            Action = Client.BoostEngine
-        };
-        Sprites.Add(EngineSprite);
+        Engine.Action = Client.BoostEngine;
+        Sprites.Add(Engine);
     }
     
     public void Start () {
-        Target = new Target ();
-        Target.Draw(Sprites);
+        Target.Prepare(Sprites);
     }
     
     public Action PickupCard (int card) {
@@ -130,8 +126,8 @@ public class UI : MonoBehaviour {
         if (Morphid.LocalPlayer == null) {
             return;
         }
-        EngineSprite.Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " (" + Morphid.LocalPlayer.Engine + ")";
-        EngineSprite.Enabled = GameState.IsLocalActive;
+        Engine.Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " (" + Morphid.LocalPlayer.Engine + ")";
+        Engine.Enabled = GameState.IsLocalActive;
         foreach (SpriteRegion Sprite in Sprites) {
             Sprite.Update();
         }

@@ -11,5 +11,5 @@ using ProtoBuf.Meta;
 public class DeckList {
     [SerializeField]
     [ProtoMember(1)]
-    public string[] Cards;
+    public string[] Cards = new string[0];
 }

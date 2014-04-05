@@ -6,19 +6,29 @@ using System.Linq;
 public class Client : MonoBehaviour {
     public static Client Singleton;
     public static string GUID;
+
+    protected string ip;
+    protected DeckList deckList;
     
     public void Awake () {
         Singleton = this;
         Chooser.ChooseMode += OnChooseMode;
+        DeckBuilder.onChooseDeck += OnChooseDeck;
     }
 
     protected void OnChooseMode(ModeSelection modeSelection, string ip) {
         if (modeSelection == ModeSelection.Client) {
-            Connect(ip);
+            this.ip = ip;
+            DeckBuilder.Enable();
         }
     }
+
+    protected void OnChooseDeck(DeckList deckList) {
+        this.deckList = deckList;
+        Connect();
+    }
     
-    protected void Connect (object ip) {
+    protected void Connect () {
         if (ip != null) {
             Network.Connect((string)ip, Server.PORT);
             StartCoroutine(WaitForConnection());
@@ -41,17 +51,10 @@ public class Client : MonoBehaviour {
         while (Network.peerType != NetworkPeerType.Client) {
             yield return 0;
         }
-        
+
+        GameBoard.Show();
+
         GUID = Guid.NewGuid().ToString();
-
-        DeckList deckList = new DeckList();
-        deckList.Cards = new string[] {
-            "Toxin Injector",
-            "Efficient Oil",
-            "Wasp Swarm",
-            "Patch Up"
-        };
-
         networkView.RPC("SubmitPlayer", RPCMode.Server, GUID, deckList.SerializeProtoString());
     }
     

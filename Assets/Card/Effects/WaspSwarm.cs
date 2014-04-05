@@ -10,6 +10,7 @@ public class WaspSwarm : Effect {
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
         yield return Attack;
+        yield return Defense;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
