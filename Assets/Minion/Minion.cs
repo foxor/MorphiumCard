@@ -78,7 +78,9 @@ public class Minion {
     }
 
     public bool AffectedByTerrain(TerrainType terrainType) {
-        return GameState.GetLane(this).isTerrainType(terrainType) && !Hazmat && !GameState.GetMorphid(MorphidGUID).IgnoreTerrain;
+        Lane lane = GameState.GetLane(this);
+        Morphid morphid = GameState.GetMorphid(MorphidGUID);
+        return lane.isTerrainType(terrainType) && !Hazmat && !morphid.IgnoreTerrain;
     }
 
     public int Attack {

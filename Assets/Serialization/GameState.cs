@@ -256,23 +256,31 @@ public class GameState : MonoBehaviour {
                 builder = new MinionBuilder();
             }
 
-            Minion m = new Minion()
+            Minion minion = new Minion()
             {
                 InitialAttack = attack,
                 Defense = defense,
+
                 Defensive = builder.Defensive,
                 Protect = builder.Protect,
                 Scrounge = builder.Scrounge,
                 OnFire = builder.OnFire,
                 Blitz = builder.Blitz,
-                Hazmat = builder.Hazmat
+                Hazmat = builder.Hazmat,
+
+                GUID = Guid.NewGuid().ToString(),
+                MorphidGUID = GameState.ActiveMorphid.GUID
             };
-            lane.SpawnFriendly(m);
 
-            GameStateWatcher.OnMinionSpawn(m);
-            m.OnSpawn();
+            lane.Minions = lane.Minions.
+                Where(x => x.MorphidGUID != minion.MorphidGUID).
+                Concat(new Minion[1] {minion}).
+                ToArray();
 
-            return m;
+            GameStateWatcher.OnMinionSpawn(minion);
+            minion.OnSpawn();
+
+            return minion;
         }
         return null;
     }

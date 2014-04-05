@@ -48,16 +48,6 @@ public class Lane {
         }
         return null;
     }
-    
-    public void SpawnFriendly (Minion minion) {
-        Minion toAdd = minion.SerializeProtoBytes().DeserializeProtoBytes<Minion>();
-        toAdd.GUID = Guid.NewGuid().ToString();
-        toAdd.MorphidGUID = GameState.ActiveMorphid.GUID;
-        Minions = Minions.
-            Where(x => !Minion.IsDead(x) && x.GUID != GameState.ActiveMorphid.GUID).
-            Concat(new Minion[1] {toAdd}).
-            ToArray();
-    }
 
     public bool isEmpty(string morphidGuid)
     {
