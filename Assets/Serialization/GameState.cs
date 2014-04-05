@@ -22,9 +22,9 @@ public class GameState : MonoBehaviour {
         Lanes = new Lane[NUM_LANES].Select(x => new Lane ()).ToArray();
     }
     
-    public void AddMorphid (string guid) {
+    public void AddMorphid (string guid, DeckList deckInfo) {
         Morphids[PlayerCount].GUID = guid;
-        Morphids[PlayerCount].CardContainer.Setup();
+        Morphids[PlayerCount].CardContainer.Setup(deckInfo);
         Morphids[PlayerCount].AttachmentContainer.Setup();
         
         if (++PlayerCount >= NUM_PLAYERS) {

@@ -42,9 +42,9 @@ public class Importer : MonoBehaviour {
         cards = Cards;
     }
     
-    public IEnumerable<Card> CardsBySlot (Slot slot) {
+    public IEnumerable<Card> CardsBySlot (Slot slot, DeckList deckInfo) {
         foreach (Card c in Cards) {
-            if (c.Slot == slot) {
+            if (c.Slot == slot && deckInfo.Cards.Contains(c.Name)) {
                 for (int i = 0; i < 1; i++) {
                     yield return c.Copy();
                 }

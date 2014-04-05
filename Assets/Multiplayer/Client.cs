@@ -43,7 +43,16 @@ public class Client : MonoBehaviour {
         }
         
         GUID = Guid.NewGuid().ToString();
-        networkView.RPC("SubmitPlayer", RPCMode.Server, GUID);
+
+        DeckList deckList = new DeckList();
+        deckList.Cards = new string[] {
+            "Toxin Injector",
+            "Efficient Oil",
+            "Wasp Swarm",
+            "Patch Up"
+        };
+
+        networkView.RPC("SubmitPlayer", RPCMode.Server, GUID, deckList.SerializeProtoString());
     }
     
     public static void PlayCard (Card c, string targetGuid) {

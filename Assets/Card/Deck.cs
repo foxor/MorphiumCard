@@ -23,9 +23,8 @@ public class Deck {
     public Slot
         Slot;
     
-	public void Shuffle () {
-		Cards = Importer.Singleton.CardsBySlot(Slot).ToArray();
-		//Cards = Importer.CardsBySlot(Slot).OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
+    public void Shuffle (DeckList deckInfo) {
+		Cards = Importer.Singleton.CardsBySlot(Slot, deckInfo).OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToArray();
     }
     
     public Card Draw () {

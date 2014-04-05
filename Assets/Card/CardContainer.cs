@@ -67,7 +67,7 @@ public class CardContainer {
         return null;
     }
     
-    public void Setup () {
+    public void Setup (DeckList deckInfo) {
         Slot[] Slots = Enum.GetValues(typeof(Slot)).Cast<Slot>().OrderBy(x => x.Order()).ToArray();
         Cards = new Card[Slots.Count()];
         Decks = new Deck[Slots.Count()];
@@ -75,7 +75,7 @@ public class CardContainer {
             Decks[i] = new Deck (){
                 Slot = Slots[i]
             };
-            Decks[i].Shuffle();
+            Decks[i].Shuffle(deckInfo);
             Cards[i] = Decks[i].Draw();
             if (Cards[i] != null) {
                 Cards[i].Charged = true;

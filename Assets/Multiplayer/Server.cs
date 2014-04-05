@@ -42,9 +42,9 @@ public class Server : MonoBehaviour {
     }
     
     [RPC]
-    protected void SubmitPlayer (string guid) {
+    protected void SubmitPlayer (string guid, string deckInfo) {
         Players.Add(guid);
-        GameState.AddMorphid(guid);
+        GameState.AddMorphid(guid, deckInfo.DeserializeProtoString<DeckList>());
         GameState.GetMorphid(guid).Retemplate();
     }
     
