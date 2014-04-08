@@ -9,6 +9,7 @@ namespace Assets.Card.Effects
     {
         public static DynamicProvider AttackMag = () => GameState.ActiveMorphid.Weight;
         public static DynamicProvider DefenseMag = () => GameState.ActiveMorphid.Weight * 3;
+        public static DynamicProvider WeightGain = () => 2;
 
         public DrillBuddy(string text) : base(text) { }
 
@@ -16,6 +17,7 @@ namespace Assets.Card.Effects
         {
             yield return AttackMag;
             yield return DefenseMag;
+            yield return WeightGain;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
@@ -27,6 +29,7 @@ namespace Assets.Card.Effects
         public override void Apply(string guid)
         {
             GameState.SummonMinion(guid, AttackMag(), DefenseMag(), new MinionBuilder());
+            GameState.AddWeight(GameState.ActiveMorphid.GUID, WeightGain());
         }
 
         public override int Cost()
