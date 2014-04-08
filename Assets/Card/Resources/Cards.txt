@@ -35,7 +35,7 @@ Ammo Reclamation,"The next time the enemy morphid is damaged, you gain that many
 Monstrosity,Summon a */* out of spare parts.,Cerberus,6,Leg,"Morphid.Parts,Morphid.Parts*3,-Morphid.Parts",Isaac
 Decentralized Upgrade,All of your minions get +*/+* from spare parts.,Cerberus,3,Leg,"Morphid.Parts/3,Morphid.Parts,-Morphid.Parts",Isaac
 Reconfigured Tank,Summon a 6/18.,Cerberus,6,Leg,,Isaac
-Laser Eyes,Set all enemy minions on fire.,Pyrotech,6,Head,,Isaac
+Burning Gaze,Set all enemy minions on fire.,Pyrotech,6,Head,,Isaac
 Reckless Fueling,Set all your minions on file.  Engine 2.,Pyrotech,4,Head,,Isaac
 Spreading Fires,Light 3 random targets on fire.,Pyrotech,2,Head,,Isaac
 Furnace Bot,Summon a flaming 8/18.,Pyrotech,5,Chest,,Isaac
