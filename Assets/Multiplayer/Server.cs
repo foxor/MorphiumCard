@@ -45,7 +45,11 @@ public class Server : MonoBehaviour {
     protected void SubmitPlayer (string guid, string deckInfo) {
         Players.Add(guid);
         GameState.AddMorphid(guid, deckInfo.DeserializeProtoString<DeckList>());
-        GameState.GetMorphid(guid).Retemplate();
+        foreach (Morphid morphid in GameState.Morphids) {
+            if (morphid != null) {
+                morphid.Retemplate();
+            }
+        }
     }
     
     private void EndTurn (Morphid enemy) {
