@@ -21,13 +21,13 @@ public class CausticSubstance : Effect {
     {
         Minion minion = GameState.GetMinion(guid);
         if (minion != null) {
-            int damage = minion.Attack;
+            int damage = minion.Defense;
             TargetingRequirements allMinions = new TargetingRequirements(
                 (int)TargetTypeFlag.Friendly | (int)TargetTypeFlag.Enemy | (int)TargetTypeFlag.Minion,
                 global::TargetingType.All
             );
             foreach (string minionGuid in allMinions.AllowedTargets()) {
-                GameState.DamageGuid(minionGuid, GameState.ActiveMorphid.GUID, damage);
+                GameState.DamageGuid(minionGuid, guid, damage);
             }
         }
     }

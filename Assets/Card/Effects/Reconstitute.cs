@@ -6,11 +6,11 @@ public class Reconstitute : Effect {
     protected int lastMorphiumCheck;
 
     public Reconstitute(string text) : base(text) {
-        Repair = () => lastMorphiumCheck * 3;
     }
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
+        Repair = () => lastMorphiumCheck * 3;
         yield return Repair;
     }
 
