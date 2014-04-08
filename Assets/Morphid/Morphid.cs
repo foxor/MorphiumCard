@@ -107,6 +107,7 @@ public class Morphid {
     
     public void PlayCard (string cardGuid, string pickedGuid) {
         Card c = CardContainer.FromGuid(cardGuid);
+        c.Template();
         CardContainer.ReplaceCard(c);
         CardContainer.Uncharge();
         CardContainer.ComboManufacturer(c.Manufacturer);

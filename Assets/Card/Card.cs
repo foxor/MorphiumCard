@@ -64,6 +64,7 @@ public sealed class Card {
 			foreach (string guid in targets) {
             	Effect.Apply(guid);
 			}
+            Effect.GlobalApply();
         }
     }
 
