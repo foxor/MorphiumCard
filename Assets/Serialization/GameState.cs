@@ -352,13 +352,6 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    public static void IgnoreTerrainSet(string morphidGuid, bool ignoreTerrain) {
-        Morphid morphid = GetMorphid(morphidGuid);
-        if (morphid != null) {
-            morphid.IgnoreTerrain = ignoreTerrain;
-        }
-    }
-
     public static void TerrainChange(string laneGuid, TerrainType terrainType) {
         Lane lane = GetLane(laneGuid);
         if (lane != null) {

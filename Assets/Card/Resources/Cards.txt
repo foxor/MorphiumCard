@@ -50,7 +50,6 @@ Fire Drill,Extinguish all fires.,Pyrotech,7,Leg,,Isaac
 Structural Lattice,Your minions get +1/+5.,Central Chemical,5,Head,,Isaac
 Localized Anomaly,Swap the attack and defense of a minion.,Central Chemical,3,Head,,Isaac
 Reconstitute ,Repair * damage.,Central Chemical,{Morphid.Morphium},Head,Card.Cost*3,Hunter
-Navigation Augment,Attach: 8 durability. Friendly minions ignore terrain.,Central Chemical,2,Head,,Hunter
 Deadly Experiment,Convert each lane into a random terrain type. Reload.,Central Chemical,3,Head,,Hunter
 Hissing Toxins,"Attach: 10 durability. Whenever an enemy minion deals damage to you, it takes 2 damage and loses 1 attack.",Central Chemical,5,Head,,Hunter
 Catalyst,Engine 2.,Central Chemical,5,Chest,,Isaac

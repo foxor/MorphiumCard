@@ -76,13 +76,9 @@ public class Morphid {
     [SerializeField]
     [ProtoMember(10)]
     public bool OnFire;
-    
-    [SerializeField]
-    [ProtoMember(11)]
-    public bool IgnoreTerrain;
 
     [SerializeField]
-    [ProtoMember(12)]
+    [ProtoMember(11)]
     public int DamageBonus;
 
     public Action Research;
