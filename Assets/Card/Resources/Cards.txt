@@ -57,7 +57,7 @@ Catalyst,Engine 2.,Central Chemical,5,Chest,,Isaac
 Progressive Brew,Your minions get +2/+3 whenever you upgrade your engine.,Central Chemical,7,Chest,,Isaac
 Caustic Substance,Deals damage to all minions equal to the health of a minion.,Central Chemical,7,Arm,,Isaac
 Morphium Solvent,Deals 3 to you and 10 to the enemy morphid.,Central Chemical,3,Arm,,Isaac
-Hostile Morphium,The enemy morphid gets 4 Morphium.  Deal 1 damage to them for every morphium they have.,Central Chemical,4,Arm,,Isaac
+Hostile Morphium,The enemy morphid gets 4 Morphium.  Deal damage to them equal to their Morphium.,Central Chemical,4,Arm,,Isaac
 Dissolving Grasp,Deal 10 damage to the enemy morphid.  They lose 2 Morphium.,Central Chemical,7,Arm,,Hunter
 Toxin Injector,Build a 1/1 Hazmat minion. On hit morphid: -1 engine.,Central Chemical,6,Arm,,Hunter
 Acid Implant,"Give a minion ""Self-Destruct: Deal 5 lane damage.""",Central Chemical,5,Arm,,Hunter

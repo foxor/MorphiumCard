@@ -3,14 +3,12 @@ using System.Collections;
 
 public class HostileMorphium : Effect {
     public static DynamicProvider MorphiumPenalty = () => 4;
-    public static DynamicProvider Damage = () => Mathf.Min(GameState.InactiveMorphid.Morphium + 4, Morphid.MAX_MORPHIUM);
 
     public HostileMorphium(string text) : base(text) {}
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
         yield return MorphiumPenalty;
-        yield return Damage;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
