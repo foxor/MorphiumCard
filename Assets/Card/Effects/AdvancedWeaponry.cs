@@ -13,7 +13,7 @@ namespace Assets.Card.Effects
 
         protected override IEnumerable<DynamicProvider> TemplatingArguments()
         {
-            yield return DamageMag;
+            yield break;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
