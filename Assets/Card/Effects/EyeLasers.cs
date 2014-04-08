@@ -7,11 +7,11 @@ public class EyeLasers : Effect {
     public DynamicProvider Damage;
 
     public EyeLasers(string text) : base(text) {
-        Damage = () => lastCostCheck * 2;
     }
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
+        Damage = () => lastCostCheck * 2;
         yield return Damage;
     }
 

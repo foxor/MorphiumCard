@@ -10,8 +10,8 @@ public static class Templating {
     public static char[] SUBSTITUTION_CHAR = new char[]{'*', '-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
 
     public static IEnumerable<string> JoinStrings(string[] parts, DynamicProvider[] providers) {
-        if (Math.Abs(providers.Length - parts.Length) > 1) {
-            Debug.Log("Missing provider for card with text: " + string.Join("", parts));
+        if (providers.Length + 1 != parts.Length) {
+            Debug.Log("Incorrect parameter count for card with text: " + string.Join("", parts));
         }
         for (int i = 0; i < parts.Length || i < providers.Length; i++) {
             if (i < parts.Length) {
