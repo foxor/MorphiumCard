@@ -3,7 +3,7 @@ Rugged Suspension,Repair 4 damage.  Gain 4 weight.,Goliath,6,Leg,,Isaac
 Roll Over,Deals * damage.,Goliath,5,Leg,3+Morphid.Weight,Isaac
 All Terrain Tires,Your minions gain Protect.,Goliath,4,Leg,,Isaac
 Pulverize,Deals * damage.,Goliath,7,Arm,2+Morphid.Weight*2,Isaac
-Quake,7 damage to all minions.,Goliath,9,Arm,,Isaac
+Quake,Deals 7 damage to all minions.,Goliath,9,Arm,,Isaac
 Avalanche,Deals 5 damage to a minion.,Goliath,4,Arm,,Isaac
 Drill Buddy,Summon a */*.  Gain 2 Weight.,Goliath,4,Chest,"Morphid.Weight/2,Morphid.Weight*2,2",Isaac
 Load Up,Gain 1 Engine and 3 Weight.,Goliath,0,Chest,,Isaac

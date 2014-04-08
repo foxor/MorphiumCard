@@ -19,6 +19,7 @@ namespace Assets.Card.Effects
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
         {
             yield return TargetTypeFlag.Enemy;
+            yield return TargetTypeFlag.Friendly;
             yield return TargetTypeFlag.Minion;
         }
 
