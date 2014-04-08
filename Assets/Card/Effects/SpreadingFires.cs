@@ -24,7 +24,7 @@ public class SpreadingFires: Effect {
     {
     }
 
-    public override void GlobalApply (string guid)
+    public override void GlobalApply ()
     {
         TargetingRequirements req = new TargetingRequirements(this);
         foreach (string randomGuid in req.AllowedTargets().OrderBy(x => Random.Range(0f, 1f)).Take(3)) {
