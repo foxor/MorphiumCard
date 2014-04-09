@@ -359,16 +359,17 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    public static void Reload(string morphidGuid, Slot slot) {
+    public static void Reload(string morphidGuid, Slot slot, string targetGuid) {
         Morphid morphid = GetMorphid(morphidGuid);
         if (morphid != null) {
             Card comboCard = morphid.CardContainer.GetCard(slot);
-            TargetingRequirements req = new TargetingRequirements(comboCard.Effect);
-            string target = req.AllowedTargets().OrderBy(x => UnityEngine.Random.Range(0f, 1f)).FirstOrDefault();
-            if (target == null || comboCard.Cost > morphid.Morphium) {
-                return;
+            if (comboCard != null) {
+                TargetingRequirements req = new TargetingRequirements(comboCard.Effect);
+                if (comboCard.Cost > morphid.Morphium || !req.AllowedTargets().Contains(targetGuid)) {
+                    return;
+                }
+                morphid.PlayCard(comboCard.GUID, targetGuid);
             }
-            morphid.PlayCard(comboCard.GUID, target);
         }
     }
 

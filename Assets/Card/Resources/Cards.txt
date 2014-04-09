@@ -50,7 +50,6 @@ Fire Drill,Extinguish all fires.,Pyrotech,7,Leg,,Isaac
 Structural Lattice,Your minions get +1/+5.,Central Chemical,5,Head,,Isaac
 Localized Anomaly,Swap the attack and defense of a minion.,Central Chemical,3,Head,,Isaac
 Reconstitute ,Repair * damage.,Central Chemical,{Morphid.Morphium},Head,Card.Cost*3,Hunter
-Deadly Experiment,Convert each lane into a random terrain type. Reload.,Central Chemical,3,Head,,Hunter
 Hissing Toxins,"Attach: 10 durability. Whenever an enemy minion deals damage to you, it takes 2 damage and loses 1 attack.",Central Chemical,5,Head,,Hunter
 Catalyst,Engine 2.,Central Chemical,5,Chest,,Isaac
 Progressive Brew,Your minions get +2/+3 whenever you upgrade your engine.,Central Chemical,7,Chest,,Isaac
@@ -60,7 +59,7 @@ Hostile Morphium,The enemy morphid gets 4 Morphium.  Deal damage to them equal t
 Dissolving Grasp,Deal 10 damage to the enemy morphid.  They lose 2 Morphium.,Central Chemical,7,Arm,,Hunter
 Toxin Injector,Build a 1/1 Hazmat minion. On hit morphid: -1 engine.,Central Chemical,6,Arm,,Hunter
 Acid Implant,"Give a minion ""Scuttle: Deal 5 lane damage.""",Central Chemical,5,Arm,,Hunter
-Hydrocloric Ammo,Attach: 3 charges.  Increase damage by 2.  Reload.,Central Chemical,5,Arm,,Hunter
+Hydrocloric Ammo,Attach: 3 charges.  Increase damage by 2.,Central Chemical,5,Arm,,Hunter
 Efficient Oil,Attach: 5 health.  Minions you control have Blitz.,Central Chemical,6,Leg,,Isaac
 Toxic Discharge,Destroy all minions. Deal 6 damage to all morphids.,Central Chemical,7,Leg,,Hunter
 Call Reinforcements,Summon a 2/1 in each empty lane.,Starpower Industries,4,Head,,Hunter

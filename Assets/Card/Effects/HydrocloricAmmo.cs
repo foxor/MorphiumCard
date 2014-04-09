@@ -29,7 +29,6 @@ public class HydrocloricAmmo: Effect {
                 GameState.AddDamageBonus(guid, -DamageIncrease());
             }
         }, Slot.Arm);
-        GameState.Reload(guid, Slot.Arm);
     }
 
     public override int Cost ()
