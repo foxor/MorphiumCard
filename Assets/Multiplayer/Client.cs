@@ -58,9 +58,9 @@ public class Client : MonoBehaviour {
         networkView.RPC("SubmitPlayer", RPCMode.Server, GUID, deckList.SerializeProtoString());
     }
     
-    public static void PlayCard (Card c, string targetGuid) {
+    public static void PlayCard (string cardGuid, string targetGuid) {
         targetGuid = targetGuid == null ? "" : targetGuid;
-        Singleton.networkView.RPC("ServerPlayCard", RPCMode.Server, Morphid.LocalPlayer.GUID, c.GUID, targetGuid);
+        Singleton.networkView.RPC("ServerPlayCard", RPCMode.Server, Morphid.LocalPlayer.GUID, cardGuid, targetGuid);
     }
     
     public static void BoostEngine () {

@@ -10,8 +10,12 @@ public class DeckBuilder : MonoBehaviour {
     
     protected static DeckBuilder Singleton;
 
+    public CardButton Card;
+
     protected Dictionary<Slot, List<Card>> CardOptions;
     protected Dictionary<Card, bool> CardChecked;
+    protected Dictionary<string, Card> CardByName;
+    protected Card lastMouseOver;
 
     public void Awake() {
         Singleton = this;
@@ -20,6 +24,7 @@ public class DeckBuilder : MonoBehaviour {
     public void Start() {
         CardOptions = new Dictionary<Slot, List<Card>>();
         CardChecked = new Dictionary<Card, bool>();
+        CardByName = new Dictionary<string, Card>();
 
         string lastSavedDeck = PlayerPrefs.GetString(DECK_SAVE_KEY, null);
         DeckList deckList = null;
@@ -38,7 +43,15 @@ public class DeckBuilder : MonoBehaviour {
         foreach (Card card in Importer.Singleton.Cards) {
             CardOptions[card.Slot].Add(card);
             CardChecked[card] = deckList.Cards.Contains(card.Name);
+            CardByName[card.Name] = card;
         }
+
+        Morphid mockMorphid = new Morphid();
+        mockMorphid.Morphium = 10;
+
+        lastMouseOver = null;
+        Card.Owner = mockMorphid;
+        Card.SnapToMouse();
     }
 
     public static void Enable() {
@@ -52,7 +65,7 @@ public class DeckBuilder : MonoBehaviour {
             GUILayout.Label(slot.ToString() + ":");
 
             foreach (Card option in CardOptions[slot]) {
-                CardChecked[option] = GUILayout.Toggle(CardChecked[option], option.Name);
+                CardChecked[option] = GUILayout.Toggle(CardChecked[option], new GUIContent(option.Name, option.Name));
             }
             GUILayout.EndVertical();
         }
@@ -66,5 +79,17 @@ public class DeckBuilder : MonoBehaviour {
             onChooseDeck(deckList);
             this.enabled = false;
         }
+
+        if (!string.IsNullOrEmpty(GUI.tooltip)) {
+            lastMouseOver = CardByName[GUI.tooltip];
+            lastMouseOver.Charged = true;
+            Card.Card = lastMouseOver;
+            Card.Sprite.SetActive(true);
+            Debug.Log(GUI.tooltip);
+        }
+        else {
+            Card.Sprite.SetActive(false);
+        }
+        Card.Update();
     }
 }

@@ -22,15 +22,13 @@ public class UI : MonoBehaviour {
     protected Card ActiveCard;
     protected TargetingMode TargetingMode;
     protected List<SpriteRegion> Sprites;
+    protected bool hasUpdated;
     
     public void Awake () {
         Singleton = this;
 
         Sprites = new List<SpriteRegion> ();
 
-        foreach (CardButton cardButton in Cards) {
-            cardButton.Action = PickupCard(cardButton.CardIndex);
-        }
         Sprites.AddRange(Cards);
 
         Engine.Action = Client.BoostEngine;
@@ -41,20 +39,20 @@ public class UI : MonoBehaviour {
         Target.Prepare(Sprites);
     }
     
-    public Action PickupCard (int card) {
+    public Action PickupCard (CardButton card) {
         return () => {
             if (Selected != null || TargetingMode != TargetingMode.Inactive) {
                 return;
             }
             TargetingMode = TargetingMode.Transitional;
-            Selected = Cards[card];
+            Selected = card;
             Selected.OnPickup();
-			ActiveCard = Morphid.Cards[card];
-            StartCoroutine(Select(card));
+            ActiveCard = card.CardFn;
+            StartCoroutine(Select());
         };
     }
     
-    protected IEnumerator Select (int card) {
+    protected IEnumerator Select () {
         Region testRegion = new Region () {
             Left = (int)Input.mousePosition.x - DRAG_SIZE,
             Top = Screen.height - (int)Input.mousePosition.y - DRAG_SIZE,
@@ -107,24 +105,31 @@ public class UI : MonoBehaviour {
         );
         if (
 			!cancel &&
-			Morphid.Cards[card].Cost <= Morphid.LocalPlayer.Morphium &&
+			Selected.CardFn.Cost <= Morphid.LocalPlayer.Morphium &&
 			ActiveCard.TargetableGuids != null &&
 			((ActiveCard.TargetableGuids.Contains(Target.GUID)) || ActiveCard.TargetingType != TargetingType.Single)
         ) {
-            Morphid.PlayLocalCard(card, Target.GUID);
+            Morphid.PlayLocalCard(Selected.CardFn, Target.GUID);
         }
         Selected.SuspendDrag = false;
         ReticleController.Shown = false;
         TargetingMode = TargetingMode.Inactive;
         ActiveCard = null;
         Selected.OnDrop();
+        Selected.Enabled = true;
         Selected = null;
-        Cards[card].Enabled = true;
     }
     
     public void Update () {
         if (Morphid.LocalPlayer == null) {
             return;
+        }
+        if (!hasUpdated) {
+            hasUpdated = true;
+            foreach (CardButton cardButton in Cards) {
+                cardButton.Action = PickupCard(cardButton);
+                cardButton.Owner = Morphid.LocalPlayer;
+            }
         }
         Engine.Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " (" + Morphid.LocalPlayer.Engine + ")";
         Engine.Enabled = GameState.IsLocalActive;

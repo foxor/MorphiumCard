@@ -11,7 +11,7 @@ public class GameState : MonoBehaviour {
     public int PlayerCount;
     public Morphid[] Morphids;
     public Lane[] Lanes;
-    protected int ActivePlayer;
+    public int ActivePlayer;
     
     public void Awake () {
         Singleton = this;
@@ -65,8 +65,8 @@ public class GameState : MonoBehaviour {
     
     public static bool IsLocalActive {
         get {
-            return Singleton.PlayerCount >= NUM_PLAYERS &&
-                ActiveMorphid.GUID == Client.GUID;
+            return Singleton == null || (Singleton.PlayerCount >= NUM_PLAYERS &&
+                ActiveMorphid.GUID == Client.GUID);
         }
     }
     

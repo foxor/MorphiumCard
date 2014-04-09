@@ -76,6 +76,7 @@ public class Importer : MonoBehaviour {
             c.Name = data.Name;
             c.Manufacturer = data.Manufacturer;
             c.Slot = slot;
+            c.Text = data.Text;
 
             c.Effect = CardEffectTable.Map(data.Name, data.Text);
             if (c.Effect != null) {

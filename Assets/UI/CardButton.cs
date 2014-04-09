@@ -11,6 +11,12 @@ public class CardButton : SpriteButton {
     [NonSerialized]
     public bool SuspendDrag;
 
+    [NonSerialized]
+    public Card Card;
+
+    [NonSerialized]
+    public Morphid Owner;
+
     public int CardIndex;
     public TextMeshController CardCost;
     public TextMeshController CardName;
@@ -18,6 +24,15 @@ public class CardButton : SpriteButton {
     protected Vector3 oldPos;
     protected Vector3 delta;
     protected bool selected;
+
+    public Card CardFn {
+        get {
+            if (Card != null || Morphid.LocalPlayer == null || Morphid.Cards == null) {
+                return Card;
+            }
+            return Morphid.Cards[CardIndex];
+        }
+    }
 
     public void OnPickup () {
         oldPos = Sprite.transform.position;
@@ -30,11 +45,15 @@ public class CardButton : SpriteButton {
         selected = false;
     }
 
+    public void SnapToMouse() {
+        Sprite.transform.position += Camera.main.ScreenPointToRay(Input.mousePosition).origin;
+        OnPickup();
+    }
+
     public bool isEnabled () {
-        return Morphid.Cards != null && 
-            Morphid.Cards[CardIndex] != null &&
-            Morphid.Cards[CardIndex].Cost <= Morphid.LocalPlayer.Morphium &&
-            Morphid.Cards[CardIndex].Charged &&
+        return CardFn != null &&
+            CardFn.Cost <= Owner.Morphium &&
+            CardFn.Charged &&
             GameState.IsLocalActive;
     }
     
@@ -50,10 +69,10 @@ public class CardButton : SpriteButton {
     }
 
     protected override void ManageText () {
-        if (Morphid.Cards != null && Morphid.Cards[CardIndex] != null) {
-            CardCost.Text = Morphid.Cards[CardIndex].Cost.ToString();
-            CardName.Text = Morphid.Cards[CardIndex].Name;
-            TextArea.Text = Morphid.Cards[CardIndex].Text;
+        if (CardFn != null) {
+            CardCost.Text = CardFn.Cost.ToString();
+            CardName.Text = CardFn.Name;
+            TextArea.Text = CardFn.Text;
             Sprite.renderer.enabled = true;
         } else {
             CardCost.Text = "";

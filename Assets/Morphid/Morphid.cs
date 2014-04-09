@@ -97,8 +97,8 @@ public class Morphid {
         return this;
     }
     
-    public static void PlayLocalCard (int card, string targetGuid) {
-        Client.PlayCard(Morphid.Cards[card], targetGuid);
+    public static void PlayLocalCard (Card card, string targetGuid) {
+        Client.PlayCard(card.GUID, targetGuid);
     }
     
     public void PlayCard (string cardGuid, string pickedGuid) {

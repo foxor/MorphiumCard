@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class HydrocloricAmmo: Effect {
@@ -21,14 +22,25 @@ public class HydrocloricAmmo: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.AddDamageBonus(guid, DamageIncrease());
-        GameState.Attach(guid, new Attachment() {
+        Action<string, string, int> onDamage = null;
+        Attachment self = new Attachment() {
             Effect = this,
             RemainingCharges = NumCharges(),
             OnDestroy = () => {
+                GameStateWatcher.OnDamage -= onDamage;
                 GameState.AddDamageBonus(guid, -DamageIncrease());
             }
-        }, Slot.Arm);
+        };
+        onDamage = (string damagedGuid, string damagerGuid, int damage) => {
+            if (damagerGuid == guid) {
+                self.SpendCharge();
+            }
+        };
+
+        GameState.AddDamageBonus(guid, DamageIncrease());
+        GameStateWatcher.OnDamage += onDamage;
+
+        GameState.Attach(guid, self, Slot.Arm);
     }
 
     public override int Cost ()
