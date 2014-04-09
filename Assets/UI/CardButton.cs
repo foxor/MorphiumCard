@@ -12,9 +12,6 @@ public class CardButton : SpriteButton {
     public bool SuspendDrag;
 
     [NonSerialized]
-    public Card Card;
-
-    [NonSerialized]
     public Morphid Owner;
 
     public int CardIndex;
@@ -27,9 +24,6 @@ public class CardButton : SpriteButton {
 
     public Card CardFn {
         get {
-            if (Card != null || Morphid.LocalPlayer == null || Morphid.Cards == null) {
-                return Card;
-            }
             return Morphid.Cards[CardIndex];
         }
     }
@@ -45,14 +39,9 @@ public class CardButton : SpriteButton {
         selected = false;
     }
 
-    public void SnapToMouse() {
-        Sprite.transform.position += Camera.main.ScreenPointToRay(Input.mousePosition).origin;
-        OnPickup();
-    }
-
     public bool isEnabled () {
         return CardFn != null &&
-            CardFn.Cost <= Owner.Morphium &&
+            CardFn.Cost <= Morphid.LocalPlayer.Morphium &&
             CardFn.Charged &&
             GameState.IsLocalActive;
     }

@@ -78,6 +78,10 @@ public class Importer : MonoBehaviour {
             c.Slot = slot;
             c.Text = data.Text;
 
+            if (!int.TryParse(data.Cost, out c.Cost)) {
+                c.Cost = 10;
+            }
+
             c.Effect = CardEffectTable.Map(data.Name, data.Text);
             if (c.Effect != null) {
                 yield return c;

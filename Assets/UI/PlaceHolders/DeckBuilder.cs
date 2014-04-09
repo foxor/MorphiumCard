@@ -10,7 +10,7 @@ public class DeckBuilder : MonoBehaviour {
     
     protected static DeckBuilder Singleton;
 
-    public CardButton Card;
+    public CardPreview Card;
 
     protected Dictionary<Slot, List<Card>> CardOptions;
     protected Dictionary<Card, bool> CardChecked;
@@ -85,7 +85,6 @@ public class DeckBuilder : MonoBehaviour {
             lastMouseOver.Charged = true;
             Card.Card = lastMouseOver;
             Card.Sprite.SetActive(true);
-            Debug.Log(GUI.tooltip);
         }
         else {
             Card.Sprite.SetActive(false);
