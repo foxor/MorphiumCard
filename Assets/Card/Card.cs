@@ -10,39 +10,40 @@ using ProtoBuf.Meta;
 [ProtoContract]
 public sealed class Card {
     [SerializeField]
+    [ProtoMember(1)]
     public Slot Slot;
 
     [NonSerialized]
     //Prevents unity from copying the guids around
-    [ProtoMember(1)]
+    [ProtoMember(2)]
     public string GUID;
 
     [SerializeField]
-    [ProtoMember(2)]
+    [ProtoMember(3)]
     public String Name;
 
     [SerializeField]
-    [ProtoMember(3)]
+    [ProtoMember(4)]
     public String Text;
 
     [SerializeField]
-    [ProtoMember(4)]
+    [ProtoMember(5)]
     public String Manufacturer;
 
     [SerializeField]
-    [ProtoMember(5)]
+    [ProtoMember(6)]
     public int Cost;
 
     [SerializeField]
-    [ProtoMember(6)]
+    [ProtoMember(7)]
     public bool Charged;
 
 	[SerializeField]
-	[ProtoMember(7)]
+	[ProtoMember(8)]
 	public string[] TargetableGuids;
 
 	[SerializeField]
-	[ProtoMember(8)]
+	[ProtoMember(9)]
 	public TargetingType TargetingType;
 
     public Effect Effect;

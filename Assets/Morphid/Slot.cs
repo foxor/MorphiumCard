@@ -5,16 +5,16 @@ using System.Reflection;
 
 public enum Slot {
     [SlotOrder(0)]
-    Head,
+    Head = 0,
     
     [SlotOrder(1)]
-    Chest,
+    Chest = 1,
     
     [SlotOrder(2)]
-    Arm,
+    Arm = 2,
     
     [SlotOrder(3)]
-    Leg
+    Leg = 3
 }
 
 public static class SlotExtension {
