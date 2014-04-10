@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class MortarStance: Effect {
@@ -24,11 +25,14 @@ public class MortarStance: Effect {
         int boost = minion.Attack;
         minion.InitialAttack += boost;
 
-        GameStateWatcher.OnPostAttack += (string morphidGuid) => {
-            if (morphidGuid == guid) {
+        Action<string> onPostAttack;
+        onPostAttack = (string morphidGuid) => {
+            if (morphidGuid == minion.MorphidGUID) {
                 minion.InitialAttack -= boost;
+                GameStateWatcher.OnPostAttack -= onPostAttack;
             }
         };
+        GameStateWatcher.OnPostAttack += onPostAttack;
     }
 
     public override void GlobalApply()

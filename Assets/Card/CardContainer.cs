@@ -54,7 +54,9 @@ public class CardContainer {
         for (int i = 0; i < Cards.Length; i++) {
             if (Cards[i] == c) {
                 Cards[i] = Decks[i].Draw();
-                Cards[i].Template();
+                if (Cards[i] != null) {
+                    Cards[i].Template();
+                }
             }
         }
     }

@@ -93,8 +93,14 @@ public class Morphid {
         Engine = START_ENGINE;
         Reflect = 0;
         Weight = 0;
-        EngineSequence = null;
+        EngineSequence = ChargeAll;
         return this;
+    }
+
+    protected void ChargeAll() {
+        foreach (Slot slot in Enum.GetValues(typeof(Slot))) {
+            CardContainer.ComboSlot(slot);
+        }
     }
     
     public static void PlayLocalCard (Card card, string targetGuid) {
