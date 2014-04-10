@@ -4,10 +4,7 @@ using System.Collections;
 using System.Linq;
 
 [Serializable]
-public class CardButton : SpriteButton {
-    protected const int ART_WIDTH = 500;
-    protected const int ART_HEIGHT = 770;
-
+public class CardButton : CardUI {
     [NonSerialized]
     public bool SuspendDrag;
 
@@ -15,17 +12,13 @@ public class CardButton : SpriteButton {
     public Morphid Owner;
 
     public int CardIndex;
-    public TextMeshController CardCost;
-    public TextMeshController CardName;
 
     protected Vector3 oldPos;
     protected Vector3 delta;
     protected bool selected;
 
-    public Card CardFn {
-        get {
-            return Morphid.Cards[CardIndex];
-        }
+    public override Card GetCard() {
+        return Morphid.Cards[CardIndex];
     }
 
     public void OnPickup () {
@@ -40,9 +33,9 @@ public class CardButton : SpriteButton {
     }
 
     public bool isEnabled () {
-        return CardFn != null &&
-            CardFn.Cost <= Morphid.LocalPlayer.Morphium &&
-            CardFn.Charged &&
+        return GetCard() != null &&
+            GetCard().Cost <= Morphid.LocalPlayer.Morphium &&
+            GetCard().Charged &&
             GameState.IsLocalActive;
     }
     
@@ -55,22 +48,5 @@ public class CardButton : SpriteButton {
             Sprite.transform.position = oldPos;
         }
         base.Update();
-    }
-
-    protected override void ManageText () {
-        if (CardFn != null) {
-            CardCost.Text = CardFn.Cost.ToString();
-            CardName.Text = CardFn.Name;
-            TextArea.Text = CardFn.Text;
-            Sprite.renderer.enabled = true;
-        } else {
-            CardCost.Text = "";
-            CardName.Text = "";
-            TextArea.Text = "";
-            Sprite.renderer.enabled = false;
-        }
-        CardCost.renderer.material.color = Sprite.renderer.material.color;
-        CardName.renderer.material.color = Sprite.renderer.material.color;
-        TextArea.renderer.material.color = Sprite.renderer.material.color;
     }
 }

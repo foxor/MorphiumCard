@@ -4,22 +4,21 @@ using System.Collections;
 using System.Linq;
 
 [Serializable]
-public class CardPreview : SpriteButton {
-    protected const int ART_WIDTH = 500;
-    protected const int ART_HEIGHT = 770;
-    
+public class CardPreview : CardUI {
     [NonSerialized]
     public Card Card;
     
     [NonSerialized]
     public Morphid Owner;
-
-    public TextMeshController CardCost;
-    public TextMeshController CardName;
     
     protected Vector3 oldPos;
     protected Vector3 delta;
     protected bool selected;
+
+    public override Card GetCard()
+    {
+        return Card;
+    }
     
     public void SnapToMouse() {
         Sprite.transform.position += Camera.main.ScreenPointToRay(Input.mousePosition).origin;
@@ -34,19 +33,5 @@ public class CardPreview : SpriteButton {
             Sprite.transform.position = Camera.main.ScreenPointToRay(Input.mousePosition).origin + delta;
         }
         base.Update();
-    }
-    
-    protected override void ManageText () {
-        if (Card != null) {
-            CardCost.Text = Card.Cost.ToString();
-            CardName.Text = Card.Name;
-            TextArea.Text = Card.Text;
-            Sprite.renderer.enabled = true;
-        } else {
-            CardCost.Text = "";
-            CardName.Text = "";
-            TextArea.Text = "";
-            Sprite.renderer.enabled = false;
-        }
     }
 }

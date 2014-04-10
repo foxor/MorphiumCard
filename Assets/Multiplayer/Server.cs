@@ -8,8 +8,15 @@ public class Server : MonoBehaviour {
     protected static GameObject gameStatePrefab;
     protected static Server singleton;
     protected const int CONNECTIONS = 20;
+
     public const string MASTER_SERVER_NAME = "MorphiumCard";
     public const int PORT = 4141;
+
+    public const string MASTER_SERVER_IP = "50.56.91.76";
+    public const int MASTER_SERVER_PORT = 23466;
+    public const string NAT_FACILITATOR_IP = MASTER_SERVER_IP;
+    public const int NAT_FACILITATOR_PORT = 50005;
+
     protected List<string> Players;
     protected GameState GameState;
     protected string GameName;
@@ -19,6 +26,11 @@ public class Server : MonoBehaviour {
         singleton = this;
         Players = new List<string> ();
         Chooser.ChooseMode += OnChooseMode;
+
+        MasterServer.ipAddress = MASTER_SERVER_IP;
+        MasterServer.port = MASTER_SERVER_PORT;
+        Network.natFacilitatorIP = NAT_FACILITATOR_IP;
+        Network.natFacilitatorPort = NAT_FACILITATOR_PORT;
     }
     
     protected void OnChooseMode(ModeSelection modeSelection, string ip) {

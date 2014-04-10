@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,7 +47,7 @@ public class UI : MonoBehaviour {
             TargetingMode = TargetingMode.Transitional;
             Selected = card;
             Selected.OnPickup();
-            ActiveCard = card.CardFn;
+            ActiveCard = card.GetCard();
             StartCoroutine(Select());
         };
     }
@@ -105,11 +105,11 @@ public class UI : MonoBehaviour {
         );
         if (
 			!cancel &&
-			Selected.CardFn.Cost <= Morphid.LocalPlayer.Morphium &&
+			Selected.GetCard().Cost <= Morphid.LocalPlayer.Morphium &&
 			ActiveCard.TargetableGuids != null &&
 			((ActiveCard.TargetableGuids.Contains(Target.GUID)) || ActiveCard.TargetingType != TargetingType.Single)
         ) {
-            Morphid.PlayLocalCard(Selected.CardFn, Target.GUID);
+            Morphid.PlayLocalCard(Selected.GetCard(), Target.GUID);
         }
         Selected.SuspendDrag = false;
         ReticleController.Shown = false;

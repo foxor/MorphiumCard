@@ -32,8 +32,12 @@ public class SpriteRegion {
         return ClickRaycast.MouseOverThis(Sprite);
     }
 
+    protected virtual Color GetColor() {
+        return Enabled ? EnabledColor : DisabledColor;
+    }
+
     public virtual void Update () {
-        Sprite.renderer.material.color = Enabled ? EnabledColor : DisabledColor;
+        Sprite.renderer.material.color = GetColor();
         Sprite.renderer.enabled = Visible;
         ManageText();
     }
