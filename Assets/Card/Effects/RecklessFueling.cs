@@ -4,8 +4,6 @@ using System.Collections.Generic;
 public class RecklessFueling: Effect {
     public static DynamicProvider Engine = () => 2;
 
-    protected bool hasGivenEngine = false;
-
     public RecklessFueling(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
@@ -21,11 +19,12 @@ public class RecklessFueling: Effect {
 
     public override void Apply (string guid)
     {
-        if (!hasGivenEngine) {
-            GameState.AddEngine(GameState.ActiveMorphid.GUID, Engine());
-            hasGivenEngine = true;
-        }
         GameState.FireSetGuid(guid);
+    }
+
+    public override void GlobalApply()
+    {
+        GameState.AddEngine(GameState.ActiveMorphid.GUID, Engine());
     }
 
     public override int Cost ()
