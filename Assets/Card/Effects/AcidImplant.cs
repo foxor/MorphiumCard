@@ -36,7 +36,7 @@ public class AcidImplant: Effect {
                 GameStateWatcher.OnMinionDeath -= onDeath;
                 Lane lane = GameState.GetLane(minion);
                 LaneDamage.Damaged = lane.GUID;
-                GameState.LaneDamage(lane.GUID, enemyMorphidGuid, guid, LaneDamage());
+                GameState.LaneDamage(lane.GUID, enemyMorphidGuid, guid, LaneDamage.Provider());
             }
         };
         GameStateWatcher.OnMinionDeath += onDeath;
