@@ -27,9 +27,9 @@ public class Brawler: Effect {
     public override void Apply (string guid)
     {
         Minion brawler = GameState.SummonMinion(guid, Attack(), Defense(), null);
-        Action<string, string, int> onDamage = (string damaged, string damager, int damage) => {
-            if (damaged == brawler.GUID) {
-                thornsProvider.Apply(damager, damaged);
+        Action<Damage> onDamage = (Damage damage) => {
+            if (damage.Target == brawler.GUID) {
+                thornsProvider.Apply(damage.Source, damage.Target);
             }
         };
         GameStateWatcher.OnDamage += onDamage;

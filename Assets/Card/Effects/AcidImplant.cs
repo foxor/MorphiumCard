@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -29,14 +29,12 @@ public class AcidImplant: Effect {
         if (enemy == null) {
             return;
         }
-        string enemyMorphidGuid = enemy.GUID;
         Action<Minion> onDeath;
         onDeath = (Minion minion) => {
             if (minion == target) {
                 GameStateWatcher.OnMinionDeath -= onDeath;
                 Lane lane = GameState.GetLane(minion);
-                LaneDamage.Damaged = lane.GUID;
-                GameState.LaneDamage(lane.GUID, enemyMorphidGuid, guid, LaneDamage.Provider());
+                LaneDamage.ApplyLaneDamage(lane.GUID);
             }
         };
         GameStateWatcher.OnMinionDeath += onDeath;

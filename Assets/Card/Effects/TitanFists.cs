@@ -20,12 +20,11 @@ public class TitanFists: Effect {
 
     public override void Apply (string guid)
     {
-        Func<string, string, int, bool, int> damageBoost = (string damagedGuid, string damagerGuid, int damage, bool realDamage) => {
-            Minion damager = GameState.GetMinion(damagerGuid);
+        Action<Damage> damageBoost = (Damage damage) => {
+            Minion damager = GameState.GetMinion(damage.Source);
             if (damager != null && damager.MorphidGUID == guid) {
-                return damage;
+                damage.Magnitude *= 2;
             }
-            return 0;
         };
         DamageProvider.DamageBoost += damageBoost;
         GameState.Attach(guid, new Attachment() {

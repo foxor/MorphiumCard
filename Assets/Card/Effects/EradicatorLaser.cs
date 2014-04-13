@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 public class EradicatorLaser: Effect {
-    public static DynamicProvider Damage = new ActiveMorphidDamageProvider(10).Provider;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(10);
 
     public EradicatorLaser(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -18,7 +18,7 @@ public class EradicatorLaser: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.LaneDamage(guid, GameState.InactiveMorphid.GUID, GameState.ActiveMorphid.GUID, Damage());
+        Damage.ApplyLaneDamage(guid);
         GameState.ChargeSet(GameState.ActiveMorphid.GUID, Slot.Chest, false);
     }
 

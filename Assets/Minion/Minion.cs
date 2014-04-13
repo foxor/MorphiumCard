@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -108,12 +108,14 @@ public class Minion {
         if (Scrounge) {
             GameState.AddParts(GameState.ActiveMorphid.GUID, 1);
         }
-        
+
+        GameStateWatcher.OnAttack(GUID);
+
         Lane myLane = GameState.GetLane(this);
         int laneIndex = GameState.GetLaneIndex(myLane);
         Minion defender = GameState.GetLaneDefender(laneIndex);
         if (defender != null) {
-            damageProvider.Damaged = defender.GUID;
+            damageProvider.Target = defender.GUID;
 
             AnimationSignalManager.SendRPC(
                 AnimationSignalManager.Singleton.QueueMinionAnimation,
@@ -136,27 +138,32 @@ public class Minion {
                 Alive = true
             }
             );
-            
-            GameState.DamageGuid(defender.GUID, GUID, Attack);
+
+            damageProvider.Apply(defender.GUID);
         }
         else {
             if (!Defensive) {
-                damageProvider.Damaged = GameState.InactiveMorphid.GUID;
-                GameState.DamageGuid(GameState.InactiveMorphid.GUID, GUID, Attack);
+                damageProvider.Apply(GameState.InactiveMorphid.GUID);
             }
         }
     }
 
     public void OnTurnBegin () {
         if (OnFire) {
-            GameState.DamageGuid(GUID, GUID, 1);
+            GameState.DamageGuid(new Damage() {
+                Target = GUID,
+                Magnitude = 1
+            });
         }
 
         bool attack = MorphidGUID == GameState.ActiveMorphid.GUID;
         if (attack) {
             DoAttack();
             if (AffectedByTerrain(TerrainType.Acid)) {
-                GameState.DamageGuid(GUID, GUID, 2);
+                GameState.DamageGuid(new Damage() {
+                    Target = GUID,
+                    Magnitude = 2
+                });
             }
         }
     }

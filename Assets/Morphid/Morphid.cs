@@ -126,7 +126,10 @@ public class Morphid {
 
     public void OnTurnBegin() {
         if (OnFire) {
-            GameState.DamageGuid(GUID, GUID, 1);
+            GameState.DamageGuid(new Damage() {
+                Target = GUID,
+                Magnitude = 1
+            });
         }
 
         if (GUID == GameState.ActiveMorphid.GUID) {

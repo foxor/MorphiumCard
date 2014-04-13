@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class DamageProvider {
 
-    public static Func<string, string, int, bool, int> DamageBoost = (string damagedGuid, string damagerGuid, int damage, bool realDamage) => {return 0;};
+    public static Action<Damage> DamageBoost = (Damage damage) => {};
 
     protected int baseDamage;
     protected Func<int> dynamicDamage;
@@ -14,43 +14,66 @@ public class DamageProvider {
         this.dynamicDamage = dynamicDamage;
     }
     
-    public virtual string Damager {
+    public virtual string Source {
         get; set;
     }
 
-    public virtual string Damaged {
+    public virtual string Target {
         get; set;
     }
 
-    public virtual int Provider() {
-        int damage = baseDamage;
+    public virtual Damage ProvideDamage() {
+        Damage damage = new Damage() {
+            Target = Target,
+            Source = Source,
+            Magnitude = baseDamage
+        };
+
         if (dynamicDamage != null) {
-            damage += dynamicDamage();
+            damage.Magnitude += dynamicDamage();
         }
 
-        foreach (Func<string, string, int, bool, int> boost in DamageBoost.GetInvocationList()) {
-            damage += boost(Damaged, Damager, damage, !TemplateStatus.Templating);
-            damage = Mathf.Max(0, damage);
-        }
+        DamageBoost(damage);
         return damage;
     }
 
-    public void Apply(string damaged = null, string damager = null) {
-        if (damaged != null) {
-            Damaged = damaged;
+    public virtual int Provider() {
+        return ProvideDamage().Magnitude;
+    }
+
+    public void Apply(string target = null, string source = null) {
+        if (target != null) {
+            Target = target;
         }
-        if (damager != null) {
-            Damager = damager;
+        if (source != null) {
+            Source = source;
         }
 
-        GameState.DamageGuid(Damaged, Damager, Provider());
+        GameState.DamageGuid(ProvideDamage());
+    }
+
+    public void ApplyLaneDamage(string target = null, string source = null) {
+        if (target != null) {
+            Target = target;
+        }
+        if (source != null) {
+            Source = source;
+        }
+
+        Damage damage = ProvideDamage();
+        GameState.LaneDamage(new LaneDamage() {
+            EnemyMorphid = GameState.InactiveMorphid.GUID,
+            Magnitude = damage.Magnitude,
+            Target = damage.Target,
+            Source = damage.Source
+        });
     }
 }
 
 public class ActiveMorphidDamageProvider : DamageProvider {
     public ActiveMorphidDamageProvider(int baseDamage = 0, Func<int> dynamicDamage = null) : base(baseDamage, dynamicDamage) {}
     
-    public override string Damager {
+    public override string Source {
         get {
             if (GameState.Singleton.Morphids != null && GameState.ActiveMorphid != null) {
                 return GameState.ActiveMorphid.GUID;
@@ -68,7 +91,7 @@ public class MinionDamageProvider : DamageProvider {
         this.minion = minion;
     }
     
-    public override string Damager {
+    public override string Source {
         get {
             if (minion == null) {
                 return null;

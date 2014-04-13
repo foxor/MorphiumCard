@@ -174,35 +174,48 @@ public class GameState : MonoBehaviour {
         }
     }
     
-    public static void DamageGuid (string guid, string damagerGuid, int damage) {
-        Morphid morphid = GetMorphid(guid);
-        Minion minion = GetMinion(guid);
+    public static void DamageGuid (Damage damage) {
+        DamagePrevention.PreventDamage(damage);
+        if (damage.Magnitude <= 0) {
+            return;
+        }
+
+        Morphid morphid = GetMorphid(damage.Target);
+        Minion minion = GetMinion(damage.Target);
         if (morphid != null) {
-            morphid.Health -= damage;
-            morphid.AttachmentContainer.Damage(damage);
-            GameStateWatcher.OnDamage(guid, damagerGuid, damage);
+            morphid.Health -= damage.Magnitude;
+            morphid.AttachmentContainer.Damage(damage.Magnitude);
+            GameStateWatcher.OnDamage(damage);
         }
         if (minion != null) {
-            minion.Defense -= damage;
+            minion.Defense -= damage.Magnitude;
             if (Minion.IsDead(minion)) {
-                DestroyMinion(guid);
+                DestroyMinion(minion.GUID);
             }
-            GameStateWatcher.OnDamage(guid, damagerGuid, damage);
+            GameStateWatcher.OnDamage(damage);
         }
     }
     
-    public static void LaneDamage (string laneGuid, string morphidGuid, string damagerGuid, int damage) {
-        Lane lane = GetLane(laneGuid);
+    public static void LaneDamage (LaneDamage damage) {
+        Lane lane = GetLane(damage.Target);
         if (lane != null) {
-            Minion minion = lane.FriendlyMinion(morphidGuid);
+            Minion minion = lane.FriendlyMinion(damage.EnemyMorphid);
             if (minion != null) {
-                int minionDamage = Mathf.Min(damage, minion.Defense);
-                DamageGuid(minion.GUID, damagerGuid, minionDamage);
-                damage -= minionDamage;
+                int minionDamage = Mathf.Min(damage.Magnitude, minion.Defense);
+                DamageGuid(new Damage() {
+                    Target = minion.GUID,
+                    Source = damage.Source,
+                    Magnitude = minionDamage
+                });
+                damage.Magnitude -= minionDamage;
             }
         }
-        if (damage > 0) {
-            DamageGuid(morphidGuid, damagerGuid, damage);
+        if (damage.Magnitude > 0) {
+            DamageGuid(new Damage() {
+                Target = damage.EnemyMorphid,
+                Source = damage.Source,
+                Magnitude = damage.Magnitude
+            });
         }
     }
 

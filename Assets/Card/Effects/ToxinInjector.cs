@@ -27,9 +27,9 @@ public class ToxinInjector: Effect {
         Minion minion = GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder() {
             Hazmat = true
         });
-        Action<string, string, int> onDamage = (string damaged, string damager, int damage) => {
-            if (damager == minion.GUID && GameState.GetMorphid(damaged) != null) {
-                GameState.AddEngine(damaged, EngineDamage());
+        Action<Damage> onDamage = (Damage damage) => {
+            if (damage.Source == minion.GUID && GameState.GetMorphid(damage.Target) != null) {
+                GameState.AddEngine(damage.Target, EngineDamage());
             }
         };
         Action<Minion> onDeath;

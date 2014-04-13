@@ -22,7 +22,7 @@ public class HydrocloricAmmo: Effect {
 
     public override void Apply (string guid)
     {
-        Func<string, string, int, bool, int> onDamage = null;
+        Action<Damage> onDamage = null;
         Attachment self = new Attachment() {
             Effect = this,
             RemainingCharges = NumCharges(),
@@ -30,14 +30,13 @@ public class HydrocloricAmmo: Effect {
                 DamageProvider.DamageBoost -= onDamage;
             }
         };
-        onDamage = (string damagedGuid, string damagerGuid, int damage, bool realDamage) => {
-            if (damagerGuid == guid) {
-                if (realDamage) {
+        onDamage = (Damage damage) => {
+            if (damage.Source == guid) {
+                if (!TemplateStatus.Templating) {
                     self.SpendCharge();
                 }
-                return DamageIncrease();
+                damage.Magnitude += DamageIncrease();
             }
-            return 0;
         };
 
         DamageProvider.DamageBoost += onDamage;

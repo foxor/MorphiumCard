@@ -24,10 +24,10 @@ public class HissingToxins: Effect {
 
     public override void Apply (string guid)
     {
-        Action<string, string, int> onDamage = (string morphid, string damagerGuid, int damage) => {
-            if (morphid == guid && GameState.GetMinion(damagerGuid) != null) {
-                Damage.Apply(damagerGuid);
-                GameState.ReduceAttack(damagerGuid, AttackDrain());
+        Action<Damage> onDamage = (Damage damage) => {
+            if (damage.Target == guid && GameState.GetMinion(damage.Source) != null) {
+                Damage.Apply(damage.Source);
+                GameState.ReduceAttack(damage.Source, AttackDrain());
             }
         };
 
