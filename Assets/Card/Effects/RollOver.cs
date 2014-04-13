@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,13 +7,13 @@ namespace Assets.Card.Effects
 {
     class RollOver : Effect
     {
-        protected static DynamicProvider DamageMag = () => 3 + GameState.ActiveMorphid.Weight + GameState.ActiveMorphid.DamageBonus;
+        protected static DamageProvider DamageMag = new ActiveMorphidDamageProvider(3, () => GameState.ActiveMorphid.Weight);
 
         public RollOver(string text) : base(text) { }
 
         protected override IEnumerable<DynamicProvider> TemplatingArguments()
         {
-            yield return DamageMag;
+            yield return DamageMag.Provider;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
@@ -26,7 +26,7 @@ namespace Assets.Card.Effects
 
         public override void Apply(string guid)
         {
-            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, DamageMag());
+            DamageMag.Apply(guid);
         }
 
         public override int Cost()

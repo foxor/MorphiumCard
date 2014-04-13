@@ -2,18 +2,14 @@
 using System;
 using System.Collections.Generic;
 
-public class HissingToxins: Effect {
+public class TitanFists: Effect {
     public static DynamicProvider Durability = () => 10;
-    public static DamageProvider Damage = new ActiveMorphidDamageProvider(2);
-    public static DynamicProvider AttackDrain = () => 1;
 
-    public HissingToxins(string text) : base(text) {}
+    public TitanFists(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
         yield return Durability;
-        yield return Damage.Provider;
-        yield return AttackDrain;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -24,27 +20,26 @@ public class HissingToxins: Effect {
 
     public override void Apply (string guid)
     {
-        Action<string, string, int> onDamage = (string morphid, string damagerGuid, int damage) => {
-            if (morphid == guid && GameState.GetMinion(damagerGuid) != null) {
-                Damage.Apply(damagerGuid);
-                GameState.ReduceAttack(damagerGuid, AttackDrain());
+        Func<string, string, int, bool, int> damageBoost = (string damagedGuid, string damagerGuid, int damage, bool realDamage) => {
+            Minion damager = GameState.GetMinion(damagerGuid);
+            if (damager != null && damager.MorphidGUID == guid) {
+                return damage;
             }
+            return 0;
         };
-
-        GameStateWatcher.OnDamage += onDamage;
-
+        DamageProvider.DamageBoost += damageBoost;
         GameState.Attach(guid, new Attachment() {
             Effect = this,
             RemainingHealth = Durability(),
             OnDestroy = () => {
-                GameStateWatcher.OnDamage -= onDamage;
+                DamageProvider.DamageBoost -= damageBoost;
             }
-        }, Slot.Head);
+        }, Slot.Arm);
     }
 
     public override int Cost ()
     {
-        return 5;
+        return 6;
     }
 
     public override TargetingType TargetingType ()

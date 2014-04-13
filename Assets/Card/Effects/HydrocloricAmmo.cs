@@ -22,23 +22,25 @@ public class HydrocloricAmmo: Effect {
 
     public override void Apply (string guid)
     {
-        Action<string, string, int> onDamage = null;
+        Func<string, string, int, bool, int> onDamage = null;
         Attachment self = new Attachment() {
             Effect = this,
             RemainingCharges = NumCharges(),
             OnDestroy = () => {
-                GameStateWatcher.OnDamage -= onDamage;
-                GameState.AddDamageBonus(guid, -DamageIncrease());
+                DamageProvider.DamageBoost -= onDamage;
             }
         };
-        onDamage = (string damagedGuid, string damagerGuid, int damage) => {
+        onDamage = (string damagedGuid, string damagerGuid, int damage, bool realDamage) => {
             if (damagerGuid == guid) {
-                self.SpendCharge();
+                if (realDamage) {
+                    self.SpendCharge();
+                }
+                return DamageIncrease();
             }
+            return 0;
         };
 
-        GameState.AddDamageBonus(guid, DamageIncrease());
-        GameStateWatcher.OnDamage += onDamage;
+        DamageProvider.DamageBoost += onDamage;
 
         GameState.Attach(guid, self, Slot.Arm);
     }

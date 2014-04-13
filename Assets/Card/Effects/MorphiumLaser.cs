@@ -7,13 +7,14 @@ namespace Assets.Card.Effects
 {
     class MorphiumLaser : Effect
     {
-        protected static DynamicProvider DamageMag = () => (int)Math.Round(Math.Pow(Math.Pow(30.0, 1.0 / 9.0), (double)GameState.ActiveMorphid.Engine - 1.0)) + GameState.ActiveMorphid.DamageBonus;
+        protected static DamageProvider DamageMag = new ActiveMorphidDamageProvider(0, () =>
+            (int)Math.Round(Math.Pow(Math.Pow(30.0, 1.0 / 9.0), (double)GameState.ActiveMorphid.Engine - 1.0)));
 
         public MorphiumLaser(string text) : base(text) { }
 
         protected override IEnumerable<DynamicProvider> TemplatingArguments()
         {
-            yield return DamageMag;
+            yield return DamageMag.Provider;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
@@ -26,7 +27,7 @@ namespace Assets.Card.Effects
 
         public override void Apply(string guid)
         {
-            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, DamageMag());
+            DamageMag.Apply(guid);
         }
 
         public override int Cost()

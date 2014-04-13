@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class DissolvingGrasp : Effect {
-    public static DynamicProvider Damage = () => 10 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(10);
     public static DynamicProvider MorphiumDamage = () => 2;
 
     public DissolvingGrasp(string text) : base(text) {}
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
         yield return MorphiumDamage;
     }
 
@@ -21,7 +21,7 @@ public class DissolvingGrasp : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
+        Damage.Apply(guid);
         GameState.AddMorphium(guid, -MorphiumDamage());
     }
 

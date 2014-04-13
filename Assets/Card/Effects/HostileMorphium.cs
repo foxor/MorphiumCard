@@ -3,6 +3,7 @@ using System.Collections;
 
 public class HostileMorphium : Effect {
     public static DynamicProvider MorphiumPenalty = () => 4;
+    public static DamageProvider BurnDamage = new ActiveMorphidDamageProvider(0, () => GameState.InactiveMorphid.Morphium);
 
     public HostileMorphium(string text) : base(text) {}
 
@@ -22,7 +23,7 @@ public class HostileMorphium : Effect {
         Morphid enemy = GameState.GetMorphid(guid);
         if (enemy != null) {
             GameState.AddMorphium(guid, MorphiumPenalty());
-            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, enemy.Morphium);
+            BurnDamage.Apply(guid);
         }
     }
 

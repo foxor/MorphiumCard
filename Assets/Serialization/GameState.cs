@@ -38,6 +38,23 @@ public class GameState : MonoBehaviour {
         }
     }
 
+    protected void TemplateMinions() {
+        if (Network.peerType != NetworkPeerType.Server || GameState.ActiveMorphid == null) {
+            return;
+        }
+        for (int i = 0; i < Lanes.Length; i++) {
+            Minion Friendly = Lanes[i].FriendlyMinion(GameState.ActiveMorphid.GUID);
+            Minion Enemy = Lanes[i].EnemyMinion(GameState.ActiveMorphid.GUID);
+            
+            if (Friendly != null) {
+                Friendly.Template();
+            }
+            if (Enemy != null) {
+                Enemy.Template();
+            }
+        }
+    }
+
     protected void SyncMinionSprites () {
         if (Network.peerType == NetworkPeerType.Server || Morphid.LocalPlayer == null) {
             return;
@@ -57,6 +74,7 @@ public class GameState : MonoBehaviour {
     
     public void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
         stream.SerializeProto<Morphid[]>(ref Morphids);
+        TemplateMinions();
         stream.SerializeProto<Lane[]>(ref Lanes);
         SyncMinionSprites();
         stream.SerializeProto<int>(ref ActivePlayer);
@@ -166,10 +184,10 @@ public class GameState : MonoBehaviour {
         }
         if (minion != null) {
             minion.Defense -= damage;
-            GameStateWatcher.OnDamage(guid, damagerGuid, damage);
             if (Minion.IsDead(minion)) {
                 DestroyMinion(guid);
             }
+            GameStateWatcher.OnDamage(guid, damagerGuid, damage);
         }
     }
     
@@ -377,13 +395,6 @@ public class GameState : MonoBehaviour {
         Minion minion = GetMinion(minionGuid);
         if (minion != null) {
             minion.InitialAttack -= redution;
-        }
-    }
-
-    public static void AddDamageBonus(string morphidGuid, int damageBonus) {
-        Morphid morphid = GetMorphid(morphidGuid);
-        if (morphid != null) {
-            morphid.DamageBonus += damageBonus;
         }
     }
 }

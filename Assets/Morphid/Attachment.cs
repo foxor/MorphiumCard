@@ -50,6 +50,10 @@ public class Attachment {
     }
 
     public void Template() {
+        TemplateStatus.Templating = true;
+
         Description = Effect.Text;
+        
+        TemplateStatus.Templating = false;
     }
 }

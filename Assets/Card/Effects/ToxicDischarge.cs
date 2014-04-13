@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ToxicDischarge : Effect {
-    public static DynamicProvider Damage = () => 6 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(6);
 
     public ToxicDischarge(string text) : base(text) {}
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -24,7 +24,7 @@ public class ToxicDischarge : Effect {
         Morphid morphid = GameState.GetMorphid(guid);
         Minion minion = GameState.GetMinion(guid);
         if (morphid != null) {
-            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
+            Damage.Apply(guid);
         }
         if (minion != null) {
             GameState.DestroyMinion(guid);

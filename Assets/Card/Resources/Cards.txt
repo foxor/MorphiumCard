@@ -7,8 +7,8 @@ Titan Forge,Attach: 20 durability.  Summon a 1/3 in a random lane every turn.,Go
 Pulverize,Deals * damage depending on Weight.,Goliath,7,Arm,2+Morphid.Weight*2,Isaac
 Quake,Deals 7 damage to all minions.,Goliath,9,Arm,,Isaac
 Avalanche,Deals 5 damage to a minion.,Goliath,4,Arm,,Isaac
-Brawler,Summon a 4/10 who deals to damage back whenever he is damaged.,Goliath,4,Arm,,Isaac
-Titan FIsts,Attach: 10 durability.  Your minions deal double damage.,Goliath,6,Arm,,Hunter
+Brawler,Summon a 4/10 who deals 2 damage back whenever he is damaged.,Goliath,4,Arm,,Isaac
+Titan Fists,Attach: 10 durability.  Your minions deal double damage.,Goliath,6,Arm,,Hunter
 Drill Buddy,Summon a */* depending on Weight.  Gain 2 Weight.,Goliath,4,Chest,"Morphid.Weight/2,Morphid.Weight*2,2",Isaac
 Load Up,Gain 1 Engine and 3 Weight.,Goliath,0,Chest,,Isaac
 Consolodate,Repair * durability depending on Weight.,Goliath,5,Chest,Morphid.Weight*4,Isaac

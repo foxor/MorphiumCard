@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class AggressiveSalvage : Effect {
-    public static DynamicProvider damageMag = () => 4 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider damageMag = new ActiveMorphidDamageProvider(4);
 	public static DynamicProvider parts = () => 6;
 
 	public AggressiveSalvage (string text) : base (text){}
 
 	protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
 	{
-		yield return damageMag;
+        yield return damageMag.Provider;
 		yield return parts;
 	}
 
@@ -23,7 +23,7 @@ public class AggressiveSalvage : Effect {
 
 	public override void Apply (string guid)
 	{
-		GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, damageMag());
+        damageMag.Apply(guid);
 		GameState.AddParts(GameState.ActiveMorphid.GUID, parts());
 	}
 

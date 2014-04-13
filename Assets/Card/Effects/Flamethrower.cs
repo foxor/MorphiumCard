@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 public class Flamethrower: Effect {
-    public static DynamicProvider Damage = () => 6 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(6);
 
     public Flamethrower(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -21,7 +21,7 @@ public class Flamethrower: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
+        Damage.Apply(guid);
         GameState.FireSetGuid(guid);
     }
 

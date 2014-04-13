@@ -25,7 +25,7 @@ public class Minion {
 
     [SerializeField]
     [ProtoMember(2)]
-    public int InitialAttack;
+    public int CurrentAttack;
     
     [SerializeField]
     [ProtoMember(3)]
@@ -64,6 +64,8 @@ public class Minion {
     public bool Hazmat;
 
     public GameObject GameObject;
+    protected DamageProvider damageProvider;
+    public int InitialAttack;
     
     public bool IsFriendly (string morphidGuid) {
         return morphidGuid == MorphidGUID;
@@ -76,20 +78,23 @@ public class Minion {
     public static bool IsDead (Minion minion) {
         return minion == null || minion.Defense <= 0;
     }
-
     public bool AffectedByTerrain(TerrainType terrainType) {
         Lane lane = GameState.GetLane(this);
+        if (lane == null) {
+            return false;
+        }
         return lane.isTerrainType(terrainType) && !Hazmat;
     }
 
     public int Attack {
         get {
-            return Mathf.Max(InitialAttack - (AffectedByTerrain(TerrainType.Flooded) ? 2 : 0), 0);
+            return damageProvider.Provider();
         }
     }
     
     public Minion () {
         GUID = Guid.NewGuid().ToString();
+        damageProvider = new MinionDamageProvider(this);
     }
 
     public void DoAttack () {
@@ -108,6 +113,8 @@ public class Minion {
         int laneIndex = GameState.GetLaneIndex(myLane);
         Minion defender = GameState.GetLaneDefender(laneIndex);
         if (defender != null) {
+            damageProvider.Damaged = defender.GUID;
+
             AnimationSignalManager.SendRPC(
                 AnimationSignalManager.Singleton.QueueMinionAnimation,
                 new MinionAnimation() {
@@ -134,6 +141,7 @@ public class Minion {
         }
         else {
             if (!Defensive) {
+                damageProvider.Damaged = GameState.InactiveMorphid.GUID;
                 GameState.DamageGuid(GameState.InactiveMorphid.GUID, GUID, Attack);
             }
         }
@@ -157,5 +165,13 @@ public class Minion {
         if (Blitz || AffectedByTerrain(TerrainType.Slick)) {
             DoAttack();
         }
+    }
+
+    public void Template() {
+        TemplateStatus.Templating = true;
+
+        CurrentAttack = Attack;
+
+        TemplateStatus.Templating = false;
     }
 }

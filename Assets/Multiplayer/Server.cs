@@ -68,6 +68,7 @@ public class Server : MonoBehaviour {
         if (GameState.ActiveMorphid.Research != null) {
             GameState.ActiveMorphid.Research();
         }
+        GameStateWatcher.OnEndTurn(GameState.ActiveMorphid.GUID);
         GameState.SwapTurn();
         foreach (Minion minion in GameState.GetMinions()) {
             minion.OnTurnBegin();

@@ -7,13 +7,13 @@ namespace Assets.Card.Effects
 {
     class BladedAppendage : Effect
     {
-        protected static DynamicProvider DamageMag = () => 3 + GameState.ActiveMorphid.DamageBonus;
+        protected static DamageProvider DamageMag = new ActiveMorphidDamageProvider(3);
 
         public BladedAppendage(string text) : base(text) { }
 
         protected override IEnumerable<DynamicProvider> TemplatingArguments()
         {
-            yield return DamageMag;
+            yield return DamageMag.Provider;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
@@ -26,7 +26,7 @@ namespace Assets.Card.Effects
 
         public override void Apply(string guid)
         {
-            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, DamageMag());
+            DamageMag.Apply(guid);
         }
 
         public override int Cost()

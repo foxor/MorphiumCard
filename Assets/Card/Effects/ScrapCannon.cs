@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ScrapCannon : Effect {
-    public static DynamicProvider damageMag = () => GameState.ActiveMorphid.Parts * 2 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider damageMag = new ActiveMorphidDamageProvider(0, () => GameState.ActiveMorphid.Parts * 2);
+
     public ScrapCannon (string text) : base (text){}
+
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments () {
-        yield return damageMag;
+        yield return damageMag.Provider;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags () {
@@ -16,7 +18,7 @@ public class ScrapCannon : Effect {
     }
 
     public override void Apply (string guid) {
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, damageMag());
+        damageMag.Apply(guid);
         GameState.ConsumeParts(GameState.ActiveMorphid.GUID);
     }
 

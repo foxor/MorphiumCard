@@ -4,15 +4,15 @@ using System.Collections;
 public class EyeLasers : Effect {
 
     protected int lastCostCheck;
-    public DynamicProvider Damage;
+    public DamageProvider Damage;
 
     public EyeLasers(string text) : base(text) {
     }
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        Damage = () => lastCostCheck * 2;
-        yield return Damage;
+        Damage = new ActiveMorphidDamageProvider(0, () => lastCostCheck * 2);
+        yield return Damage.Provider;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -25,7 +25,7 @@ public class EyeLasers : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
+        Damage.Apply(guid);
     }
 
     public override int Cost ()

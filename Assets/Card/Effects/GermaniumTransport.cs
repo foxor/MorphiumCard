@@ -1,30 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class EradicatorLaser: Effect {
-    public static DynamicProvider Damage = new ActiveMorphidDamageProvider(10).Provider;
+public class GermaniumTransport: Effect {
+    public static DynamicProvider Attack = () => 5;
+    public static DynamicProvider Defense = () => 20;
 
-    public EradicatorLaser(string text) : base(text) {}
+    public GermaniumTransport(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Attack;
+        yield return Defense;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
     {
+        yield return TargetTypeFlag.Empty;
         yield return TargetTypeFlag.Lane;
     }
 
     public override void Apply (string guid)
     {
-        GameState.LaneDamage(guid, GameState.InactiveMorphid.GUID, GameState.ActiveMorphid.GUID, Damage());
-        GameState.ChargeSet(GameState.ActiveMorphid.GUID, Slot.Chest, false);
+        GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder() {
+            Protect = true
+        });
     }
 
     public override int Cost ()
     {
-        return 5;
+        return 6;
     }
 
     public override TargetingType TargetingType ()

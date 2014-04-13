@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class FlameTornado: Effect {
-    public static DynamicProvider Damage = () => 3 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(3);
     public static DynamicProvider NumTargets = () => 3;
 
     public FlameTornado(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
         yield return NumTargets;
     }
 
@@ -30,7 +30,7 @@ public class FlameTornado: Effect {
     {
         TargetingRequirements req = new TargetingRequirements(this);
         foreach (string randomGuid in req.AllowedTargets().OrderBy(x => Random.Range(0f, 1f)).Take(3)) {
-            GameState.DamageGuid(randomGuid, GameState.ActiveMorphid.GUID, Damage());
+            Damage.Apply(randomGuid);
         }
     }
 

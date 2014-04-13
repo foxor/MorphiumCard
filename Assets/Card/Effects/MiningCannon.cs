@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 
 public class MiningCannon: Effect {
-    public static DynamicProvider Damage = () => 5 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(5);
     public static DynamicProvider Engine = () => 1;
 
     public MiningCannon(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
         yield return Engine;
     }
 
@@ -24,7 +24,7 @@ public class MiningCannon: Effect {
     public override void Apply (string guid)
     {
         bool before = Minion.IsDead(GameState.GetMinion(guid));
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
+        Damage.Apply(guid);
         bool after = Minion.IsDead(GameState.GetMinion(guid));
         if (before != after) {
             GameState.AddEngine(GameState.ActiveMorphid.GUID, Engine());

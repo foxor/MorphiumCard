@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 public class Fireblast: Effect {
-    public static DynamicProvider Damage = () => 10 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(10);
 
     public Fireblast(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -21,7 +21,7 @@ public class Fireblast: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
+        Damage.Apply(guid);
         GameState.FireSetGuid(GameState.ActiveMorphid.GUID);
     }
 

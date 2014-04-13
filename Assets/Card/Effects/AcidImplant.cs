@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 
 public class AcidImplant: Effect {
-    public static DynamicProvider LaneDamage = () => 5 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider LaneDamage = new ActiveMorphidDamageProvider(5);
 
     public AcidImplant(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return LaneDamage;
+        yield return LaneDamage.Provider;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -35,6 +35,7 @@ public class AcidImplant: Effect {
             if (minion == target) {
                 GameStateWatcher.OnMinionDeath -= onDeath;
                 Lane lane = GameState.GetLane(minion);
+                LaneDamage.Damaged = lane.GUID;
                 GameState.LaneDamage(lane.GUID, enemyMorphidGuid, guid, LaneDamage());
             }
         };

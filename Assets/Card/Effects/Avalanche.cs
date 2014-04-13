@@ -7,13 +7,13 @@ namespace Assets.Card.Effects
 {
     class Avalanche : Effect
     {
-        public static DynamicProvider DamageMag = () => 7 + GameState.ActiveMorphid.DamageBonus;
+        public static DamageProvider DamageMag = new ActiveMorphidDamageProvider(7);
 
         public Avalanche(string text) : base(text) { }
 
         protected override IEnumerable<DynamicProvider> TemplatingArguments()
         {
-            yield return DamageMag;
+            yield return DamageMag.Provider;
         }
 
         protected override IEnumerable<TargetTypeFlag> TargetTypeFlags()
@@ -25,7 +25,7 @@ namespace Assets.Card.Effects
 
         public override void Apply(string guid)
         {
-            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, DamageMag());
+            DamageMag.Apply(guid);
         }
 
         public override int Cost()

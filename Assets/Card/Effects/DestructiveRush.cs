@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 
 public class DestructiveRush: Effect {
-    public static DynamicProvider SelfDamage = () => 5 + GameState.ActiveMorphid.DamageBonus;
-    public static DynamicProvider EnemyDamage = () => 10 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider SelfDamage = new ActiveMorphidDamageProvider(5);
+    public static DamageProvider EnemyDamage = new ActiveMorphidDamageProvider(10);
 
     public DestructiveRush(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return SelfDamage;
-        yield return EnemyDamage;
+        yield return SelfDamage.Provider;
+        yield return EnemyDamage.Provider;
     }
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -23,12 +23,12 @@ public class DestructiveRush: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(GameState.ActiveMorphid.GUID, GameState.ActiveMorphid.GUID, SelfDamage());
+        SelfDamage.Apply(GameState.ActiveMorphid.GUID);
         if (GameState.GetMinion(guid) != null) {
             GameState.DestroyMinion(guid);
         }
         else {
-            GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, EnemyDamage());
+            EnemyDamage.Apply(guid);
         }
     }
 

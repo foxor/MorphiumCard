@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class RadiationLeak : Effect {
-    public static DynamicProvider Damage = () => GameState.ActiveMorphid.Engine * 2 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider Damage = new ActiveMorphidDamageProvider(0, () => GameState.ActiveMorphid.Engine * 2);
 
     public RadiationLeak(string text) : base(text) {}
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return Damage;
+        yield return Damage.Provider;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -20,7 +20,7 @@ public class RadiationLeak : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, Damage());
+        Damage.Apply(guid);
     }
 
     public override int Cost ()

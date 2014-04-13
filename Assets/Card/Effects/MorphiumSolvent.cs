@@ -2,15 +2,15 @@
 using System.Collections;
 
 public class MorphiumSolvent : Effect {
-    public static DynamicProvider SelfDamage = () => 3 + GameState.ActiveMorphid.DamageBonus;
-    public static DynamicProvider OtherDamage = () => 10 + GameState.ActiveMorphid.DamageBonus;
+    public static DamageProvider SelfDamage = new ActiveMorphidDamageProvider(3);
+    public static DamageProvider OtherDamage = new ActiveMorphidDamageProvider(10);
 
     public MorphiumSolvent(string text) : base(text) {}
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
-        yield return SelfDamage;
-        yield return OtherDamage;
+        yield return SelfDamage.Provider;
+        yield return OtherDamage.Provider;
     }
 
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
@@ -21,8 +21,8 @@ public class MorphiumSolvent : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.DamageGuid(GameState.ActiveMorphid.GUID, GameState.ActiveMorphid.GUID, SelfDamage());
-        GameState.DamageGuid(guid, GameState.ActiveMorphid.GUID, OtherDamage());
+        SelfDamage.Apply(GameState.ActiveMorphid.GUID);
+        OtherDamage.Apply(guid);
     }
 
     public override int Cost ()

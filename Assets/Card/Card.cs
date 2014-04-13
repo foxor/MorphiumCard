@@ -76,10 +76,14 @@ public sealed class Card {
     }
 
     public void Template() {
+        TemplateStatus.Templating = true;
+
         this.Cost = Effect.Cost();
         this.Text = Effect.Text;
 		TargetingRequirements req = new TargetingRequirements(Effect);
 		this.TargetableGuids = req.AllowedTargets().ToArray();
-		this.TargetingType = Effect.TargetingType();
+        this.TargetingType = Effect.TargetingType();
+
+        TemplateStatus.Templating = false;
     }
 }

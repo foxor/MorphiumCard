@@ -77,10 +77,6 @@ public class Morphid {
     [ProtoMember(10)]
     public bool OnFire;
 
-    [SerializeField]
-    [ProtoMember(11)]
-    public int DamageBonus;
-
     public Action Research;
     public Action EngineSequence;
     
@@ -134,8 +130,8 @@ public class Morphid {
         }
 
         if (GUID == GameState.ActiveMorphid.GUID) {
-            Retemplate();
             GameState.AddMorphium(GUID, Engine);
+            Retemplate();
         }
     }
 }
