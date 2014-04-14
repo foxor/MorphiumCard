@@ -63,6 +63,8 @@ public class Minion {
     [ProtoMember(11)]
     public bool Hazmat;
 
+    public Action OnDeath = () => {};
+
     public GameObject GameObject;
     protected DamageProvider damageProvider;
     public int InitialAttack;

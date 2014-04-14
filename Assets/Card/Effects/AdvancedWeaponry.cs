@@ -34,7 +34,6 @@ namespace Assets.Card.Effects
                 {
                     DamageMag.Apply(morphid);
                 }
-                GameState.ActiveMorphid.Morphium = 0;
             });
         }
 

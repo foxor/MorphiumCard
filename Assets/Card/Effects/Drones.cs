@@ -34,7 +34,6 @@ namespace Assets.Card.Effects
                 {
                     GameState.SummonMinion(lane, AttackMag(), DefenseMag(), new MinionBuilder());
                 }
-                GameState.ActiveMorphid.Morphium = 0;
             });
         }
 

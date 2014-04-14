@@ -67,6 +67,8 @@ public class Server : MonoBehaviour {
     private void EndTurn (Morphid enemy) {
         if (GameState.ActiveMorphid.Research != null) {
             GameState.ActiveMorphid.Research();
+            GameStateWatcher.OnResearch(GameState.ActiveMorphid.GUID, GameState.ActiveMorphid.Morphium);
+            GameState.ActiveMorphid.Morphium = 0;
         }
         GameStateWatcher.OnEndTurn(GameState.ActiveMorphid.GUID);
         GameState.SwapTurn();

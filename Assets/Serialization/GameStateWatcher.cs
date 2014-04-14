@@ -7,4 +7,5 @@ public class GameStateWatcher {
     public static Action<string> OnAttack = (string minionGuid) => {};
     public static Action<string> OnPostAttack = (string morphidGuid) => {};
     public static Action<string> OnEndTurn = (string morphidGuid) => {};
+    public static Action<string, int> OnResearch = (string morphidGuid, int morphium) => {};
 }

@@ -165,6 +165,7 @@ public class GameState : MonoBehaviour {
     public static void DestroyMinion (string guid) {
         Minion minion = GetMinion(guid);
         if (minion != null) {
+            minion.OnDeath();
             GameStateWatcher.OnMinionDeath(minion);
         }
 
