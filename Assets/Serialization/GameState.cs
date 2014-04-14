@@ -350,8 +350,11 @@ public class GameState : MonoBehaviour {
     public static void BuffMinion(string guid, int attackBuff, int defenseBuff) {
         Minion minion = GetMinion(guid);
         if (minion != null) {
-            minion.InitialAttack += attackBuff;
+            minion.InitialAttack = Mathf.Max(0, minion.InitialAttack + attackBuff);
             minion.Defense += defenseBuff;
+            if (minion.Defense <= 0) {
+                DestroyMinion(guid);
+            }
         }
     }
 
