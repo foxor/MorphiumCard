@@ -93,6 +93,7 @@ public class Server : MonoBehaviour {
 		if (GameState.ActiveMorphid.EngineSequence != null) {
         	GameState.ActiveMorphid.EngineSequence();
 		}
+        GameStateWatcher.OnUpgradeEngine(GameState.ActiveMorphid.GUID);
         EndTurn(GameState.GetEnemy(morphidGuid));
     }
 }

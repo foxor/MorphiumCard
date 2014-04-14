@@ -325,25 +325,22 @@ public class GameState : MonoBehaviour {
             m.Research = research;
         }
     }
-
+    
     public static void AddEngineSequence(string guid, Action sequence)
     {
         Morphid m = GameState.GetMorphid(guid);
         if (m != null)
         {
-            if (m.EngineSequence == null)
-            {
-                m.EngineSequence = sequence;
-            }
-            else
-            {
-                Action oldSequence = m.EngineSequence;
-                m.EngineSequence = () =>
-                {
-                    oldSequence();
-                    sequence();
-                };
-            }
+            m.EngineSequence += sequence;
+        }
+    }
+    
+    public static void RemoveEngineSequence(string guid, Action sequence)
+    {
+        Morphid m = GameState.GetMorphid(guid);
+        if (m != null)
+        {
+            m.EngineSequence -= sequence;
         }
     }
 

@@ -78,7 +78,7 @@ public class Morphid {
     public bool OnFire;
 
     public Action Research;
-    public Action EngineSequence;
+    public Action EngineSequence = () => {};
     
     public Morphid () {
     }
