@@ -13,7 +13,7 @@ Drill Buddy,Summon a */* depending on Weight.  Gain 2 Weight.,Goliath,4,Chest,"M
 Load Up,Gain 1 Engine and 3 Weight.,Goliath,0,Chest,,Isaac
 Consolodate,Repair * durability depending on Weight.,Goliath,5,Chest,Morphid.Weight*4,Isaac
 Heavy Lifter,Summon an 8/20.  Gain 2 weight whenever Heavy Lifter attacks.,Goliath,9,Chest,,Isaac
-Titan Armor,Attach: 20 durability.  You cannot be damaged.  Gain 6 Weight.,Goliath,9,Chest,,Hunter
+Titan Armor,Attach: 5 charges.  You cannot be damaged.  Gain 6 Weight.,Goliath,6,Chest,,Hunter
 Salvage,"Destroy a friendly minion, gain Weight equal to it's defense",Goliath,2,Head,Minion.Defense,Isaac
 ExoTruck,Summon a 2/7.,Goliath,3,Head,,Isaac
 HeavyTank,Summon a 6/30 with Protect.,Goliath,7,Head,,Isaac
@@ -27,7 +27,6 @@ Auto Turret,Summon a 10/1 who only attacks minions.,Vanguard Labs,5,Chest,,Isaac
 Regenerative Suspension,Repair 4 durability whenever you upgrade your engine.  Engine -1.,Vanguard Labs,7,Chest,,Isaac
 Kill Switch,Destroy a minion.,Vanguard Labs,6,Chest,,Isaac
 Core Tender,Summon a 6/18.  Engine 1.,Vanguard Labs,8,Chest,,Isaac
-Energizing Pulse,Charge all slots.  Reload,Vanguard Labs,3,Chest,,Hunter
 Morphium Laser,Deals * damage depending on your engine.,Vanguard Labs,8,Arm,"pow(pow(30,1/9),Morphid.Engine-1)",Isaac
 Morphium Bomb,Destroy all enemy minions.  Engine -4.,Vanguard Labs,8,Arm,,Isaac
 Stand Together,Your minions get +1 attack when you upgrade your engine.,Vanguard Labs,3,Arm,,Isaac
@@ -79,7 +78,7 @@ Catalyst,Engine 2.,Central Chemical,5,Chest,,Isaac
 Progressive Brew,Your minions get +2/+3 whenever you upgrade your engine.,Central Chemical,7,Chest,,Isaac
 Corrosive Lab,Summon a 0/15 that destroys any opposing minion at the beginning of your turn.,Central Chemical,8,Chest,,Isaac
 Retention Wall,Summon a 0/30 Hazmat.,Central Chemical,4,Chest,,Hunter
-Caustic Substance,Deals damage to all minions equal to the durability of a minion.,Central Chemical,7,Arm,,Isaac
+Caustic Substance,Choose a minion.  That minion deals damage to all minions equal its durability.,Central Chemical,7,Arm,,Isaac
 Morphium Solvent,Deals 3 to you and 10 to the enemy morphid.,Central Chemical,3,Arm,,Isaac
 Hostile Morphium,The enemy morphid gets 4 Morphium.  Deal damage to them equal to their Morphium.,Central Chemical,4,Arm,,Isaac
 Dissolving Grasp,Deal 10 damage to the enemy morphid.  They lose 2 Morphium.,Central Chemical,7,Arm,,Hunter
