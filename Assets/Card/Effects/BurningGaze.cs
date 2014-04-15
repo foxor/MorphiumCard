@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class LaserEyes: Effect {
-    public LaserEyes(string text) : base(text) {}
+public class BurningGaze: Effect {
+    public BurningGaze(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {

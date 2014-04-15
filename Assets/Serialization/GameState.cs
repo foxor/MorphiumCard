@@ -371,10 +371,16 @@ public class GameState : MonoBehaviour {
         Minion minion = GetMinion(guid);
         if (morphid != null)
         {
+            if (!morphid.OnFire && onFire) {
+                GameStateWatcher.OnCatchFire(guid);
+            }
             morphid.OnFire = onFire;
         }
         if (minion != null)
         {
+            if (!minion.OnFire && onFire) {
+                GameStateWatcher.OnCatchFire(guid);
+            }
             minion.OnFire = onFire;
         }
     }
