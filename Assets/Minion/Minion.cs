@@ -13,6 +13,7 @@ public class MinionBuilder {
     public bool OnFire = false;
     public bool Blitz = false;
     public bool Hazmat = false;
+    public bool LaneDamage = false;
 }
 
 [Serializable]
@@ -66,6 +67,10 @@ public class Minion {
     [SerializeField]
     [ProtoMember(12)]
     public bool Hazmat;
+    
+    [SerializeField]
+    [ProtoMember(13)]
+    public bool LaneDamage;
 
     public Action OnDeath = () => {};
 
@@ -132,6 +137,12 @@ public class Minion {
         GameStateWatcher.OnAttack(GUID);
 
         Lane myLane = GameState.GetLane(this);
+
+        if (LaneDamage) {
+            damageProvider.ApplyLaneDamage(myLane.GUID);
+            return;
+        }
+
         int laneIndex = GameState.GetLaneIndex(myLane);
         Minion defender = GameState.GetLaneDefender(laneIndex);
         if (defender != null) {

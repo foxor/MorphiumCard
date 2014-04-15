@@ -89,7 +89,24 @@ public class GameState : MonoBehaviour {
     }
     
     public void SwapTurn () {
+        if (ActiveMorphid.Research != null) {
+            ActiveMorphid.Research();
+            GameStateWatcher.OnResearch(ActiveMorphid.GUID, ActiveMorphid.Morphium);
+            ActiveMorphid.Morphium = 0;
+        }
+
+        GameStateWatcher.OnEndTurn(ActiveMorphid.GUID);
         ActivePlayer = (ActivePlayer + 1) % NUM_PLAYERS;
+        GameStateWatcher.OnBeginTurn(ActiveMorphid.GUID);
+
+        foreach (Minion minion in GetMinions()) {
+            minion.OnTurnBegin();
+        }
+        GameStateWatcher.OnPostAttack(ActiveMorphid.GUID);
+
+        foreach (Morphid morphid in Morphids) {
+            morphid.OnTurnBegin();
+        }
     }
     
     public static Morphid GetMorphid (string guid) {
@@ -301,6 +318,7 @@ public class GameState : MonoBehaviour {
                 OnFire = builder.OnFire,
                 Blitz = builder.Blitz,
                 Hazmat = builder.Hazmat,
+                LaneDamage = builder.LaneDamage,
 
                 GUID = Guid.NewGuid().ToString(),
                 MorphidGUID = GameState.ActiveMorphid.GUID

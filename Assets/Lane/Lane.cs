@@ -55,6 +55,9 @@ public class Lane {
     }
 
     public bool isTerrainType(TerrainType terrainType) {
+        if (Network.peerType == NetworkPeerType.Server) {
+            terrainType = TerrainProvider.getTerrainType(GUID);
+        }
         return TerrainType == (int)terrainType;
     }
 }
