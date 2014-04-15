@@ -21,7 +21,7 @@ public class FurnaceBot: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder() {OnFire = true});
+        GameState.SummonMinion(guid, Attack(), Defense(), Name, new MinionBuilder() {OnFire = true});
     }
 
     public override int Cost ()

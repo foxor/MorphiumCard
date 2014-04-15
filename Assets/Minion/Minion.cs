@@ -22,45 +22,49 @@ public class Minion {
     [SerializeField]
     [ProtoMember(1)]
     public string GUID;
-
+    
     [SerializeField]
     [ProtoMember(2)]
+    public string Name;
+
+    [SerializeField]
+    [ProtoMember(3)]
     public int CurrentAttack;
     
     [SerializeField]
-    [ProtoMember(3)]
+    [ProtoMember(4)]
     public int CurrentDurability;
 
     [SerializeField]
-    [ProtoMember(4)]
+    [ProtoMember(5)]
     public bool HasTriedToAttack;
 
     [SerializeField]
-    [ProtoMember(5)]
+    [ProtoMember(6)]
     public string MorphidGUID;
 
     [SerializeField]
-    [ProtoMember(6)]
+    [ProtoMember(7)]
     public bool Defensive;
     
     [SerializeField]
-    [ProtoMember(7)]
+    [ProtoMember(8)]
     public bool Protect;
     
     [SerializeField]
-    [ProtoMember(8)]
+    [ProtoMember(9)]
     public bool Scrounge;
     
     [SerializeField]
-    [ProtoMember(9)]
+    [ProtoMember(10)]
     public bool OnFire;
     
     [SerializeField]
-    [ProtoMember(10)]
+    [ProtoMember(11)]
     public bool Blitz;
     
     [SerializeField]
-    [ProtoMember(11)]
+    [ProtoMember(12)]
     public bool Hazmat;
 
     public Action OnDeath = () => {};

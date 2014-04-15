@@ -5,7 +5,11 @@ public class Wasp : Effect {
     public static DynamicProvider Attack = () => 2;
     public static DynamicProvider Defense = () => 6;
 
-    public Wasp(string text) : base(text) {}
+    public static string NAME;
+
+    public Wasp(string text) : base(text) {
+        NAME = Name;
+    }
 
     protected override System.Collections.Generic.IEnumerable<DynamicProvider> TemplatingArguments ()
     {
@@ -21,7 +25,7 @@ public class Wasp : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder() {Scrounge = true});
+        GameState.SummonMinion(guid, Attack(), Defense(), Name, new MinionBuilder() {Scrounge = true});
     }
 
     public override int Cost ()

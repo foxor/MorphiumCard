@@ -31,7 +31,7 @@ public class TitanForge: Effect {
         Action<string> onEndTurn = (string morphidGuid) => {
             if (morphidGuid == guid) {
                 foreach (string laneGuid in req.ChosenTargets(null)) {
-                    GameState.SummonMinion(laneGuid, Attack(), Defense(), null);
+                    GameState.SummonMinion(laneGuid, Attack(), Defense(), Name, null);
                 }
             }
         };

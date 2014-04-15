@@ -21,7 +21,7 @@ public class WaspSwarm : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder(){Scrounge = true});
+        GameState.SummonMinion(guid, Attack(), Defense(), Wasp.NAME, new MinionBuilder(){Scrounge = true});
     }
 
     public override int Cost ()

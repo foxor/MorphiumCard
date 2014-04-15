@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 
-public class SalvageSupervisor: Effect {
-    public static DynamicProvider Attack = () => 8;
-    public static DynamicProvider Durability = () => 26;
-    public static DynamicProvider BuffAttack = () => 2;
-    public static DynamicProvider BuffDurability = () => 2;
+public class WaspRefuelingStation: Effect {
+    public static DynamicProvider Attack = () => 2;
+    public static DynamicProvider Durability = () => 30;
+    public static DynamicProvider BuffAttack = () => 3;
+    public static DynamicProvider BuffDurability = () => 9;
 
-    public SalvageSupervisor(string text) : base(text) {}
+    public WaspRefuelingStation(string text) : base(text) {}
 
     protected override IEnumerable<DynamicProvider> TemplatingArguments ()
     {
@@ -26,27 +26,27 @@ public class SalvageSupervisor: Effect {
 
     public override void Apply (string guid)
     {
-        Minion supervisor = GameState.SummonMinion(guid, Attack(), Durability(), Name, null);
-
+        Minion station = GameState.SummonMinion(guid, Attack(), Durability(), Name, null);
+        
         Action<Damage> damageBoost = (Damage damage) => {
-            Minion friendlyScrounger = GameState.GetMinion(damage.Source);
-            if (friendlyScrounger != null && friendlyScrounger.MorphidGUID == supervisor.MorphidGUID && friendlyScrounger.Scrounge && damage.Type == DamageType.Attack) {
+            Minion wasp = GameState.GetMinion(damage.Source);
+            if (wasp != null && wasp.MorphidGUID == station.MorphidGUID && wasp.Name == Wasp.NAME && damage.Type == DamageType.Attack) {
                 damage.Magnitude += BuffAttack();
             }
         };
-
+        
         Action<Durability> durabilityBoost = (Durability durability) => {
-            Minion friendlyScrounger = GameState.GetMinion(durability.MinionGuid);
-            if (friendlyScrounger != null && friendlyScrounger.MorphidGUID == supervisor.MorphidGUID && friendlyScrounger.Scrounge) {
+            Minion wasp = GameState.GetMinion(durability.MinionGuid);
+            if (wasp != null && wasp.MorphidGUID == station.MorphidGUID && wasp.Name == Wasp.NAME) {
                 durability.Magnitude += BuffDurability();
             }
         };
-
-        supervisor.OnDeath = () => {
+        
+        station.OnDeath = () => {
             DamageProvider.DamageBoost -= damageBoost;
             DurabilityProvider.DurabilityBoost -= durabilityBoost;
         };
-
+        
         DamageProvider.DamageBoost += damageBoost;
         DurabilityProvider.DurabilityBoost += durabilityBoost;
     }

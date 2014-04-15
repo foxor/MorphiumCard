@@ -279,7 +279,7 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    public static Minion SummonMinion(string laneGuid, int attack, int defense, MinionBuilder builder)
+    public static Minion SummonMinion(string laneGuid, int attack, int defense, string name, MinionBuilder builder)
     {
         Lane lane = GameState.GetLane(laneGuid);
         if (lane != null)
@@ -290,6 +290,8 @@ public class GameState : MonoBehaviour {
 
             Minion minion = new Minion()
             {
+                Name = name,
+
                 InitialAttack = attack,
                 InitialDurability = defense,
 

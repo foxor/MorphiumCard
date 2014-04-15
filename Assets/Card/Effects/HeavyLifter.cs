@@ -24,7 +24,7 @@ public class HeavyLifter: Effect {
 
     public override void Apply (string guid)
     {
-        Minion lifter = GameState.SummonMinion(guid, Attack(), Durability(), null);
+        Minion lifter = GameState.SummonMinion(guid, Attack(), Durability(), Name, null);
         Action<string> onAttack = (string minionGuid) => {
             if (minionGuid == lifter.GUID) {
                 GameState.AddWeight(lifter.MorphidGUID, Weight());

@@ -26,7 +26,7 @@ public class WaspFactory: Effect {
 
     public override void Apply (string guid)
     {
-        Minion waspFactory = GameState.SummonMinion(guid, Attack(), Defense(), null);
+        Minion waspFactory = GameState.SummonMinion(guid, Attack(), Defense(), Name, null);
 
         TargetingRequirements req = new TargetingRequirements(
             (int)TargetTypeFlag.Random | (int)TargetTypeFlag.Empty | (int)TargetTypeFlag.Lane,
@@ -36,7 +36,7 @@ public class WaspFactory: Effect {
         Action<string> onEndTurn = (string morphidGuid) => {
             if (morphidGuid == waspFactory.MorphidGUID) {
                 foreach (string laneGuid in req.ChosenTargets(null)) {
-                    GameState.SummonMinion(laneGuid, WaspAttack(), WaspDefense(), new MinionBuilder() {
+                    GameState.SummonMinion(laneGuid, WaspAttack(), WaspDefense(), Wasp.NAME, new MinionBuilder() {
                         Scrounge = true
                     });
                 }

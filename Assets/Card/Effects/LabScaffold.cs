@@ -22,7 +22,7 @@ public class LabScaffold: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), null);
+        GameState.SummonMinion(guid, Attack(), Defense(), Name, null);
         GameState.ChargeSet(GameState.ActiveMorphid.GUID, Slot.Head, true);
     }
 

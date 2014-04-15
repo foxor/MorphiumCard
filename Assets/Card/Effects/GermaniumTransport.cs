@@ -21,7 +21,7 @@ public class GermaniumTransport: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder() {
+        GameState.SummonMinion(guid, Attack(), Defense(), Name, new MinionBuilder() {
             Protect = true
         });
     }

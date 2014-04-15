@@ -21,7 +21,7 @@ public class CallReinforcements : Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), null);
+        GameState.SummonMinion(guid, Attack(), Defense(), Name, null);
     }
 
     public override int Cost ()

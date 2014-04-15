@@ -24,7 +24,7 @@ public class EquipmentTug: Effect {
 
     public override void Apply (string guid)
     {
-        Minion tug = GameState.SummonMinion(guid, Attack(), Durability(), null);
+        Minion tug = GameState.SummonMinion(guid, Attack(), Durability(), Name, null);
         TargetingRequirements req = new TargetingRequirements(
             (int)TargetTypeFlag.Random | (int)TargetTypeFlag.Friendly | (int)TargetTypeFlag.Minion, 
             global::TargetingType.Single

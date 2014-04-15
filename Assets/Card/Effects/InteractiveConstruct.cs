@@ -24,7 +24,7 @@ public class InteractiveConstruct: Effect {
 
     public override void Apply (string guid)
     {
-        Minion construct = GameState.SummonMinion(guid, Attack(), Defense(), null);
+        Minion construct = GameState.SummonMinion(guid, Attack(), Defense(), Name, null);
 
         Action<string> engineSequence = (string morphidGuid) => {
             if (morphidGuid == construct.MorphidGUID) {

@@ -32,7 +32,7 @@ namespace Assets.Card.Effects
                 );
                 foreach (string lane in req.ChosenTargets(null))
                 {
-                    GameState.SummonMinion(lane, AttackMag(), DefenseMag(), new MinionBuilder());
+                    GameState.SummonMinion(lane, AttackMag(), DefenseMag(), Name, new MinionBuilder());
                 }
             });
         }

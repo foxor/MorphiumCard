@@ -24,7 +24,7 @@ public class ScrapyardHarvest: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Durability(), null);
+        GameState.SummonMinion(guid, Attack(), Durability(), Name, null);
         GameState.AddParts(GameState.ActiveMorphid.GUID, Parts());
     }
 

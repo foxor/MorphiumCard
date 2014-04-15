@@ -24,7 +24,7 @@ public class CoreTender: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), null);
+        GameState.SummonMinion(guid, Attack(), Defense(), Name, null);
         GameState.AddEngine(GameState.ActiveMorphid.GUID, Engine());
     }
 

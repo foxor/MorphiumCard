@@ -28,7 +28,7 @@ namespace Assets.Card.Effects
 
         public override void Apply(string guid)
         {
-            GameState.SummonMinion(guid, AttackMag(), DefenseMag(), new MinionBuilder());
+            GameState.SummonMinion(guid, AttackMag(), DefenseMag(), Name, new MinionBuilder());
             GameState.AddWeight(GameState.ActiveMorphid.GUID, WeightGain());
         }
 

@@ -24,7 +24,7 @@ public class ToxinInjector: Effect {
 
     public override void Apply (string guid)
     {
-        Minion minion = GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder() {
+        Minion minion = GameState.SummonMinion(guid, Attack(), Defense(), Name, new MinionBuilder() {
             Hazmat = true
         });
         Action<Damage> onDamage = (Damage damage) => {

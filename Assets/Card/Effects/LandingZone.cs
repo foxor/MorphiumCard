@@ -21,7 +21,7 @@ public class LandingZone: Effect {
 
     public override void Apply (string guid)
     {
-        GameState.SummonMinion(guid, Attack(), Defense(), new MinionBuilder(){Blitz = true});
+        GameState.SummonMinion(guid, Attack(), Defense(), Name, new MinionBuilder(){Blitz = true});
     }
 
     public override int Cost ()

@@ -45,4 +45,10 @@ public abstract class Effect {
         return true;
     }
     public virtual void GlobalApply() {}
+
+    protected string Name {
+        get {
+            return this.GetType().Name;
+        }
+    }
 }

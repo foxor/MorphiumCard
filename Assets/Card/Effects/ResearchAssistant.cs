@@ -28,7 +28,7 @@ public class ResearchAssistant: Effect {
 
     public override void Apply (string guid)
     {
-        Minion assistant = GameState.SummonMinion(guid, Attack(), Defense(), null);
+        Minion assistant = GameState.SummonMinion(guid, Attack(), Defense(), Name, null);
 
         int spentTotal = 0;
         Action<string, int> onResearch = (string morphidGuid, int spent) => {
