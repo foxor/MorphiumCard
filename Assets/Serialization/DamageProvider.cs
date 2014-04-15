@@ -115,11 +115,11 @@ public class MinionDamageProvider : DamageProvider {
         }
     }
     
-    public override int Provider() {
+    public override Damage ProvideDamage() {
         if (minion == null) {
-            return 0;
+            return null;
         }
         this.baseDamage = Mathf.Max(minion.InitialAttack - (minion.AffectedByTerrain(TerrainType.Flooded) ? 2 : 0), 0);
-        return base.Provider();
+        return base.ProvideDamage();
     }
 }

@@ -19,14 +19,14 @@ public class Chemthrower : Effect {
 
     public override void Apply (string guid)
     {
-        System.Action<Damage> onDamage = null;
-        onDamage = (Damage damage) => {
+        System.Action<Damage> damageBoost = null;
+        damageBoost = (Damage damage) => {
             if (damage.Target == guid) {
                 damage.Magnitude *= 2;
-                GameStateWatcher.OnDamage -= onDamage;
+                DamageProvider.DamageBoost -= damageBoost;
             }
         };
-        GameStateWatcher.OnDamage += onDamage;
+        DamageProvider.DamageBoost += damageBoost;
 
         GameState.Reload(GameState.ActiveMorphid.GUID, Slot.Arm, guid);
     }
