@@ -23,7 +23,7 @@ public class RecyclingStation: Effect {
     }
 
     protected void OnMinionDeath (Minion minion) {
-        GameState.AddParts(attachedMorphidGuid, minion.Defense);
+        GameState.AddParts(attachedMorphidGuid, minion.Durability);
     }
 
     public override void Apply (string guid)

@@ -22,7 +22,7 @@ public static class TruthFunctions {
     }
     
     public static object MinionHealth (params object[] args) {
-        return GameState.GetMinion((string)args[0]).Defense;
+        return GameState.GetMinion((string)args[0]).CurrentDurability;
     }
     
     public static object MorphidHealth (params object[] args) {

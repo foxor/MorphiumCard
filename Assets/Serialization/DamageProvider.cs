@@ -12,6 +12,7 @@ public class DamageProvider {
     public DamageProvider(int baseDamage = 0, Func<int> dynamicDamage = null) {
         this.baseDamage = baseDamage;
         this.dynamicDamage = dynamicDamage;
+        this.Type = DamageType.Card;
     }
     
     public virtual string Source {
@@ -22,11 +23,16 @@ public class DamageProvider {
         get; set;
     }
 
+    public virtual DamageType Type {
+        get; set;
+    }
+
     public virtual Damage ProvideDamage() {
         Damage damage = new Damage() {
             Target = Target,
             Source = Source,
-            Magnitude = baseDamage
+            Magnitude = baseDamage,
+            Type = Type
         };
 
         if (dynamicDamage != null) {
@@ -99,6 +105,14 @@ public class MinionDamageProvider : DamageProvider {
             return minion.GUID;
         }
         set {}
+    }
+
+    public override DamageType Type {
+        get {
+            return DamageType.Attack;
+        }
+        set {
+        }
     }
     
     public override int Provider() {

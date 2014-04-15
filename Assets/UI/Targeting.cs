@@ -73,12 +73,12 @@ public class Target {
             if (Minion.IsDead(FriendlyMinions[i].Minion)) {
                 FriendlyMinions[i].Text = "";
             } else {
-                FriendlyMinions[i].Text = FriendlyMinions[i].Minion.CurrentAttack + "/" + FriendlyMinions[i].Minion.Defense;
+                FriendlyMinions[i].Text = FriendlyMinions[i].Minion.CurrentAttack + "/" + FriendlyMinions[i].Minion.CurrentDurability;
             }
             if (Minion.IsDead(EnemyMinions[i].Minion)) {
                 EnemyMinions[i].Text = "";
             } else {
-                EnemyMinions[i].Text = EnemyMinions[i].Minion.CurrentAttack + "/" + EnemyMinions[i].Minion.Defense;
+                EnemyMinions[i].Text = EnemyMinions[i].Minion.CurrentAttack + "/" + EnemyMinions[i].Minion.CurrentDurability;
             }
         }
         

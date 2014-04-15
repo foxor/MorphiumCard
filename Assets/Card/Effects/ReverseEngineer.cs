@@ -21,7 +21,7 @@ public class ReverseEngineer: Effect {
     {
         Minion target = GameState.GetMinion(guid);
         if (target != null) {
-            GameState.AddParts(GameState.ActiveMorphid.GUID, target.Defense);
+            GameState.AddParts(GameState.ActiveMorphid.GUID, target.Durability);
             GameState.DestroyMinion(target.GUID);
         }
     }

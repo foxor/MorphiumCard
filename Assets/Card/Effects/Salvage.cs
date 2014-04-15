@@ -25,7 +25,7 @@ namespace Assets.Card.Effects
             Minion minion = GameState.GetMinion(guid);
             if (minion != null)
             {
-                GameState.ActiveMorphid.Weight += minion.Defense;
+                GameState.ActiveMorphid.Weight += minion.Durability;
                 GameState.DestroyMinion(guid);
             }
         }

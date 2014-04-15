@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public enum DamageType {
+    Card,
+    Ability,
+    Attack
+}
+
 public class Damage {
-    public string Target {get;set;}
-    public string Source {get;set;}
-    public int Magnitude {get;set;}
+    public string Target;
+    public string Source;
+    public int Magnitude;
+    public DamageType Type;
 }
 
 public class LaneDamage : Damage {

@@ -29,7 +29,7 @@ public class Minion {
     
     [SerializeField]
     [ProtoMember(3)]
-    public int Defense;
+    public int CurrentDurability;
 
     [SerializeField]
     [ProtoMember(4)]
@@ -68,6 +68,7 @@ public class Minion {
     public GameObject GameObject;
     protected DamageProvider damageProvider;
     public int InitialAttack;
+    public int InitialDurability;
     
     public bool IsFriendly (string morphidGuid) {
         return morphidGuid == MorphidGUID;
@@ -78,8 +79,9 @@ public class Minion {
     }
     
     public static bool IsDead (Minion minion) {
-        return minion == null || minion.Defense <= 0;
+        return minion == null || minion.Durability <= 0;
     }
+
     public bool AffectedByTerrain(TerrainType terrainType) {
         Lane lane = GameState.GetLane(this);
         if (lane == null) {
@@ -87,10 +89,22 @@ public class Minion {
         }
         return lane.isTerrainType(terrainType) && !Hazmat;
     }
-
+    
     public int Attack {
         get {
+            if (Network.peerType == NetworkPeerType.Client) {
+                return CurrentAttack;
+            }
             return damageProvider.Provider();
+        }
+    }
+
+    public int Durability {
+        get {
+            if (Network.peerType == NetworkPeerType.Client) {
+                return CurrentDurability;
+            }
+            return DurabilityProvider.GetDurability(this);
         }
     }
     
@@ -130,7 +144,7 @@ public class Minion {
                 AnimationSignalManager.Singleton.QueueMinionHealthLie,
                 new MinionHealthLie() {
                 GUID = defender.GUID,
-                Health = defender.Defense
+                Health = defender.Durability
             }
             );
             AnimationSignalManager.SendRPC(
@@ -180,6 +194,7 @@ public class Minion {
         TemplateStatus.Templating = true;
 
         CurrentAttack = Attack;
+        CurrentDurability = Durability;
 
         TemplateStatus.Templating = false;
     }

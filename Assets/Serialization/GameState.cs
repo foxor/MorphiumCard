@@ -189,7 +189,7 @@ public class GameState : MonoBehaviour {
             GameStateWatcher.OnDamage(damage);
         }
         if (minion != null) {
-            minion.Defense -= damage.Magnitude;
+            minion.InitialDurability -= damage.Magnitude;
             if (Minion.IsDead(minion)) {
                 DestroyMinion(minion.GUID);
             }
@@ -202,7 +202,7 @@ public class GameState : MonoBehaviour {
         if (lane != null) {
             Minion minion = lane.FriendlyMinion(damage.EnemyMorphid);
             if (minion != null) {
-                int minionDamage = Mathf.Min(damage.Magnitude, minion.Defense);
+                int minionDamage = Mathf.Min(damage.Magnitude, minion.Durability);
                 DamageGuid(new Damage() {
                     Target = minion.GUID,
                     Source = damage.Source,
@@ -230,7 +230,7 @@ public class GameState : MonoBehaviour {
         }
         if (minion != null)
         {
-            minion.Defense += healing;
+            minion.InitialDurability += healing;
         }
     }
     
@@ -291,7 +291,7 @@ public class GameState : MonoBehaviour {
             Minion minion = new Minion()
             {
                 InitialAttack = attack,
-                Defense = defense,
+                InitialDurability = defense,
 
                 Defensive = builder.Defensive,
                 Protect = builder.Protect,
@@ -348,8 +348,8 @@ public class GameState : MonoBehaviour {
         Minion minion = GetMinion(guid);
         if (minion != null) {
             minion.InitialAttack = Mathf.Max(0, minion.InitialAttack + attackBuff);
-            minion.Defense += defenseBuff;
-            if (minion.Defense <= 0) {
+            minion.InitialDurability += defenseBuff;
+            if (minion.Durability <= 0) {
                 DestroyMinion(guid);
             }
         }

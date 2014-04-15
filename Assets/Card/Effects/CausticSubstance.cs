@@ -21,7 +21,7 @@ public class CausticSubstance : Effect {
     {
         Minion minion = GameState.GetMinion(guid);
         if (minion != null) {
-            DamageProvider damage = new DamageProvider(minion.Defense);
+            DamageProvider damage = new DamageProvider(minion.Durability);
             TargetingRequirements allMinions = new TargetingRequirements(
                 (int)TargetTypeFlag.Friendly | (int)TargetTypeFlag.Enemy | (int)TargetTypeFlag.Minion,
                 global::TargetingType.All
