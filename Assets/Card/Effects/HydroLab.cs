@@ -15,7 +15,6 @@ public class HydroLab : Effect {
     
     protected override System.Collections.Generic.IEnumerable<TargetTypeFlag> TargetTypeFlags ()
     {
-        yield return TargetTypeFlag.Empty;
         yield return TargetTypeFlag.Lane;
     }
     

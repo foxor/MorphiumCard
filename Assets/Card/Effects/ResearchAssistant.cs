@@ -22,7 +22,6 @@ public class ResearchAssistant: Effect {
 
     protected override IEnumerable<TargetTypeFlag> TargetTypeFlags ()
     {
-        yield return TargetTypeFlag.Empty;
         yield return TargetTypeFlag.Lane;
     }
 
