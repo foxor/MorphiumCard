@@ -59,6 +59,15 @@ public class DeckBuilder : MonoBehaviour {
     }
 
     public void OnGUI() {
+        if (GUILayout.Button("Submit")) {
+            DeckList deckList = new DeckList();
+            deckList.Cards = CardChecked.Where(x => x.Value).Select((pair, _) => pair.Key.Name).ToArray();
+            
+            PlayerPrefs.SetString(DECK_SAVE_KEY, deckList.SerializeProtoString());
+            
+            onChooseDeck(deckList);
+            this.enabled = false;
+        }
         GUILayout.BeginHorizontal();
         foreach (Slot slot in Enum.GetValues(typeof(Slot))) {
             GUILayout.BeginVertical();
@@ -70,15 +79,6 @@ public class DeckBuilder : MonoBehaviour {
             GUILayout.EndVertical();
         }
         GUILayout.EndHorizontal();
-        if (GUILayout.Button("Submit")) {
-            DeckList deckList = new DeckList();
-            deckList.Cards = CardChecked.Where(x => x.Value).Select((pair, _) => pair.Key.Name).ToArray();
-
-            PlayerPrefs.SetString(DECK_SAVE_KEY, deckList.SerializeProtoString());
-
-            onChooseDeck(deckList);
-            this.enabled = false;
-        }
 
         if (!string.IsNullOrEmpty(GUI.tooltip)) {
             lastMouseOver = CardByName[GUI.tooltip];

@@ -37,8 +37,10 @@ public class SpriteRegion {
     }
 
     public virtual void Update () {
-        Sprite.renderer.material.color = GetColor();
-        Sprite.renderer.enabled = Visible;
+        if (Sprite.renderer != null) {
+            Sprite.renderer.material.color = GetColor();
+            Sprite.renderer.enabled = Visible;
+        }
         ManageText();
     }
 
