@@ -97,19 +97,21 @@ public class UI : MonoBehaviour {
         if (ClickRaycast.MouseOverThis(LeftSide)) {
             cancel = true;
         }
-        Target.SetTarget(Sprites
-                         .Where(x => typeof(SelectionRegion).IsAssignableFrom(x.GetType()))
-                         .Cast<SelectionRegion>()
-                         .Where(x => x.ContainsMouse())
-                         .SingleOrDefault()
-        );
-        if (
-			!cancel &&
-			Selected.GetCard().Cost <= Morphid.LocalPlayer.Morphium &&
-			ActiveCard.TargetableGuids != null &&
-			((ActiveCard.TargetableGuids.Contains(Target.GUID)) || ActiveCard.TargetingType != TargetingType.Single)
+        foreach (SelectionRegion pickedRegion in Sprites
+                 .Where(x => typeof(SelectionRegion).IsAssignableFrom(x.GetType()))
+                 .Cast<SelectionRegion>()
+                 .Where(x => x.ContainsMouse())
         ) {
-            Morphid.PlayLocalCard(Selected.GetCard(), Target.GUID);
+            Target.SetTarget(pickedRegion);
+            if (
+                !cancel &&
+                Selected.GetCard().Cost <= Morphid.LocalPlayer.Morphium &&
+                ActiveCard.TargetableGuids != null &&
+                ((ActiveCard.TargetableGuids.Contains(Target.GUID)) || ActiveCard.TargetingType != TargetingType.Single)
+            ) {
+                Morphid.PlayLocalCard(Selected.GetCard(), Target.GUID);
+                break;
+            }
         }
         Selected.SuspendDrag = false;
         ReticleController.Shown = false;
