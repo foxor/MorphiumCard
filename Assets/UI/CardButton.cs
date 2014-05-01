@@ -29,6 +29,7 @@ public class CardButton : CardUI {
 
     public void OnDrop () {
         Sprite.transform.position = oldPos;
+        Sprite.SetActive(false);
         selected = false;
     }
 

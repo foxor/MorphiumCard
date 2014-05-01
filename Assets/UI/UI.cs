@@ -8,10 +8,13 @@ public class UI : MonoBehaviour {
     protected const int DRAG_SIZE = 5;
     protected const float DRAG_TIMER = 0.3f;
 
+    protected static Vector3 CARD_FLOAT_CLIP = new Vector3(0f, 0f, 9f);
+
     public static UI Singleton;
 
     public GameObject LeftSide;
 
+    public SelectionRegion[] CardRegions;
     public CardButton[] Cards;
     public Target Target;
     public SpriteButton Engine;
@@ -133,8 +136,24 @@ public class UI : MonoBehaviour {
                 cardButton.Owner = Morphid.LocalPlayer;
             }
         }
+
+
         Engine.Text = Morphid.LocalPlayer.Morphium + "/" + Morphid.MAX_MORPHIUM + " (" + Morphid.LocalPlayer.Engine + ")";
         Engine.Enabled = GameState.IsLocalActive;
+
+        for (int i = 0; i < CardRegions.Length; i++) {
+            if (!ReticleController.Shown && 
+                ((Selected == null && CardRegions[i].ContainsMouse()) ||
+                (Selected == Cards[i]))
+            ) {
+                Cards[i].Sprite.SetActive(true);
+                Cards[i].Sprite.transform.localPosition = Camera.main.ScreenPointToRay(Input.mousePosition).origin + CARD_FLOAT_CLIP;
+            }
+            else {
+                Cards[i].Sprite.SetActive(false);
+            }
+        }
+
         foreach (SpriteRegion Sprite in Sprites) {
             Sprite.Update();
         }

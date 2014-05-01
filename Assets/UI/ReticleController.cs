@@ -14,6 +14,9 @@ public class ReticleController : MonoBehaviour {
     }
 
     public static bool Shown {
+        get {
+            return singleton.renderer.enabled;
+        }
         set {
             singleton.renderer.enabled = value;
         }
